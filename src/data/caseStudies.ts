@@ -14,8 +14,8 @@ export const caseStudies: CaseStudy[] = [
     timeline: "4 weeks",
     platform: "Mobile app",
     tools: ["Figma", "FigJam", "Canva"],
-    accent: "#D47B80",
-    softBackground: "#F8EDF8",
+    accent: "#C67B7B",
+    softBackground: "#F4E5E5",
     heroImage: "/mockups/slayme-hero-phone.png",
     coverImage: "/mockups/slayme-mobile.png",
     mockupVariant: "phone",
@@ -27,39 +27,89 @@ export const caseStudies: CaseStudy[] = [
       mockupVariant: "phone",
     },
     overview: [
-      "Slayme helps users discover beauty services, compare information, and book appointments without moving between disconnected channels.",
-      "The design focuses on confidence: users can understand services, check important details, and complete booking with fewer doubts.",
+      "Slayme is a mobile beauty and wellness booking app designed to simplify the process of finding and booking beauty services. Users can search for salons based on location, price, rating, and service type, then view salon details, compare options, add services to cart, choose a schedule, and confirm booking directly in the app.",
+    ],
+    overviewFacts: [
+      { label: "Project Type", value: "Personal Project" },
+      { label: "Platform", value: "Mobile App" },
+      { label: "Industry", value: "Beauty & Wellness" },
+      { label: "Focus", value: "Booking Flow, Mobile UI, Discovery" },
     ],
     sections: [
       {
         title: "Problem",
         description:
-          "Beauty booking often becomes fragmented across social posts, chat messages, and unclear price information.",
+          "Users often spend too much time searching for beauty services across multiple channels. They need to manually check salon information, ask for prices, confirm available time slots, and compare reviews by themselves. This process is time-consuming, inconvenient, and lacks transparency.",
         items: [
-          "Users need to compare salons quickly before deciding.",
-          "Service details and booking steps are often inconsistent.",
-          "Trust signals are scattered across different channels.",
-          "The booking process can feel repetitive for returning users.",
+          "Difficult to find suitable salons",
+          "Manual contact required",
+          "Scattered information",
+          "Time-consuming comparison",
+        ],
+        cards: [
+          {
+            title: "Difficult to find suitable salons",
+            description:
+              "Users must search across multiple platforms and channels",
+            icon: "search",
+          },
+          {
+            title: "Manual contact required",
+            description:
+              "Need to call or message to ask about pricing and availability",
+            icon: "clock",
+          },
+          {
+            title: "Scattered information",
+            description:
+              "Reviews and ratings are spread across different platforms",
+            icon: "star",
+          },
+          {
+            title: "Time-consuming comparison",
+            description:
+              "Hard to compare prices, services, and locations efficiently",
+            icon: "arrow",
+          },
         ],
       },
       {
         title: "Goal",
         description:
-          "Create a calmer mobile flow that supports discovery, trust, and repeat booking.",
+          "The goal of Slayme is to create a smooth and trustworthy booking experience where users can discover, compare, and book beauty services in just a few simple steps.",
         items: [
-          "Make service browsing clear and scannable.",
-          "Reduce friction in selecting time, service, and staff.",
-          "Use visual hierarchy to highlight price, rating, and availability.",
-          "Design a UI system that can scale to more beauty categories.",
+          "Help users find suitable beauty services quickly",
+          "Build trust through pricing, ratings, and reviews",
+          "Make service information easier to compare",
+          "Create a premium and visually appealing mobile experience",
+          "Reduce friction in the booking journey",
+          "Enable online booking instead of manual phone calls",
         ],
       },
       {
         title: "Target Users",
         items: [
-          "Busy users who book beauty services around work or study schedules.",
-          "Users who compare price, location, reviews, and visual results before booking.",
-          "Beauty service providers who need a clearer way to present services and appointments.",
+          "Young adults and working women",
+          "Users who regularly use beauty and wellness services",
+          "Users who care about location, price, rating, and available time",
+          "Users who prefer booking online instead of calling salons manually",
         ],
+        persona: {
+          name: "Chloe Nguyen",
+          meta: "24 • Office Worker",
+          needs: [
+            "Find salons near her location",
+            "See clear pricing and ratings",
+            "Book appointments quickly",
+            "Avoid calling each salon individually",
+          ],
+          painPoints: [
+            "Wastes time searching",
+            "Unclear pricing information",
+            "Doesn't know available time slots",
+            "Reviews scattered across platforms",
+          ],
+        },
       },
     ],
     flow: [
@@ -76,17 +126,21 @@ export const caseStudies: CaseStudy[] = [
     ],
     designSystem: {
       colors: [
-        { name: "Rose", value: "#D47B80" },
-        { name: "Soft rose", value: "#F3DDE1" },
-        { name: "Warm cream", value: "#FBF6F3" },
-        { name: "Ink", value: "#252525" },
-        { name: "Mint", value: "#0FA36B" },
-        { name: "Sky", value: "#4388D8" },
+        { name: "Primary", value: "#C67B7B" },
+        { name: "Primary Container", value: "#F4E5E5" },
+        { name: "Surface", value: "#F7F4F4" },
+        { name: "Surface Variant", value: "#FEFEFE" },
+        { name: "Outline", value: "#C67B7B", previewValue: "#F4E5E5" },
+        { name: "On Surface", value: "#2B2B2B" },
+        { name: "Subtone", value: "#6B6B6B" },
+        { name: "Warning", value: "#CC1D1D" },
+        { name: "Error", value: "#00A63E" },
+        { name: "Info", value: "#62A4F2" },
       ],
       typography: [
-        "Elegant serif headings for brand warmth.",
-        "Clean sans-serif body text for booking clarity.",
-        "Compact labels for service metadata and form fields.",
+        "Serif display headings create a soft, elegant beauty brand moment.",
+        "Clean sans-serif body text keeps booking flows readable and task-focused.",
+        "Muted metadata labels support price, rating, distance, and form clarity.",
       ],
       components: [
         { title: "Service Card", layout: "tall" },
@@ -116,37 +170,61 @@ export const caseStudies: CaseStudy[] = [
     screens: [
       {
         title: "Login",
-        description: "A soft first screen with quick sign-in options.",
+        description:
+          "Allow users to quickly access the app with multiple sign-in options.",
         image: "/mockups/slayme-screen-login.png",
       },
       {
         title: "Home discovery",
-        description: "Service categories, featured salons, and promotions.",
+        description:
+          "Help users discover services through search, categories, and trending salons.",
         image: "/mockups/slayme-screen-home.png",
       },
       {
-        title: "Booking form",
-        description: "Clear inputs for service, time, and customer details.",
-        image: "/mockups/slayme-screen-booking.png",
+        title: "Search & Filter",
+        description:
+          "Help users quickly find services by type, price, rating, distance, and time.",
+        image: "/mockups/slayme-screen-search-filter.png",
       },
       {
         title: "Service detail",
-        description: "Trust signals, images, pricing, and next action.",
+        description:
+          "Build trust with ratings, reviews, price, and service information.",
         image: "/mockups/slayme-screen-detail.png",
       },
       {
-        title: "Schedule",
-        description: "Compact slot selection with important booking context.",
-        image: "/mockups/slayme-screen-schedule.png",
+        title: "Your Cart",
+        description:
+          "Review selected service, add promo code, and check total price.",
+        image: "/mockups/slayme-screen-your-cart.png",
       },
       {
-        title: "Checkout",
-        description: "A focused confirmation step before final booking.",
-        image: "/mockups/slayme-screen-checkout.png",
+        title: "Book Appointment",
+        description: "Choose staff, date, time, and schedule your booking.",
+        image: "/mockups/slayme-screen-book-appointment.png",
+      },
+      {
+        title: "Review Booking & Payment",
+        description:
+          "Review salon, service, customer, payment method, and final price before confirming the booking.",
+        image: "/mockups/slayme-screen-review-booking.png",
+      },
+      {
+        title: "Booking Confirmed",
+        description:
+          "Confirm your booking details and receive a confirmation message.",
+        image: "/mockups/slayme-screen-booking-confirmed.png",
+      },
+      {
+        title: "My Bookings",
+        description: "View and manage your upcoming and past bookings.",
+        image: "/mockups/slayme-screen-my-bookings.png",
       },
     ],
-    learned:
-      "This project helped me balance visual softness with task clarity. Beauty experiences need warmth, but booking still needs direct hierarchy and predictable steps.",
+    learned: [
+      "Through this project, I learned how to design a complete mobile booking flow from discovery to confirmation. I focused on creating a clear information hierarchy, reducing user effort, and building trust through transparent pricing, ratings, reviews, and step-by-step booking.",
+      "This project also helped me practice designing reusable UI components, creating a consistent visual system, and balancing user needs with business goals in a marketplace-style product.",
+    ],
   },
   {
     slug: "centerup-landing",

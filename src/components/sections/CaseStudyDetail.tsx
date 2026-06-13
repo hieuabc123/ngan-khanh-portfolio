@@ -1,15 +1,37 @@
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
-import { Avatar, Box, Button, Chip, Container, Stack, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Chip,
+  Container,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import type { ReactNode } from "react";
 
 import { MockupFrame } from "@/components/ui/MockupFrame";
-import type { CaseSection, CaseStudy, ComponentShowcaseItem } from "@/types/portfolio";
+import type {
+  CaseSection,
+  CaseStudy,
+  ComponentShowcaseItem,
+} from "@/types/portfolio";
+
+const slaymeSoftSection = "#FBF5FF";
+const slaymePanel = "#FFFFFF";
+const slaymeText = "#2B2B2B";
+const slaymeMuted = "#777277";
+const slaymeRose = "#F5A9B8";
+const slaymeLavender = "#E8D9F5";
+const slaymeSuccess = "#79C9A6";
 
 type CaseStudyDetailProps = {
   caseStudy: CaseStudy;
@@ -20,15 +42,27 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
     <>
       <CaseHero caseStudy={caseStudy} />
       <Overview caseStudy={caseStudy} />
-      {caseStudy.sections.map((section, index) => (
-        <CaseGridSection
-          key={section.title}
-          section={section}
-          background={index % 2 === 0 ? caseStudy.softBackground : "#FFFFFF"}
-        />
-      ))}
+      {caseStudy.sections.map((section, index) =>
+        caseStudy.slug === "slayme" ? (
+          <SlaymeSection
+            key={section.title}
+            section={section}
+            accent={caseStudy.accent}
+          />
+        ) : (
+          <CaseGridSection
+            key={section.title}
+            section={section}
+            background={index % 2 === 0 ? caseStudy.softBackground : "#FFFFFF"}
+          />
+        ),
+      )}
       {caseStudy.flow ? (
-        <FlowSection title="User Flow" items={caseStudy.flow} accent={caseStudy.accent} />
+        <FlowSection
+          title="User Flow"
+          items={caseStudy.flow}
+          accent={caseStudy.accent}
+        />
       ) : null}
       {caseStudy.architecture ? (
         <ArchitectureSection items={caseStudy.architecture} />
@@ -37,8 +71,15 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
       {caseStudy.wireframes ? <WireframeSection caseStudy={caseStudy} /> : null}
       <ScreensSection caseStudy={caseStudy} />
       {caseStudy.learned ? <LearningSection text={caseStudy.learned} /> : null}
-      <Container maxWidth="xl" sx={{ maxWidth: "1060px", pt: { xs: 4, md: 6 } }}>
-        <Button href="/#work" startIcon={<ArrowBackRoundedIcon />} variant="outlined">
+      <Container
+        maxWidth="xl"
+        sx={{ maxWidth: "1060px", pt: { xs: 4, md: 6 } }}
+      >
+        <Button
+          href="/#work"
+          startIcon={<ArrowBackRoundedIcon />}
+          variant="outlined"
+        >
           Back to work
         </Button>
       </Container>
@@ -55,7 +96,10 @@ function CaseHero({ caseStudy }: CaseStudyDetailProps) {
         borderBottom: "1px solid rgba(15, 23, 42, 0.06)",
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1160px", py: { xs: 7, md: 9 } }}>
+      <Container
+        maxWidth="xl"
+        sx={{ maxWidth: "1160px", py: { xs: 7, md: 9 } }}
+      >
         <Box
           sx={{
             display: "grid",
@@ -88,7 +132,9 @@ function CaseHero({ caseStudy }: CaseStudyDetailProps) {
               >
                 {caseStudy.title}
               </Typography>
-              <Typography sx={{ fontSize: { xs: 18, md: 21 }, color: "text.secondary" }}>
+              <Typography
+                sx={{ fontSize: { xs: 18, md: 21 }, color: "text.secondary" }}
+              >
                 {caseStudy.headline}
               </Typography>
             </Stack>
@@ -147,16 +193,454 @@ function MetaItem({ label, value }: MetaItemProps) {
 }
 
 function Overview({ caseStudy }: CaseStudyDetailProps) {
+  if (caseStudy.slug === "slayme") {
+    return <SlaymeOverview caseStudy={caseStudy} />;
+  }
+
   return (
     <ContentSection title="Project Overview">
       <Stack spacing={2} sx={{ maxWidth: 760, mx: "auto" }}>
         {caseStudy.overview.map((paragraph) => (
-          <Typography key={paragraph} color="text.secondary" sx={{ fontSize: { md: 17 } }}>
+          <Typography
+            key={paragraph}
+            color="text.secondary"
+            sx={{ fontSize: { md: 17 } }}
+          >
             {paragraph}
           </Typography>
         ))}
       </Stack>
     </ContentSection>
+  );
+}
+
+function SlaymeOverview({ caseStudy }: CaseStudyDetailProps) {
+  return (
+    <Box component="section" sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#FFFFFF" }}>
+      <Container maxWidth="xl" sx={{ maxWidth: "1220px" }}>
+        <Stack spacing={{ xs: 4.5, md: 7 }} sx={{ alignItems: "center" }}>
+          <Stack spacing={3} sx={{ alignItems: "center", textAlign: "center" }}>
+            <SlaymeSectionTitle title="Project Overview" />
+            <Typography
+              sx={{
+                maxWidth: 820,
+                color: slaymeMuted,
+                fontSize: { xs: 16, md: 19 },
+                lineHeight: 1.55,
+              }}
+            >
+              {caseStudy.overview[0]}
+            </Typography>
+          </Stack>
+
+          {caseStudy.overviewFacts ? (
+            <Box
+              sx={{
+                width: "100%",
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, minmax(0, 1fr))",
+                  md: "repeat(4, minmax(0, 1fr))",
+                },
+                gap: { xs: 2, md: 3.2 },
+              }}
+            >
+              {caseStudy.overviewFacts.map((fact) => (
+                <Box
+                  key={fact.label}
+                  sx={{
+                    minHeight: 138,
+                    p: { xs: 3, md: 3.4 },
+                    borderRadius: "22px",
+                    backgroundColor: "#FBF6FF",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: slaymeMuted,
+                      fontSize: 14,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      mb: 1,
+                    }}
+                  >
+                    {fact.label}
+                  </Typography>
+                  <Typography sx={{ color: slaymeText, fontSize: 16.5 }}>
+                    {fact.value}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          ) : null}
+        </Stack>
+      </Container>
+    </Box>
+  );
+}
+
+type SlaymeSectionProps = {
+  section: CaseSection;
+  accent: string;
+};
+
+function SlaymeSection({ section, accent }: SlaymeSectionProps) {
+  if (section.title === "Problem") {
+    return <SlaymeProblemSection section={section} accent={accent} />;
+  }
+
+  if (section.title === "Goal") {
+    return <SlaymeGoalSection section={section} />;
+  }
+
+  if (section.title === "Target Users") {
+    return <SlaymeTargetUsersSection section={section} />;
+  }
+
+  return <CaseGridSection section={section} background="#FFFFFF" />;
+}
+
+function SlaymeProblemSection({ section, accent }: SlaymeSectionProps) {
+  return (
+    <Box component="section" sx={{ py: { xs: 7, md: 8 }, backgroundColor: slaymeSoftSection }}>
+      <Container maxWidth="xl" sx={{ maxWidth: "1360px" }}>
+        <Stack spacing={{ xs: 4, md: 6 }}>
+          <SlaymeSectionTitle title={section.title} />
+          <Box
+            sx={{
+              mx: "auto",
+              width: "100%",
+              p: { xs: 3, sm: 4, md: 5.5 },
+              borderRadius: { xs: "24px", md: "32px" },
+              backgroundColor: slaymePanel,
+              border: "1px solid rgba(43, 43, 43, 0.08)",
+              boxShadow: "0 2px 0 rgba(43, 43, 43, 0.08)",
+            }}
+          >
+            <Typography
+              sx={{
+                maxWidth: 720,
+                mx: "auto",
+                color: slaymeText,
+                textAlign: "center",
+                fontSize: { xs: 18, md: 23 },
+                lineHeight: 1.45,
+              }}
+            >
+              {section.description}
+            </Typography>
+
+            {section.cards ? (
+              <Box
+                sx={{
+                  maxWidth: 1036,
+                  mx: "auto",
+                  mt: { xs: 4, md: 5.5 },
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+                  gap: { xs: 2, md: 2.4 },
+                }}
+              >
+                {section.cards.map((card) => (
+                  <SlaymeProblemCard key={card.title} card={card} accent={accent} />
+                ))}
+              </Box>
+            ) : null}
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
+  );
+}
+
+function SlaymeProblemCard({
+  card,
+  accent,
+}: {
+  card: NonNullable<CaseSection["cards"]>[number];
+  accent: string;
+}) {
+  return (
+    <Box
+      sx={{
+        p: { xs: 2.5, md: 3 },
+        minHeight: 154,
+        borderRadius: "14px",
+        backgroundColor: "#FBF6FF",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <SlaymeProblemIcon icon={card.icon} accent={accent} />
+      <Typography sx={{ mt: 1.6, color: slaymeText, fontSize: 17 }}>
+        {card.title}
+      </Typography>
+      <Typography sx={{ mt: 1, color: slaymeMuted, fontSize: 14.5 }}>
+        {card.description}
+      </Typography>
+    </Box>
+  );
+}
+
+function SlaymeProblemIcon({
+  icon,
+  accent,
+}: {
+  icon?: NonNullable<CaseSection["cards"]>[number]["icon"];
+  accent: string;
+}) {
+  const iconSx = { fontSize: 20 };
+  const color = icon === "clock" || icon === "arrow" ? slaymeLavender : slaymeRose;
+
+  return (
+    <Box
+      sx={{
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        display: "grid",
+        placeItems: "center",
+        backgroundColor: alpha(color, 0.25),
+        color: icon === "clock" || icon === "arrow" ? "#D5B8EA" : accent,
+      }}
+    >
+      {icon === "clock" ? (
+        <AccessTimeRoundedIcon sx={iconSx} />
+      ) : icon === "star" ? (
+        <StarRoundedIcon sx={iconSx} />
+      ) : icon === "arrow" ? (
+        <KeyboardArrowRightRoundedIcon sx={iconSx} />
+      ) : (
+        <SearchRoundedIcon sx={iconSx} />
+      )}
+    </Box>
+  );
+}
+
+function SlaymeGoalSection({ section }: { section: CaseSection }) {
+  return (
+    <Box component="section" sx={{ py: { xs: 7, md: 8 }, backgroundColor: "#FFFFFF" }}>
+      <Container maxWidth="xl" sx={{ maxWidth: "1360px" }}>
+        <Stack spacing={{ xs: 4, md: 6 }}>
+          <SlaymeSectionTitle title={section.title} />
+          <Box
+            sx={{
+              p: { xs: 3, md: 5.5 },
+              borderRadius: { xs: "24px", md: "32px" },
+              backgroundColor: "#FFF8FC",
+            }}
+          >
+            <Typography
+              sx={{
+                maxWidth: 650,
+                mx: "auto",
+                color: slaymeText,
+                textAlign: "center",
+                fontSize: { xs: 18, md: 22 },
+                lineHeight: 1.48,
+              }}
+            >
+              {section.description}
+            </Typography>
+            <Box
+              sx={{
+                maxWidth: 1020,
+                mx: "auto",
+                mt: { xs: 4, md: 5 },
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+                columnGap: { md: 8 },
+                rowGap: 1.8,
+              }}
+            >
+              {section.items.map((item) => (
+                <Stack
+                  key={item}
+                  direction="row"
+                  spacing={1.5}
+                  sx={{ alignItems: "center" }}
+                >
+                  <CheckCircleRoundedIcon
+                    sx={{ color: slaymeSuccess, fontSize: 25, flexShrink: 0 }}
+                  />
+                  <Typography sx={{ color: slaymeText, fontSize: 16.5 }}>
+                    {item}
+                  </Typography>
+                </Stack>
+              ))}
+            </Box>
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
+  );
+}
+
+function SlaymeTargetUsersSection({ section }: { section: CaseSection }) {
+  return (
+    <Box component="section" sx={{ py: { xs: 7, md: 8 }, backgroundColor: slaymeSoftSection }}>
+      <Container maxWidth="xl" sx={{ maxWidth: "1160px" }}>
+        <Stack spacing={{ xs: 4, md: 6 }}>
+          <SlaymeSectionTitle title={section.title} />
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+              gap: { xs: 2.4, md: 5 },
+              alignItems: "start",
+            }}
+          >
+            <Box
+              sx={{
+                p: { xs: 3, md: 3.6 },
+                borderRadius: "22px",
+                backgroundColor: slaymePanel,
+              }}
+            >
+              <Typography sx={{ color: slaymeText, fontSize: 21, fontWeight: 750, mb: 2 }}>
+                Who are they?
+              </Typography>
+              <Stack component="ul" spacing={1.4} sx={{ m: 0, pl: 2.2 }}>
+                {section.items.map((item) => (
+                  <Typography
+                    key={item}
+                    component="li"
+                    sx={{
+                      color: slaymeMuted,
+                      fontSize: { xs: 15.5, md: 16.5 },
+                      lineHeight: 1.45,
+                      pl: 0.7,
+                      "&::marker": { color: slaymeRose },
+                    }}
+                  >
+                    {item}
+                  </Typography>
+                ))}
+              </Stack>
+            </Box>
+
+            {section.persona ? <SlaymePersonaCard persona={section.persona} /> : null}
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
+  );
+}
+
+function SlaymePersonaCard({
+  persona,
+}: {
+  persona: NonNullable<CaseSection["persona"]>;
+}) {
+  return (
+    <Box
+      sx={{
+        p: { xs: 3, md: 3.8 },
+        borderRadius: "22px",
+        backgroundColor: slaymePanel,
+        border: "1px solid rgba(43, 43, 43, 0.08)",
+        boxShadow: "0 2px 0 rgba(43, 43, 43, 0.08)",
+      }}
+    >
+      <Stack direction="row" spacing={1.8} sx={{ alignItems: "center", mb: 3.5 }}>
+        <Box
+          sx={{
+            width: 66,
+            height: 66,
+            borderRadius: "50%",
+            display: "grid",
+            placeItems: "center",
+            backgroundColor: "#ECA5C4",
+            color: "#FFFFFF",
+          }}
+        >
+          <PersonOutlineRoundedIcon sx={{ fontSize: 36 }} />
+        </Box>
+        <Box>
+          <Typography sx={{ color: slaymeText, fontSize: 25, fontWeight: 750, lineHeight: 1.1 }}>
+            {persona.name}
+          </Typography>
+          <Typography sx={{ color: slaymeMuted, fontSize: 17 }}>{persona.meta}</Typography>
+        </Box>
+      </Stack>
+
+      <SlaymePersonaList title="Needs" items={persona.needs} marker="arrow" />
+      <Box sx={{ mt: 3 }}>
+        <SlaymePersonaList title="Pain Points" items={persona.painPoints} marker="dot" />
+      </Box>
+    </Box>
+  );
+}
+
+function SlaymePersonaList({
+  title,
+  items,
+  marker,
+}: {
+  title: string;
+  items: string[];
+  marker: "arrow" | "dot";
+}) {
+  return (
+    <Stack spacing={1.4}>
+      <Typography
+        sx={{
+          color: slaymeMuted,
+          fontSize: 14,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}
+      >
+        {title}
+      </Typography>
+      <Stack spacing={1.15}>
+        {items.map((item) => (
+          <Stack key={item} direction="row" spacing={1.2} sx={{ alignItems: "center" }}>
+            {marker === "arrow" ? (
+              <KeyboardArrowRightRoundedIcon sx={{ color: slaymeRose, fontSize: 18 }} />
+            ) : (
+              <Box
+                sx={{
+                  width: 16,
+                  height: 16,
+                  borderRadius: "50%",
+                  display: "grid",
+                  placeItems: "center",
+                  backgroundColor: alpha(slaymeRose, 0.28),
+                  flexShrink: 0,
+                }}
+              >
+                <Box sx={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: slaymeRose }} />
+              </Box>
+            )}
+            <Typography sx={{ color: slaymeText, fontSize: 14.5 }}>{item}</Typography>
+          </Stack>
+        ))}
+      </Stack>
+    </Stack>
+  );
+}
+
+function SlaymeSectionTitle({ title }: { title: string }) {
+  return (
+    <Typography
+      component="h2"
+      sx={{
+        fontFamily: "var(--font-serif)",
+        color: slaymeText,
+        fontSize: { xs: 40, sm: 50, md: 54 },
+        lineHeight: 1,
+        fontWeight: 500,
+        textAlign: "center",
+      }}
+    >
+      {title}
+    </Typography>
   );
 }
 
@@ -167,13 +651,23 @@ type CaseGridSectionProps = {
 
 function CaseGridSection({ section, background }: CaseGridSectionProps) {
   return (
-    <Box component="section" sx={{ backgroundColor: background, py: { xs: 7, md: 9 } }}>
+    <Box
+      component="section"
+      sx={{ backgroundColor: background, py: { xs: 7, md: 9 } }}
+    >
       <Container maxWidth="xl" sx={{ maxWidth: "1040px" }}>
-        <SectionHeader title={section.title} description={section.description} />
+        <SectionHeader
+          title={section.title}
+          description={section.description}
+        />
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+            },
             gap: 2,
             mt: 4,
           }}
@@ -222,7 +716,8 @@ type FlowSectionProps = {
 };
 
 function FlowSection({ title, items, accent }: FlowSectionProps) {
-  const desktopColumns = items.length > 5 ? Math.ceil(items.length / 2) : items.length;
+  const desktopColumns =
+    items.length > 5 ? Math.ceil(items.length / 2) : items.length;
 
   return (
     <ContentSection title={title}>
@@ -241,7 +736,8 @@ function FlowSection({ title, items, accent }: FlowSectionProps) {
         }}
       >
         {items.map((item, index) => {
-          const isTabletRowEnd = (index + 1) % 2 === 0 || index === items.length - 1;
+          const isTabletRowEnd =
+            (index + 1) % 2 === 0 || index === items.length - 1;
           const isDesktopRowEnd =
             (index + 1) % desktopColumns === 0 || index === items.length - 1;
 
@@ -311,7 +807,10 @@ function FlowSection({ title, items, accent }: FlowSectionProps) {
 function ArchitectureSection({ items }: { items: string[] }) {
   return (
     <ContentSection title="Information Architecture" background="#F7F3FE">
-      <Stack direction="row" sx={{ flexWrap: "wrap", justifyContent: "center", gap: 1.2 }}>
+      <Stack
+        direction="row"
+        sx={{ flexWrap: "wrap", justifyContent: "center", gap: 1.2 }}
+      >
         {items.map((item) => (
           <Chip
             key={item}
@@ -326,37 +825,102 @@ function ArchitectureSection({ items }: { items: string[] }) {
 }
 
 function DesignSystemSection({ caseStudy }: CaseStudyDetailProps) {
+  const isSlayme = caseStudy.slug === "slayme";
+  const paletteIntro = isSlayme
+    ? "The palette was chosen to create a soft, elegant, and trustworthy beauty experience."
+    : "A compact set of tokens keeps the interface consistent across key screens and reusable components.";
+
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#FBF7FF" }}>
+    <Box
+      id="visual-design-system"
+      component="section"
+      sx={{
+        py: { xs: 7, md: 9 },
+        backgroundColor: isSlayme ? "#FFFFFF" : "#FBF7FF",
+      }}
+    >
       <Container maxWidth="xl" sx={{ maxWidth: "1360px" }}>
-        <SectionHeader title="Visual Design System" />
-        <Stack spacing={4.5} sx={{ mt: 4 }}>
-          <Stack spacing={1.6}>
-            <Typography sx={{ fontWeight: 850 }}>Color Palette</Typography>
+        <Stack spacing={{ xs: 5, md: 7 }}>
+          <Stack
+            spacing={{ xs: 4, md: 5 }}
+            sx={{ alignItems: "center", textAlign: "center" }}
+          >
+            <Typography
+              component="h2"
+              sx={{
+                fontFamily: "var(--font-serif)",
+                fontSize: { xs: 40, sm: 54, md: 68 },
+                lineHeight: 1,
+                fontWeight: 500,
+                color: isSlayme ? "#2B2B2B" : "text.primary",
+              }}
+            >
+              Visual Design System
+            </Typography>
+          </Stack>
+
+          <Stack spacing={{ xs: 2.8, md: 4 }}>
+            <Stack spacing={1.6} sx={{ alignItems: "flex-start" }}>
+              <Typography
+                component="h3"
+                sx={{
+                  color: isSlayme ? "#2B2B2B" : "text.primary",
+                  fontSize: { xs: 24, md: 30 },
+                  lineHeight: 1.15,
+                  fontWeight: 850,
+                }}
+              >
+                Color Palette
+              </Typography>
+              <Typography
+                color="text.secondary"
+                sx={{ maxWidth: 680, fontSize: { xs: 15, md: 17 } }}
+              >
+                {paletteIntro}
+              </Typography>
+            </Stack>
             <Box
               sx={{
                 display: "grid",
                 gridTemplateColumns: {
                   xs: "repeat(2, minmax(0, 1fr))",
-                  sm: "repeat(4, minmax(0, 1fr))",
+                  sm: "repeat(3, minmax(0, 1fr))",
+                  lg: "repeat(5, minmax(0, 1fr))",
                 },
-                gap: 1.6,
+                gap: { xs: 2, md: 2.4 },
               }}
             >
               {caseStudy.designSystem.colors.map((swatch) => (
                 <Box key={`${swatch.name}-${swatch.value}`}>
                   <Box
                     sx={{
-                      height: 58,
-                      borderRadius: "10px",
-                      background: swatch.value,
-                      border: "1px solid rgba(15, 23, 42, 0.08)",
+                      height: { xs: 108, sm: 126, md: 140 },
+                      borderRadius: "14px",
+                      background: swatch.previewValue ?? swatch.value,
+                      border:
+                        swatch.value.toUpperCase() === "#FEFEFE"
+                          ? "1px solid rgba(43, 43, 43, 0.22)"
+                          : "1px solid rgba(43, 43, 43, 0.08)",
                     }}
                   />
-                  <Typography variant="caption" sx={{ display: "block", mt: 0.8, fontWeight: 800 }}>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      display: "block",
+                      mt: 1.1,
+                      color: isSlayme ? "#2B2B2B" : "text.primary",
+                      fontSize: { xs: 12, md: 13 },
+                      lineHeight: 1.25,
+                      fontWeight: 600,
+                    }}
+                  >
                     {swatch.name}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{ display: "block", fontSize: { xs: 12, md: 13 } }}
+                  >
                     {swatch.value}
                   </Typography>
                 </Box>
@@ -364,7 +928,11 @@ function DesignSystemSection({ caseStudy }: CaseStudyDetailProps) {
             </Box>
           </Stack>
 
-          <SystemPanel title="Typography" items={caseStudy.designSystem.typography} />
+          <SystemPanel
+            title="Typography"
+            items={caseStudy.designSystem.typography}
+            accent={caseStudy.accent}
+          />
           {caseStudy.designSystem.components ? (
             <ComponentShowcase
               items={caseStudy.designSystem.components}
@@ -380,9 +948,10 @@ function DesignSystemSection({ caseStudy }: CaseStudyDetailProps) {
 type SystemPanelProps = {
   title: string;
   items: string[];
+  accent: string;
 };
 
-function SystemPanel({ title, items }: SystemPanelProps) {
+function SystemPanel({ title, items, accent }: SystemPanelProps) {
   return (
     <Stack spacing={1.4}>
       <Typography sx={{ fontWeight: 850 }}>{title}</Typography>
@@ -391,13 +960,20 @@ function SystemPanel({ title, items }: SystemPanelProps) {
           p: { xs: 2.5, md: 3 },
           borderRadius: "14px",
           backgroundColor: "#FFFFFF",
-          border: "1px solid rgba(15, 23, 42, 0.06)",
+          border: `1px solid ${alpha(accent, 0.16)}`,
         }}
       >
         <Stack spacing={1}>
           {items.map((item) => (
-            <Stack key={item} direction="row" spacing={1.2} sx={{ alignItems: "flex-start" }}>
-              <CheckCircleRoundedIcon sx={{ fontSize: 18, color: "primary.main", mt: 0.25 }} />
+            <Stack
+              key={item}
+              direction="row"
+              spacing={1.2}
+              sx={{ alignItems: "flex-start" }}
+            >
+              <CheckCircleRoundedIcon
+                sx={{ fontSize: 18, color: accent, mt: 0.25 }}
+              />
               <Typography color="text.secondary">{item}</Typography>
             </Stack>
           ))}
@@ -541,9 +1117,14 @@ function ServiceCardPreview({ item, accent }: ComponentPreviewProps) {
         </Stack>
       </Box>
       <Box sx={{ px: 3, py: 2.6 }}>
-        <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between" }}>
+        <Stack
+          direction="row"
+          sx={{ alignItems: "center", justifyContent: "space-between" }}
+        >
           <Box>
-            <Typography sx={{ color: "#252525", fontSize: 22, fontWeight: 850 }}>
+            <Typography
+              sx={{ color: "#252525", fontSize: 22, fontWeight: 850 }}
+            >
               Glow Nail Studio
             </Typography>
             <Typography sx={{ color: "#777277", fontSize: 18, mt: 0.6 }}>
@@ -560,12 +1141,18 @@ function ServiceCardPreview({ item, accent }: ComponentPreviewProps) {
               backgroundColor: "#F4EFEC",
             }}
           >
-            <FavoriteBorderRoundedIcon sx={{ color: "#252525", fontSize: 32 }} />
+            <FavoriteBorderRoundedIcon
+              sx={{ color: "#252525", fontSize: 32 }}
+            />
           </Box>
         </Stack>
         <Stack
           direction="row"
-          sx={{ alignItems: "center", justifyContent: "space-between", mt: 2.5 }}
+          sx={{
+            alignItems: "center",
+            justifyContent: "space-between",
+            mt: 2.5,
+          }}
         >
           <Typography sx={{ color: "#777277", fontSize: 19 }}>800 m</Typography>
           <Typography sx={{ color: accent, fontSize: 19 }}>from $18</Typography>
@@ -603,23 +1190,35 @@ function ReviewPreview({ accent }: { accent: string }) {
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2 }}
-          sx={{ justifyContent: "space-between", alignItems: { sm: "flex-start" } }}
+          sx={{
+            justifyContent: "space-between",
+            alignItems: { sm: "flex-start" },
+          }}
         >
           <Box>
-            <Typography sx={{ color: "#252525", fontSize: 19, fontWeight: 700 }}>
+            <Typography
+              sx={{ color: "#252525", fontSize: 19, fontWeight: 700 }}
+            >
               Sarah Chen
             </Typography>
-            <Typography sx={{ color: "#777277", fontSize: 16 }}>2 days ago</Typography>
+            <Typography sx={{ color: "#777277", fontSize: 16 }}>
+              2 days ago
+            </Typography>
           </Box>
           <Stack direction="row" spacing={0.15} sx={{ pt: 0.4 }}>
             {Array.from({ length: 5 }).map((_, index) => (
-              <StarRoundedIcon key={index} sx={{ color: "#FFB000", fontSize: 21 }} />
+              <StarRoundedIcon
+                key={index}
+                sx={{ color: "#FFB000", fontSize: 21 }}
+              />
             ))}
           </Stack>
         </Stack>
-        <Typography sx={{ color: "#777277", fontSize: 18, lineHeight: 1.35, mt: 1.5 }}>
-          Amazing experience! The facial treatment was so relaxing and my skin feels
-          incredible.
+        <Typography
+          sx={{ color: "#777277", fontSize: 18, lineHeight: 1.35, mt: 1.5 }}
+        >
+          Amazing experience! The facial treatment was so relaxing and my skin
+          feels incredible.
         </Typography>
       </Box>
     </Stack>
@@ -802,7 +1401,10 @@ function MobileWireframeSection({ caseStudy }: CaseStudyDetailProps) {
   }
 
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#FFFFFF" }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#FFFFFF" }}
+    >
       <Container maxWidth="xl" sx={{ maxWidth: "1180px" }}>
         <Stack spacing={2} sx={{ alignItems: "center", textAlign: "center" }}>
           <Typography
@@ -818,7 +1420,11 @@ function MobileWireframeSection({ caseStudy }: CaseStudyDetailProps) {
           </Typography>
           <Typography
             color="text.secondary"
-            sx={{ maxWidth: 720, fontSize: { xs: 15, md: 17 }, lineHeight: 1.65 }}
+            sx={{
+              maxWidth: 720,
+              fontSize: { xs: 15, md: 17 },
+              lineHeight: 1.65,
+            }}
           >
             {caseStudy.wireframes.description}
           </Typography>
@@ -827,13 +1433,21 @@ function MobileWireframeSection({ caseStudy }: CaseStudyDetailProps) {
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+            },
             gap: { xs: 3, md: 3.4 },
             mt: { xs: 6, md: 8 },
           }}
         >
           {caseStudy.wireframes.labels.map((label) => (
-            <MobileWireframeCard key={label} title={label} accent={caseStudy.accent} />
+            <MobileWireframeCard
+              key={label}
+              title={label}
+              accent={caseStudy.accent}
+            />
           ))}
         </Box>
       </Container>
@@ -926,7 +1540,9 @@ function WireframeScreen({ title, accent }: WireframePhoneProps) {
 
 function LoginWireframe({ accent }: { accent: string }) {
   return (
-    <Stack sx={{ height: "100%", alignItems: "center", justifyContent: "center" }}>
+    <Stack
+      sx={{ height: "100%", alignItems: "center", justifyContent: "center" }}
+    >
       <WireBox width="28%" height={58} borderColor={accent} soft />
       <WireLine width="34%" height={14} sx={{ mt: 1.2 }} />
       <WireLine width="48%" sx={{ mt: 1.2 }} />
@@ -950,7 +1566,10 @@ function LoginWireframe({ accent }: { accent: string }) {
 function HomeDiscoveryWireframe({ accent }: { accent: string }) {
   return (
     <Stack spacing={1.5} sx={{ height: "100%" }}>
-      <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>
+      <Stack
+        direction="row"
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
+      >
         <Box>
           <WireLine width={62} height={9} />
           <WireLine width={92} height={9} sx={{ mt: 0.7 }} />
@@ -969,7 +1588,13 @@ function HomeDiscoveryWireframe({ accent }: { accent: string }) {
       </Stack>
       <WireLine width={92} />
       <WireBox height={156} sx={{ p: 1.4 }}>
-        <Box sx={{ height: "72%", borderRadius: "12px", backgroundColor: "#F5F7FA" }} />
+        <Box
+          sx={{
+            height: "72%",
+            borderRadius: "12px",
+            backgroundColor: "#F5F7FA",
+          }}
+        />
         <WireLine width="60%" height={9} sx={{ mt: 1.1 }} />
         <Stack direction="row" spacing={1} sx={{ mt: 0.8 }}>
           <WireLine width={52} />
@@ -985,14 +1610,20 @@ function HomeDiscoveryWireframe({ accent }: { accent: string }) {
 function SearchFilterWireframe({ accent }: { accent: string }) {
   return (
     <Stack spacing={1.6} sx={{ height: "100%" }}>
-      <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start" }}>
+      <Stack
+        direction="row"
+        sx={{ justifyContent: "space-between", alignItems: "flex-start" }}
+      >
         <Box>
           <WireLine width={96} height={14} />
           <WireLine width={64} sx={{ mt: 1 }} />
         </Box>
         <WireLine width={60} color={alpha(accent, 0.2)} />
       </Stack>
-      <WireBox height={44} sx={{ px: 1.4, display: "flex", alignItems: "center", gap: 1 }}>
+      <WireBox
+        height={44}
+        sx={{ px: 1.4, display: "flex", alignItems: "center", gap: 1 }}
+      >
         <WireIcon size={13} />
         <WireLine width="48%" />
       </WireBox>
@@ -1016,7 +1647,16 @@ function SearchFilterWireframe({ accent }: { accent: string }) {
       <Stack direction="row" spacing={1}>
         {[0, 1, 2].map((item) => (
           <WireBox key={item} height={38} sx={{ flex: 1 }}>
-            <Box sx={{ width: 30, height: 7, mx: "auto", mt: 1.5, borderRadius: 999, backgroundColor: "#CFD5DE" }} />
+            <Box
+              sx={{
+                width: 30,
+                height: 7,
+                mx: "auto",
+                mt: 1.5,
+                borderRadius: 999,
+                backgroundColor: "#CFD5DE",
+              }}
+            />
           </WireBox>
         ))}
       </Stack>
@@ -1139,8 +1779,22 @@ function ScheduleWireframe({ accent }: { accent: string }) {
         }}
       >
         {Array.from({ length: 6 }).map((_, index) => (
-          <WireBox key={index} height={36} borderColor={index === 2 ? accent : undefined} soft={index === 2}>
-            <Box sx={{ width: 30, height: 7, mx: "auto", mt: 1.4, borderRadius: 999, backgroundColor: "#CFD5DE" }} />
+          <WireBox
+            key={index}
+            height={36}
+            borderColor={index === 2 ? accent : undefined}
+            soft={index === 2}
+          >
+            <Box
+              sx={{
+                width: 30,
+                height: 7,
+                mx: "auto",
+                mt: 1.4,
+                borderRadius: 999,
+                backgroundColor: "#CFD5DE",
+              }}
+            />
           </WireBox>
         ))}
       </Box>
@@ -1148,7 +1802,15 @@ function ScheduleWireframe({ accent }: { accent: string }) {
       <Stack direction="row" spacing={1}>
         {[0, 1, 2].map((item) => (
           <WireBox key={item} height={76} sx={{ flex: 1, p: 1 }}>
-            <Box sx={{ width: 34, height: 34, mx: "auto", borderRadius: "50%", backgroundColor: "#F0F2F5" }} />
+            <Box
+              sx={{
+                width: 34,
+                height: 34,
+                mx: "auto",
+                borderRadius: "50%",
+                backgroundColor: "#F0F2F5",
+              }}
+            />
             <WireLine width={44} sx={{ mx: "auto", mt: 1 }} />
           </WireBox>
         ))}
@@ -1160,7 +1822,9 @@ function ScheduleWireframe({ accent }: { accent: string }) {
 
 function BookingProgressWireframe({ accent }: { accent: string }) {
   return (
-    <Stack sx={{ height: "100%", alignItems: "center", justifyContent: "center" }}>
+    <Stack
+      sx={{ height: "100%", alignItems: "center", justifyContent: "center" }}
+    >
       <Box
         sx={{
           width: 74,
@@ -1202,20 +1866,38 @@ function BookingConfirmedWireframe({ accent }: { accent: string }) {
       <WireBox height={118} sx={{ width: "100%", p: 1.6 }}>
         <WireLine width={122} height={14} sx={{ mx: "auto" }} />
         <WireLine width={92} sx={{ mx: "auto", mt: 1 }} />
-        <Box sx={{ height: 54, mt: 1.6, borderRadius: "12px", backgroundColor: "#F2F4F7", p: 1.5 }}>
+        <Box
+          sx={{
+            height: 54,
+            mt: 1.6,
+            borderRadius: "12px",
+            backgroundColor: "#F2F4F7",
+            p: 1.5,
+          }}
+        >
           <WireLine width={92} sx={{ mx: "auto" }} />
           <WireLine width={72} sx={{ mx: "auto", mt: 0.8 }} />
         </Box>
       </WireBox>
       <WireBox height={84} sx={{ width: "100%", p: 1.6 }}>
         <Stack direction="row" spacing={1.2}>
-          <Box sx={{ width: 44, height: 44, borderRadius: "10px", backgroundColor: "#F0F2F5" }} />
+          <Box
+            sx={{
+              width: 44,
+              height: 44,
+              borderRadius: "10px",
+              backgroundColor: "#F0F2F5",
+            }}
+          />
           <Box sx={{ flex: 1 }}>
             <WireLine width="90%" height={12} />
             <WireLine width="62%" sx={{ mt: 0.9 }} />
           </Box>
         </Stack>
-        <Stack direction="row" sx={{ justifyContent: "space-between", mt: 1.2 }}>
+        <Stack
+          direction="row"
+          sx={{ justifyContent: "space-between", mt: 1.2 }}
+        >
           <WireLine width={72} />
           <WireLine width={74} />
         </Stack>
@@ -1231,7 +1913,10 @@ function BookingConfirmedWireframe({ accent }: { accent: string }) {
 function PackagesWireframe({ accent }: { accent: string }) {
   return (
     <Stack spacing={1.6} sx={{ height: "100%" }}>
-      <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>
+      <Stack
+        direction="row"
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
+      >
         <WireLine width={108} height={14} />
         <WireIcon size={28} />
       </Stack>
@@ -1262,7 +1947,12 @@ function PackagesWireframe({ accent }: { accent: string }) {
           </Stack>
           <Stack spacing={0.7} sx={{ mt: 1.3 }}>
             {[0, 1, 2].map((line) => (
-              <Stack key={line} direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Stack
+                key={line}
+                direction="row"
+                spacing={1}
+                sx={{ alignItems: "center" }}
+              >
                 <WireIcon size={12} />
                 <WireLine width={line === 2 ? 118 : 92} />
               </Stack>
@@ -1284,7 +1974,12 @@ type WirePrimitiveProps = {
   children?: ReactNode;
 };
 
-function WireLine({ width = "100%", height = 7, color = "#CFD5DE", sx }: WirePrimitiveProps) {
+function WireLine({
+  width = "100%",
+  height = 7,
+  color = "#CFD5DE",
+  sx,
+}: WirePrimitiveProps) {
   return (
     <Box
       sx={{
@@ -1356,7 +2051,10 @@ function WirePill({ active, accent }: { active?: boolean; accent: string }) {
 
 function WireSearch() {
   return (
-    <WireBox height={36} sx={{ px: 1.2, display: "flex", alignItems: "center", gap: 1 }}>
+    <WireBox
+      height={36}
+      sx={{ px: 1.2, display: "flex", alignItems: "center", gap: 1 }}
+    >
       <SearchRoundedIcon sx={{ color: "#CFD5DE", fontSize: 16 }} />
       <WireLine width="82%" color="#E5E9EF" />
     </WireBox>
@@ -1364,8 +2062,13 @@ function WireSearch() {
 }
 
 function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
+  const isPhoneMockup = caseStudy.mockupVariant === "phone";
+
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#F8F7FA" }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#F8F7FA" }}
+    >
       <Container maxWidth="xl" sx={{ maxWidth: "1080px" }}>
         <SectionHeader title="Key Screens" />
         <Box
@@ -1374,10 +2077,9 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
             gridTemplateColumns: {
               xs: "1fr",
               sm: "repeat(2, minmax(0, 1fr))",
-              md:
-                caseStudy.mockupVariant === "phone"
-                  ? "repeat(3, minmax(0, 1fr))"
-                  : "repeat(2, minmax(0, 1fr))",
+              md: isPhoneMockup
+                ? "repeat(3, minmax(0, 1fr))"
+                : "repeat(2, minmax(0, 1fr))",
             },
             gap: { xs: 2.2, md: 3 },
             mt: 4,
@@ -1395,18 +2097,35 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
               }}
             >
               <Box
-                role="img"
-                aria-label={`${caseStudy.title} ${screen.title}`}
                 sx={{
-                  aspectRatio: caseStudy.mockupVariant === "phone" ? "9 / 16" : "16 / 11",
+                  aspectRatio: isPhoneMockup ? "301 / 610" : "16 / 11",
+                  height: "auto",
                   borderRadius: "14px",
-                  backgroundImage: `url("${screen.image}"), linear-gradient(135deg, #FFFFFF, #EFEAFE)`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "top center",
+                  display: "grid",
+                  placeItems: "center",
+                  backgroundColor: "#F8F7FA",
                   border: "1px solid rgba(15, 23, 42, 0.06)",
+                  overflow: "hidden",
+                  p: { xs: 1, md: 1.2 },
                 }}
-              />
-              <Typography sx={{ mt: 1.8, fontWeight: 850 }}>{screen.title}</Typography>
+              >
+                <Box
+                  component="img"
+                  src={screen.image}
+                  alt={`${caseStudy.title} ${screen.title}`}
+                  sx={{
+                    display: "block",
+                    width: isPhoneMockup ? "auto" : "100%",
+                    height: "auto",
+                    maxWidth: isPhoneMockup ? "96%" : "100%",
+                    maxHeight: isPhoneMockup ? "96%" : "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <Typography sx={{ mt: 1.8, fontWeight: 850 }}>
+                {screen.title}
+              </Typography>
               <Typography variant="body2" color="text.secondary">
                 {screen.description}
               </Typography>
@@ -1418,7 +2137,9 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
   );
 }
 
-function LearningSection({ text }: { text: string }) {
+function LearningSection({ text }: { text: CaseStudy["learned"] }) {
+  const paragraphs = Array.isArray(text) ? text : text ? [text] : [];
+
   return (
     <ContentSection title="What I Learned">
       <Box
@@ -1432,9 +2153,17 @@ function LearningSection({ text }: { text: string }) {
           textAlign: "center",
         }}
       >
-        <Typography color="text.secondary" sx={{ fontSize: { md: 17 } }}>
-          {text}
-        </Typography>
+        <Stack spacing={2.5}>
+          {paragraphs.map((paragraph) => (
+            <Typography
+              key={paragraph}
+              color="text.secondary"
+              sx={{ fontSize: { md: 17 }, lineHeight: 1.7 }}
+            >
+              {paragraph}
+            </Typography>
+          ))}
+        </Stack>
       </Box>
     </ContentSection>
   );
@@ -1454,7 +2183,10 @@ function ContentSection({
   children,
 }: ContentSectionProps) {
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 9 }, backgroundColor: background }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 7, md: 9 }, backgroundColor: background }}
+    >
       <Container maxWidth="xl" sx={{ maxWidth: "980px" }}>
         <SectionHeader title={title} description={description} />
         <Box sx={{ mt: 4 }}>{children}</Box>

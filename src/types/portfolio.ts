@@ -42,6 +42,7 @@ export type MockupVariant = "phone" | "laptop" | "desktop" | "browser" | "portra
 export type PaletteSwatch = {
   name: string;
   value: string;
+  previewValue?: string;
 };
 
 export type ComponentShowcaseItem = {
@@ -56,6 +57,17 @@ export type CaseSection = {
   eyebrow?: string;
   description?: string;
   items: string[];
+  cards?: {
+    title: string;
+    description: string;
+    icon?: "search" | "clock" | "star" | "arrow";
+  }[];
+  persona?: {
+    name: string;
+    meta: string;
+    needs: string[];
+    painPoints: string[];
+  };
 };
 
 export type CaseScreen = {
@@ -87,6 +99,10 @@ export type CaseStudy = {
     mockupVariant: MockupVariant;
   };
   overview: string[];
+  overviewFacts?: {
+    label: string;
+    value: string;
+  }[];
   sections: CaseSection[];
   flow?: string[];
   architecture?: string[];
@@ -102,5 +118,5 @@ export type CaseStudy = {
     labels: string[];
   };
   screens: CaseScreen[];
-  learned?: string;
+  learned?: string | string[];
 };
