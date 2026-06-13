@@ -13,16 +13,23 @@ const contactIcons = [EmailRoundedIcon, PhoneRoundedIcon, LocationOnRoundedIcon]
 export function AboutSection() {
   return (
     <Box component="section" id="about" sx={{ py: { xs: 8, md: 12 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1080px" }}>
+      <Container maxWidth="xl" sx={{ maxWidth: "1280px" }}>
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "350px 1fr" },
-            gap: { xs: 5, md: 7 },
+            gridTemplateColumns: { xs: "1fr", md: "420px 1fr" },
+            gap: { xs: 5, md: 6, lg: 7 },
             alignItems: "start",
           }}
         >
-          <Stack spacing={3}>
+          <Stack
+            spacing={{ xs: 3.5, md: 4 }}
+            sx={{
+              pr: { md: 5, lg: 6 },
+              borderRight: { md: "1px solid" },
+              borderColor: { md: "divider" },
+            }}
+          >
             <MockupFrame
               src={profile.portraitImage}
               alt={`${profile.name} portrait`}
@@ -47,58 +54,84 @@ export function AboutSection() {
               })}
             </InfoBlock>
 
-            <Box
-              sx={{
-                p: 3,
-                borderLeft: "2px solid",
-                borderColor: "primary.main",
-                backgroundColor: "#FCE7EE",
-              }}
-            >
-              <Typography sx={{ fontSize: 13, fontWeight: 850, mb: 1 }}>
-                Featured project
-              </Typography>
-              <Typography sx={{ fontWeight: 850, mb: 0.8 }}>
-                {aboutContent.featuredProject.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 1.6 }}>
-                {aboutContent.featuredProject.description}
-              </Typography>
-              <Link
-                href={aboutContent.featuredProject.href}
+            <InfoBlock title="Personal project">
+              <Box
                 sx={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 0.6,
-                  fontSize: 13,
-                  fontWeight: 850,
+                  p: { xs: 2.5, md: 3 },
+                  borderLeft: "2px solid",
+                  borderColor: "text.primary",
+                  backgroundColor: "rgba(244, 215, 224, 0.58)",
                 }}
               >
-                View case study
-                <ArrowOutwardRoundedIcon sx={{ fontSize: 16 }} />
-              </Link>
-            </Box>
+                <Typography sx={{ fontWeight: 850, mb: 0.6 }}>
+                  {aboutContent.featuredProject.title}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "text.secondary",
+                    fontSize: 12,
+                    fontWeight: 750,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    mb: 1.5,
+                  }}
+                >
+                  Beauty e-commerce platform
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  {aboutContent.featuredProject.description}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "text.secondary",
+                    fontSize: 12,
+                    fontWeight: 800,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    mb: 2,
+                  }}
+                >
+                  UX/UI Designer - Project Lead
+                </Typography>
+                <Link
+                  href={aboutContent.featuredProject.href}
+                  sx={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 0.6,
+                    fontSize: 13,
+                    fontWeight: 850,
+                  }}
+                >
+                  View case study
+                  <ArrowOutwardRoundedIcon sx={{ fontSize: 16 }} />
+                </Link>
+              </Box>
+            </InfoBlock>
           </Stack>
 
-          <Stack spacing={{ xs: 4, md: 5 }}>
-            <Stack spacing={2.2}>
+          <Stack spacing={{ xs: 4.5, md: 5 }}>
+            <Stack spacing={{ xs: 2, md: 2.5 }}>
               <Typography
                 component="h2"
                 sx={{
-                  fontSize: { xs: 58, sm: 76, md: 86 },
-                  lineHeight: 0.84,
+                  fontSize: { xs: 58, sm: 76, md: 92, lg: 104 },
+                  lineHeight: 0.92,
                   fontWeight: 950,
-                  maxWidth: 430,
+                  maxWidth: 360,
                 }}
               >
-                about me
+                about
+                <Box component="span" sx={{ display: "block" }}>
+                  me.
+                </Box>
               </Typography>
               <Typography
                 color="text.secondary"
                 sx={{
-                  maxWidth: 760,
-                  fontSize: { xs: 15.5, md: 16.5 },
-                  lineHeight: 1.78,
+                  maxWidth: 780,
+                  fontSize: { xs: 16, md: 17 },
+                  lineHeight: 1.86,
                 }}
               >
                 {profile.about}
@@ -109,7 +142,8 @@ export function AboutSection() {
               sx={{
                 display: "grid",
                 gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-                gap: { xs: 4, md: 6 },
+                columnGap: { md: 6, lg: 7 },
+                rowGap: 4,
               }}
             >
               <TimelineBlock title="Experience" items={aboutContent.experience} />
@@ -119,8 +153,9 @@ export function AboutSection() {
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: { xs: "1fr", md: "1fr 0.75fr" },
-                gap: { xs: 4, md: 6 },
+                gridTemplateColumns: { xs: "1fr", md: "1fr 0.9fr" },
+                columnGap: { md: 6, lg: 7 },
+                rowGap: 4,
               }}
             >
               <InfoBlock title="Abilities">
@@ -131,31 +166,39 @@ export function AboutSection() {
                       label={ability}
                       variant="outlined"
                       sx={{
-                        backgroundColor: "#FFFFFF",
-                        borderColor: "rgba(47, 12, 142, 0.18)",
+                        height: 36,
+                        px: 0.6,
+                        backgroundColor: "background.paper",
+                        borderColor: "rgba(13, 11, 18, 0.18)",
+                        color: "text.primary",
+                        fontSize: 14,
                       }}
                     />
                   ))}
                 </Stack>
               </InfoBlock>
               <InfoBlock title="Tools">
-                <Stack spacing={1.1}>
+                <Stack spacing={0}>
                   {aboutContent.tools.map((tool, index) => (
                     <Stack
                       key={tool}
                       direction="row"
+                      spacing={3}
                       sx={{
                         alignItems: "center",
-                        justifyContent: "space-between",
                         borderBottom: "1px solid",
                         borderColor: "divider",
-                        pb: 1,
+                        py: 1.45,
                       }}
                     >
-                      <Typography sx={{ fontWeight: 700 }}>{tool}</Typography>
-                      <Typography variant="caption" color="text.secondary">
+                      <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ width: 22 }}
+                      >
                         {String(index + 1).padStart(2, "0")}
                       </Typography>
+                      <Typography sx={{ fontWeight: 750 }}>{tool}</Typography>
                     </Stack>
                   ))}
                 </Stack>
@@ -175,19 +218,30 @@ type InfoBlockProps = {
 
 function InfoBlock({ title, children }: InfoBlockProps) {
   return (
-    <Stack spacing={1.8}>
-      <Typography
-        component="h3"
-        sx={{
-          fontSize: 12,
-          fontWeight: 850,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          color: "text.secondary",
-        }}
-      >
-        {title}
-      </Typography>
+    <Stack spacing={2}>
+      <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
+        <Typography
+          component="h3"
+          sx={{
+            flexShrink: 0,
+            fontSize: 12,
+            fontWeight: 850,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "text.secondary",
+          }}
+        >
+          {title}
+        </Typography>
+        <Box
+          sx={{
+            height: "1px",
+            flex: 1,
+            minWidth: 48,
+            backgroundColor: "divider",
+          }}
+        />
+      </Stack>
       {children}
     </Stack>
   );
@@ -201,13 +255,25 @@ type TimelineBlockProps = {
 function TimelineBlock({ title, items }: TimelineBlockProps) {
   return (
     <InfoBlock title={title}>
-      <Stack spacing={2.1}>
+      <Stack spacing={2.7}>
         {items.map((item) => (
           <Box key={`${item.period}-${item.title}`}>
-            <Typography variant="caption" color="text.secondary">
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{
+                display: "block",
+                fontWeight: 800,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                mb: 0.6,
+              }}
+            >
               {item.period}
             </Typography>
-            <Typography sx={{ fontWeight: 850, mt: 0.3 }}>{item.title}</Typography>
+            <Typography sx={{ fontWeight: 850, lineHeight: 1.35 }}>
+              {item.title}
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               {item.meta}
             </Typography>

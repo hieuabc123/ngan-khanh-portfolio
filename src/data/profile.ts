@@ -4,15 +4,15 @@ export const profile: Profile = {
   name: "Ngân Khánh",
   shortName: "Khánh",
   role: "UX/UI Designer",
-  location: "Ho Chi Minh City, Vietnam",
+  location: "Me Tri Ha, Tay Mo, Ha Noi",
   email: "ngankhanh1205203@gmail.com",
-  phone: "0364 501 356 (Zalo)",
+  phone: "0364 501 369",
   resumeHref: "/resume-ngan-khanh.pdf",
   portraitImage: "/mockups/ngan-khanh-portrait.png",
   intro:
     "A UX/UI Designer aims to design products and systems that actually make life better.",
   about:
-    "I am a UX/UI Designer with a background in Business Administration and hands-on experience designing web interfaces, mobile apps, landing pages, and SaaS products. I enjoy turning complex workflows into focused, user-friendly experiences with clear structure, thoughtful visuals, and practical product thinking.",
+    "I am a UX/UI Designer with a background in Business Administration and hands-on experience designing web interfaces, mobile apps, landing pages, and SaaS products. I enjoy turning complex workflows into clear, user-friendly, and visually appealing interfaces. My goal is to grow deeper in UX/UI Design, product thinking, and user experience design through real product environments.",
   contactIntro:
     "I am Khánh, a UX/UI Designer focused on the intersection of user experience and system logic. Open to new projects and career opportunities. Let's work together.",
   socials: [
@@ -24,33 +24,33 @@ export const profile: Profile = {
 export const aboutContent: AboutContent = {
   contact: [profile.email, profile.phone, profile.location],
   featuredProject: {
-    title: "Slayme",
+    title: "SlayMe",
     description:
-      "A beauty booking mobile app focused on smoother discovery, booking, and service trust.",
+      "Mobile app concept connecting users with beauty services - service discovery, reviews & online booking.",
     href: "/work/slayme",
   },
   experience: [
     {
       period: "2025 - Present",
       title: "Freelance UX/UI Designer / Part-time",
-      meta: "Selected product and website projects",
+      meta: "Ant Learning",
+    },
+    {
+      period: "2025 - 2026",
+      title: "Business Support Executive",
+      meta: "HISO ECO",
     },
     {
       period: "2025",
-      title: "Business Support Executive",
-      meta: "Operations and client-facing workflows",
-    },
-    {
-      period: "2023",
       title: "Administrative Staff",
-      meta: "Process coordination and documentation",
+      meta: "FANI",
     },
   ],
   education: [
     {
-      period: "2021 - 2024",
+      period: "2021 - 2025",
       title: "Business Administration",
-      meta: "HUTECH University",
+      meta: "FPT University",
     },
     {
       period: "2024",
@@ -72,9 +72,9 @@ export const aboutContent: AboutContent = {
     "Communication",
     "Collaboration",
     "Presentation",
-    "Patience",
-    "Learning",
+    "Business",
+    "Marketing",
     "Time Management",
   ],
-  tools: ["Figma", "FigJam", "Figma Make", "Canva", "Notion"],
+  tools: ["Figma", "FigmaMake", "FigJam", "Canva", "Notion"],
 };
