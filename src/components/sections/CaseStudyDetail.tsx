@@ -1,10 +1,14 @@
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import PersonOutlineRoundedIcon from "@mui/icons-material/PersonOutlineRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import {
   Avatar,
@@ -239,20 +243,20 @@ function SlaymeOverview({ caseStudy }: CaseStudyDetailProps) {
                 width: "100%",
                 display: "grid",
                 gridTemplateColumns: {
-                  xs: "1fr",
+                  xs: "repeat(2, minmax(0, 1fr))",
                   sm: "repeat(2, minmax(0, 1fr))",
                   md: "repeat(4, minmax(0, 1fr))",
                 },
-                gap: { xs: 2, md: 3.2 },
+                gap: { xs: 1.4, sm: 2, md: 3.2 },
               }}
             >
               {caseStudy.overviewFacts.map((fact) => (
                 <Box
                   key={fact.label}
                   sx={{
-                    minHeight: 138,
-                    p: { xs: 3, md: 3.4 },
-                    borderRadius: "22px",
+                    minHeight: { xs: 116, md: 138 },
+                    p: { xs: 2.2, sm: 3, md: 3.4 },
+                    borderRadius: { xs: "18px", md: "22px" },
                     backgroundColor: "#FBF6FF",
                     display: "flex",
                     flexDirection: "column",
@@ -262,7 +266,7 @@ function SlaymeOverview({ caseStudy }: CaseStudyDetailProps) {
                   <Typography
                     sx={{
                       color: slaymeMuted,
-                      fontSize: 14,
+                      fontSize: { xs: 11.5, sm: 14 },
                       letterSpacing: "0.08em",
                       textTransform: "uppercase",
                       mb: 1,
@@ -270,7 +274,13 @@ function SlaymeOverview({ caseStudy }: CaseStudyDetailProps) {
                   >
                     {fact.label}
                   </Typography>
-                  <Typography sx={{ color: slaymeText, fontSize: 16.5 }}>
+                  <Typography
+                    sx={{
+                      color: slaymeText,
+                      fontSize: { xs: 14, sm: 16.5 },
+                      lineHeight: 1.35,
+                    }}
+                  >
                     {fact.value}
                   </Typography>
                 </Box>
@@ -376,10 +386,12 @@ function SlaymeProblemCard({
         justifyContent: "center",
       }}
     >
-      <SlaymeProblemIcon icon={card.icon} accent={accent} />
-      <Typography sx={{ mt: 1.6, color: slaymeText, fontSize: 17 }}>
-        {card.title}
-      </Typography>
+      <Stack direction="row" spacing={1.4} sx={{ alignItems: "center" }}>
+        <SlaymeProblemIcon icon={card.icon} accent={accent} />
+        <Typography sx={{ color: slaymeText, fontSize: 17, lineHeight: 1.3 }}>
+          {card.title}
+        </Typography>
+      </Stack>
       <Typography sx={{ mt: 1, color: slaymeMuted, fontSize: 14.5 }}>
         {card.description}
       </Typography>
@@ -725,12 +737,12 @@ function FlowSection({ title, items, accent }: FlowSectionProps) {
         sx={{
           display: "grid",
           gridTemplateColumns: {
-            xs: "1fr",
+            xs: "repeat(2, minmax(0, 1fr))",
             sm: "repeat(2, minmax(0, 1fr))",
             md: `repeat(${desktopColumns}, minmax(0, 1fr))`,
           },
-          columnGap: { sm: 5, md: 5.5 },
-          rowGap: { xs: 2.4, sm: 4.5, md: 5 },
+          columnGap: { xs: 2, sm: 5, md: 5.5 },
+          rowGap: { xs: 2.2, sm: 4.5, md: 5 },
           maxWidth: 920,
           mx: "auto",
         }}
@@ -747,15 +759,15 @@ function FlowSection({ title, items, accent }: FlowSectionProps) {
               spacing={1.3}
               sx={{
                 alignItems: "center",
-                minHeight: 92,
+                minHeight: { xs: 82, md: 92 },
                 position: "relative",
                 textAlign: "center",
               }}
             >
               <Box
                 sx={{
-                  width: { xs: 50, md: 56 },
-                  height: { xs: 50, md: 56 },
+                  width: { xs: 44, md: 56 },
+                  height: { xs: 44, md: 56 },
                   borderRadius: "50%",
                   display: "grid",
                   placeItems: "center",
@@ -765,7 +777,7 @@ function FlowSection({ title, items, accent }: FlowSectionProps) {
                   )})`,
                   boxShadow: `0 12px 22px ${alpha(accent, 0.24)}`,
                   color: "#FFFFFF",
-                  fontSize: { xs: 16, md: 18 },
+                  fontSize: { xs: 14, md: 18 },
                   fontWeight: 700,
                 }}
               >
@@ -776,7 +788,8 @@ function FlowSection({ title, items, accent }: FlowSectionProps) {
                 sx={{
                   color: "text.primary",
                   fontWeight: 500,
-                  lineHeight: 1.35,
+                  fontSize: { xs: 12.5, sm: 14 },
+                  lineHeight: 1.3,
                 }}
               >
                 {item}
@@ -928,11 +941,15 @@ function DesignSystemSection({ caseStudy }: CaseStudyDetailProps) {
             </Box>
           </Stack>
 
-          <SystemPanel
-            title="Typography"
-            items={caseStudy.designSystem.typography}
-            accent={caseStudy.accent}
-          />
+          {isSlayme ? (
+            <SlaymeTypographySection />
+          ) : (
+            <SystemPanel
+              title="Typography"
+              items={caseStudy.designSystem.typography}
+              accent={caseStudy.accent}
+            />
+          )}
           {caseStudy.designSystem.components ? (
             <ComponentShowcase
               items={caseStudy.designSystem.components}
@@ -942,6 +959,169 @@ function DesignSystemSection({ caseStudy }: CaseStudyDetailProps) {
         </Stack>
       </Container>
     </Box>
+  );
+}
+
+const slaymeTypeScale = [
+  { name: "Display Large", meta: "H1 / 32px / Medium" },
+  { name: "Headline Medium", meta: "H2 / 24px / Medium" },
+  { name: "Title Medium", meta: "H3 / 18px / Medium" },
+  { name: "Body Large", meta: "P1 / 16px / Regular" },
+  { name: "Body Medium", meta: "P2 / 14px / Regular" },
+  { name: "Label Medium", meta: "P3 / 12px / Medium" },
+];
+
+function SlaymeTypographySection() {
+  const icons = [
+    <SearchRoundedIcon key="search" />,
+    <CalendarTodayRoundedIcon key="calendar" />,
+    <FavoriteBorderRoundedIcon key="heart-outline" />,
+    <StarBorderRoundedIcon key="star-outline" />,
+    <PersonOutlineRoundedIcon key="person" />,
+    <LocationOnOutlinedIcon key="location" />,
+    <AccessTimeRoundedIcon key="time" />,
+    <FavoriteBorderRoundedIcon key="heart-filled" sx={{ fill: "currentColor" }} />,
+    <CheckRoundedIcon key="check" />,
+    <KeyboardArrowRightRoundedIcon key="arrow" />,
+  ];
+
+  return (
+    <Stack spacing={{ xs: 2.6, md: 4 }}>
+      <Stack spacing={1.6}>
+        <Typography
+          component="h3"
+          sx={{
+            color: slaymeText,
+            fontSize: { xs: 28, md: 34 },
+            lineHeight: 1.15,
+            fontWeight: 850,
+          }}
+        >
+          Typography
+        </Typography>
+        <Typography
+          sx={{
+            color: slaymeMuted,
+            fontSize: { xs: 16, md: 22 },
+            lineHeight: 1.55,
+          }}
+        >
+          Elegant headings create a premium feeling, while clean body text keeps
+          the mobile experience readable and user-friendly.
+        </Typography>
+      </Stack>
+
+      <Box
+        sx={{
+          p: { xs: 2.4, md: 4.4 },
+          borderRadius: { xs: "20px", md: "28px" },
+          backgroundColor: "#FBF6FF",
+        }}
+      >
+        <Typography sx={{ color: slaymeMuted, fontSize: { xs: 14, md: 18 } }}>
+          Heading Font: Playfair Display
+        </Typography>
+        <Typography
+          sx={{
+            mt: 1.6,
+            color: slaymeText,
+            fontFamily: "var(--font-serif)",
+            fontSize: { xs: 36, sm: 44, md: 54 },
+            lineHeight: 1,
+            fontWeight: 500,
+          }}
+        >
+          Book your beauty moment.
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "1fr 0.4fr" },
+          gap: { xs: 2, md: 4 },
+        }}
+      >
+        <Box
+          sx={{
+            p: { xs: 2.4, md: 4.4 },
+            borderRadius: { xs: "20px", md: "28px" },
+            backgroundColor: "#FBF6FF",
+          }}
+        >
+          <Box
+            sx={{
+              height: "1px",
+              backgroundColor: "rgba(43, 43, 43, 0.06)",
+              mb: 1.8,
+            }}
+          />
+          <Stack spacing={{ xs: 1.8, md: 2.1 }}>
+            {slaymeTypeScale.map((item) => (
+              <Box key={item.name}>
+                <Typography
+                  sx={{
+                    color: slaymeText,
+                    fontSize:
+                      item.name === "Display Large"
+                        ? { xs: 23, md: 28 }
+                        : item.name === "Headline Medium"
+                          ? { xs: 20, md: 24 }
+                          : item.name === "Title Medium"
+                            ? { xs: 18, md: 21 }
+                            : { xs: 16, md: 18 },
+                    lineHeight: 1.2,
+                    fontWeight: 500,
+                  }}
+                >
+                  {item.name}
+                </Typography>
+                <Typography sx={{ color: slaymeMuted, fontSize: { xs: 13, md: 16 } }}>
+                  {item.meta}
+                </Typography>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
+
+        <Box
+          sx={{
+            p: { xs: 2.4, md: 4.2 },
+            borderRadius: { xs: "20px", md: "28px" },
+            backgroundColor: "#FBF6FF",
+          }}
+        >
+          <Typography
+            sx={{
+              color: slaymeMuted,
+              fontSize: { xs: 13, md: 16 },
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              fontWeight: 700,
+            }}
+          >
+            Icon Style
+          </Typography>
+          <Box
+            sx={{
+              mt: { xs: 3, md: 3.8 },
+              display: "grid",
+              gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+              rowGap: { xs: 2.2, md: 3 },
+              columnGap: { xs: 1.2, md: 2.4 },
+              color: slaymeText,
+              "& svg": {
+                mx: "auto",
+                fontSize: { xs: 24, md: 28 },
+                strokeWidth: 1.7,
+              },
+            }}
+          >
+            {icons}
+          </Box>
+        </Box>
+      </Box>
+    </Stack>
   );
 }
 
@@ -1004,9 +1184,12 @@ function ComponentShowcase({ items, accent }: ComponentShowcaseProps) {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "0.94fr 1fr 1fr" },
+          gridTemplateColumns: {
+            xs: "repeat(2, minmax(0, 1fr))",
+            md: "0.94fr 1fr 1fr",
+          },
           gridAutoRows: { md: "minmax(280px, auto)" },
-          gap: { xs: 2, md: 2.4 },
+          gap: { xs: 1.4, sm: 2, md: 2.4 },
         }}
       >
         {items.map((item) => (
@@ -1026,28 +1209,53 @@ function ComponentCard({ item, accent }: ComponentCardProps) {
   return (
     <Box
       sx={{
-        minHeight: { xs: item.layout === "tall" ? 430 : 210, md: "auto" },
-        p: { xs: 2.4, md: 3 },
-        borderRadius: "28px",
+        minHeight: { xs: 178, sm: 220, md: "auto" },
+        p: { xs: 1.2, sm: 1.8, md: 3 },
+        borderRadius: { xs: "16px", md: "28px" },
         backgroundColor: "#FFFFFF",
         border: `1.5px solid ${alpha(accent, 0.62)}`,
-        boxShadow: `0 14px 30px ${alpha(accent, 0.07)}`,
+        boxShadow: {
+          xs: `0 10px 22px ${alpha(accent, 0.06)}`,
+          md: `0 14px 30px ${alpha(accent, 0.07)}`,
+        },
         gridColumn: { md: item.layout === "wide" ? "span 2" : "auto" },
         gridRow: { md: item.layout === "tall" ? "span 2" : "auto" },
-        overflow: "visible",
+        overflow: "hidden",
       }}
     >
       <Typography
         sx={{
           color: "text.secondary",
-          fontSize: { xs: 16, md: 18 },
+          fontSize: { xs: 12, sm: 14, md: 18 },
           fontWeight: 500,
-          mb: 2.2,
+          mb: { xs: 1, md: 2.2 },
+          lineHeight: 1.25,
+          textAlign: { xs: "center", md: "left" },
         }}
       >
         {item.title}
       </Typography>
-      <ComponentPreview item={item} accent={accent} />
+      <Box
+        sx={{
+          height: { xs: 128, sm: 158, md: "auto" },
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: "190%", sm: "142%", md: "100%" },
+            transform: {
+              xs: "scale(0.526)",
+              sm: "scale(0.704)",
+              md: "none",
+            },
+            transformOrigin: "top left",
+          }}
+        >
+          <ComponentPreview item={item} accent={accent} />
+        </Box>
+      </Box>
     </Box>
   );
 }
@@ -1411,7 +1619,7 @@ function MobileWireframeSection({ caseStudy }: CaseStudyDetailProps) {
             component="h2"
             sx={{
               fontFamily: "var(--font-serif)",
-              fontSize: { xs: 42, md: 58 },
+              fontSize: { xs: 38, sm: 46, md: 58 },
               lineHeight: 1,
               fontWeight: 500,
             }}
@@ -1434,12 +1642,12 @@ function MobileWireframeSection({ caseStudy }: CaseStudyDetailProps) {
           sx={{
             display: "grid",
             gridTemplateColumns: {
-              xs: "1fr",
-              sm: "repeat(2, 1fr)",
+              xs: "repeat(2, minmax(0, 1fr))",
+              sm: "repeat(3, minmax(0, 1fr))",
               md: "repeat(3, 1fr)",
             },
-            gap: { xs: 3, md: 3.4 },
-            mt: { xs: 6, md: 8 },
+            gap: { xs: 1.4, sm: 2.2, md: 3.4 },
+            mt: { xs: 4, md: 8 },
           }}
         >
           {caseStudy.wireframes.labels.map((label) => (
@@ -1464,20 +1672,24 @@ function MobileWireframeCard({ title, accent }: MobileWireframeCardProps) {
   return (
     <Box
       sx={{
-        p: { xs: 2.5, md: 3 },
-        borderRadius: "24px",
+        p: { xs: 1.1, sm: 1.8, md: 3 },
+        borderRadius: { xs: "16px", md: "24px" },
         backgroundColor: "#FFFFFF",
         border: "1px solid rgba(15, 23, 42, 0.06)",
-        boxShadow: "0 14px 34px rgba(15, 23, 42, 0.08)",
+        boxShadow: {
+          xs: "0 10px 24px rgba(15, 23, 42, 0.07)",
+          md: "0 14px 34px rgba(15, 23, 42, 0.08)",
+        },
       }}
     >
       <WireframePhone title={title} accent={accent} />
       <Typography
         sx={{
-          mt: 2.1,
+          mt: { xs: 1, md: 2.1 },
           color: "text.secondary",
-          fontSize: 14,
+          fontSize: { xs: 11.5, sm: 13, md: 14 },
           fontWeight: 500,
+          lineHeight: 1.25,
           textAlign: "center",
         }}
       >
@@ -1500,15 +1712,37 @@ function WireframePhone({ title, accent }: WireframePhoneProps) {
       sx={{
         width: "100%",
         aspectRatio: "9 / 16",
-        borderRadius: "18px",
+        position: "relative",
+        borderRadius: { xs: "12px", md: "18px" },
         border: "1.5px solid #DCE2EA",
         backgroundColor: "#FAFBFC",
         boxShadow: "inset 0 0 0 1px rgba(255, 255, 255, 0.7)",
         overflow: "hidden",
-        p: 2,
+        p: 0,
       }}
     >
-      <WireframeScreen title={title} accent={accent} />
+      <Box
+        sx={{
+          position: "absolute",
+          inset: { xs: 7, sm: 10, md: 16 },
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: "190%", sm: "142%", md: "100%" },
+            height: { xs: "190%", sm: "142%", md: "100%" },
+            transform: {
+              xs: "scale(0.526)",
+              sm: "scale(0.704)",
+              md: "none",
+            },
+            transformOrigin: "top left",
+          }}
+        >
+          <WireframeScreen title={title} accent={accent} />
+        </Box>
+      </Box>
     </Box>
   );
 }
@@ -2075,38 +2309,45 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
           sx={{
             display: "grid",
             gridTemplateColumns: {
-              xs: "1fr",
-              sm: "repeat(2, minmax(0, 1fr))",
+              xs: isPhoneMockup
+                ? "repeat(2, minmax(0, 1fr))"
+                : "1fr",
+              sm: isPhoneMockup
+                ? "repeat(3, minmax(0, 1fr))"
+                : "repeat(2, minmax(0, 1fr))",
               md: isPhoneMockup
                 ? "repeat(3, minmax(0, 1fr))"
                 : "repeat(2, minmax(0, 1fr))",
             },
-            gap: { xs: 2.2, md: 3 },
-            mt: 4,
+            gap: { xs: isPhoneMockup ? 1.4 : 2.2, sm: 2.2, md: 3 },
+            mt: { xs: 3, md: 4 },
           }}
         >
           {caseStudy.screens.map((screen) => (
             <Box
               key={screen.title}
               sx={{
-                p: { xs: 2, md: 2.4 },
-                borderRadius: "18px",
+                p: { xs: isPhoneMockup ? 1.1 : 2, sm: 1.8, md: 2.4 },
+                borderRadius: { xs: isPhoneMockup ? "16px" : "18px", md: "18px" },
                 backgroundColor: "#FFFFFF",
                 border: "1px solid rgba(15, 23, 42, 0.07)",
-                boxShadow: "0 16px 40px rgba(42, 28, 74, 0.08)",
+                boxShadow: {
+                  xs: "0 10px 24px rgba(42, 28, 74, 0.07)",
+                  md: "0 16px 40px rgba(42, 28, 74, 0.08)",
+                },
               }}
             >
               <Box
                 sx={{
                   aspectRatio: isPhoneMockup ? "301 / 610" : "16 / 11",
                   height: "auto",
-                  borderRadius: "14px",
+                  borderRadius: { xs: isPhoneMockup ? "12px" : "14px", md: "14px" },
                   display: "grid",
                   placeItems: "center",
                   backgroundColor: "#F8F7FA",
                   border: "1px solid rgba(15, 23, 42, 0.06)",
                   overflow: "hidden",
-                  p: { xs: 1, md: 1.2 },
+                  p: { xs: isPhoneMockup ? 0.55 : 1, sm: 0.85, md: 1.2 },
                 }}
               >
                 <Box
@@ -2123,10 +2364,25 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
                   }}
                 />
               </Box>
-              <Typography sx={{ mt: 1.8, fontWeight: 850 }}>
+              <Typography
+                sx={{
+                  mt: { xs: isPhoneMockup ? 1 : 1.8, md: 1.8 },
+                  fontSize: { xs: isPhoneMockup ? 12 : 16, sm: 14, md: 16 },
+                  lineHeight: 1.25,
+                  fontWeight: 850,
+                  textAlign: { xs: isPhoneMockup ? "center" : "left", sm: "left" },
+                }}
+              >
                 {screen.title}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  display: { xs: isPhoneMockup ? "none" : "block", sm: "block" },
+                  fontSize: { sm: 13, md: 14 },
+                }}
+              >
                 {screen.description}
               </Typography>
             </Box>

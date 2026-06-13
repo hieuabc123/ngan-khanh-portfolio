@@ -71,11 +71,12 @@ export function Footer() {
           </Stack>
 
           <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={{ xs: 4, sm: 8, md: 12 }}
+            direction="row"
+            spacing={{ xs: 2, sm: 8, md: 12 }}
             sx={{
               width: { xs: "100%", md: "auto" },
               pt: { xs: 0, md: 0.5 },
+              alignItems: "flex-start",
             }}
           >
             <FooterColumn title="Navigation" items={navigation} />
@@ -100,7 +101,7 @@ type FooterColumnProps = {
 
 function FooterColumn({ title, items }: FooterColumnProps) {
   return (
-    <Stack spacing={1.4} sx={{ minWidth: 150 }}>
+    <Stack spacing={1.4} sx={{ flex: 1, minWidth: { xs: 0, sm: 150 } }}>
       <Typography sx={{ fontSize: 14, fontWeight: 850 }}>{title}</Typography>
       <Stack spacing={1}>
         {items.map((item) => (
