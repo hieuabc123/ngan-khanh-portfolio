@@ -1,8 +1,7 @@
-import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
-import { Box, Chip, Container, Link, Stack, Typography } from "@mui/material";
+import { Box, Chip, Container, Stack, Typography } from "@mui/material";
 import type { ReactNode } from "react";
 
 import { MockupFrame } from "@/components/ui/MockupFrame";
@@ -14,9 +13,13 @@ export function AboutSection() {
   return (
     <Box component="section" id="about" sx={{ py: { xs: 8, md: 12 } }}>
       <Container maxWidth="xl" sx={{ maxWidth: "1280px" }}>
+        <Box sx={{ display: { xs: "block", md: "none" } }}>
+          <MobileCvAbout />
+        </Box>
+
         <Box
           sx={{
-            display: "grid",
+            display: { xs: "none", md: "grid" },
             gridTemplateColumns: { xs: "1fr", md: "420px 1fr" },
             gap: { xs: 5, md: 6, lg: 7 },
             alignItems: "start",
@@ -93,19 +96,6 @@ export function AboutSection() {
                 >
                   UX/UI Designer - Project Lead
                 </Typography>
-                <Link
-                  href={aboutContent.featuredProject.href}
-                  sx={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 0.6,
-                    fontSize: 13,
-                    fontWeight: 850,
-                  }}
-                >
-                  View case study
-                  <ArrowOutwardRoundedIcon sx={{ fontSize: 16 }} />
-                </Link>
               </Box>
             </InfoBlock>
           </Stack>
@@ -207,6 +197,171 @@ export function AboutSection() {
           </Stack>
         </Box>
       </Container>
+    </Box>
+  );
+}
+
+function MobileCvAbout() {
+  return (
+    <Box
+      sx={{
+        p: { xs: 2.5, sm: 3 },
+        border: "1px solid",
+        borderColor: "divider",
+        backgroundColor: "background.paper",
+      }}
+    >
+      <Stack spacing={3.4}>
+        <Stack spacing={2} sx={{ alignItems: "center", textAlign: "center" }}>
+          <Box
+            component="img"
+            src={profile.portraitImage}
+            alt={`${profile.name} portrait`}
+            sx={{
+              width: "100%",
+              maxWidth: 260,
+              aspectRatio: "4 / 5",
+              borderRadius: 3,
+              objectFit: "cover",
+              objectPosition: "center top",
+            }}
+          />
+          <Stack spacing={0.8} sx={{ alignItems: "center" }}>
+            <Typography
+              component="h2"
+              sx={{
+                fontSize: 40,
+                lineHeight: 1,
+                fontWeight: 950,
+              }}
+            >
+              {profile.name}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 12,
+                fontWeight: 850,
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: "text.secondary",
+              }}
+            >
+              {profile.role}
+            </Typography>
+          </Stack>
+        </Stack>
+
+        <InfoBlock title="About me">
+          <Typography
+            color="text.secondary"
+            sx={{ fontSize: 15.5, lineHeight: 1.78 }}
+          >
+            {profile.about}
+          </Typography>
+        </InfoBlock>
+
+        <InfoBlock title="Contact">
+          <Stack spacing={1.25}>
+            {aboutContent.contact.map((item, index) => {
+              const Icon = contactIcons[index] ?? EmailRoundedIcon;
+
+              return (
+                <Stack
+                  key={item}
+                  direction="row"
+                  spacing={1.15}
+                  sx={{ alignItems: "flex-start", color: "text.secondary" }}
+                >
+                  <Icon sx={{ fontSize: 17, color: "primary.main", mt: 0.25 }} />
+                  <Typography variant="body2" sx={{ overflowWrap: "anywhere" }}>
+                    {item}
+                  </Typography>
+                </Stack>
+              );
+            })}
+          </Stack>
+        </InfoBlock>
+
+        <TimelineBlock title="Experience" items={aboutContent.experience} />
+        <TimelineBlock title="Education" items={aboutContent.education} />
+
+        <InfoBlock title="Abilities">
+          <Stack direction="row" sx={{ flexWrap: "wrap", gap: 0.8 }}>
+            {aboutContent.abilities.map((ability) => (
+              <Chip
+                key={ability}
+                label={ability}
+                variant="outlined"
+                size="small"
+                sx={{
+                  height: 30,
+                  backgroundColor: "background.paper",
+                  borderColor: "rgba(13, 11, 18, 0.18)",
+                  color: "text.primary",
+                  fontSize: 13,
+                }}
+              />
+            ))}
+          </Stack>
+        </InfoBlock>
+
+        <InfoBlock title="Tools">
+          <Stack spacing={0}>
+            {aboutContent.tools.map((tool, index) => (
+              <Stack
+                key={tool}
+                direction="row"
+                spacing={2}
+                sx={{
+                  alignItems: "center",
+                  borderBottom: "1px solid",
+                  borderColor: "divider",
+                  py: 1,
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ width: 22 }}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </Typography>
+                <Typography sx={{ fontWeight: 750 }}>{tool}</Typography>
+              </Stack>
+            ))}
+          </Stack>
+        </InfoBlock>
+
+        <InfoBlock title="Personal project">
+          <Box
+            sx={{
+              p: 2.2,
+              borderLeft: "2px solid",
+              borderColor: "text.primary",
+              backgroundColor: "rgba(244, 215, 224, 0.58)",
+            }}
+          >
+            <Typography sx={{ fontWeight: 850, mb: 0.5 }}>
+              {aboutContent.featuredProject.title}
+            </Typography>
+            <Typography
+              sx={{
+                color: "text.secondary",
+                fontSize: 11.5,
+                fontWeight: 750,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                mb: 1.2,
+              }}
+            >
+              Beauty e-commerce platform
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
+              {aboutContent.featuredProject.description}
+            </Typography>
+          </Box>
+        </InfoBlock>
+      </Stack>
     </Box>
   );
 }

@@ -1,5 +1,3 @@
-import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
 import { profile } from "@/data/profile";
@@ -7,26 +5,26 @@ import { profile } from "@/data/profile";
 export function HeroSection() {
   return (
     <Box component="section" id="top" sx={{ pt: { xs: 2, md: 3 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1180px" }}>
+      <Container maxWidth={false} sx={{ maxWidth: "1500px" }}>
         <Box
           sx={{
-            minHeight: { xs: 510, sm: 560, md: 610 },
+            minHeight: { xs: 560, sm: 620, md: 720 },
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            borderRadius: { xs: "36px", md: "74px" },
-            px: { xs: 3, sm: 6, md: 10 },
-            py: { xs: 8, md: 10 },
+            borderRadius: { xs: "34px", sm: "52px", md: "86px" },
+            px: { xs: 2.5, sm: 6, md: 10, lg: 14 },
+            py: { xs: 7, sm: 9, md: 12 },
             background:
-              "radial-gradient(circle at top left, rgba(115, 80, 255, 0.16), transparent 38%), radial-gradient(circle at bottom right, rgba(244, 173, 181, 0.22), transparent 34%), #FBF7FC",
-            boxShadow: "0 28px 70px rgba(80, 63, 126, 0.08)",
+              "radial-gradient(circle at 24% 8%, rgba(141, 112, 255, 0.15), transparent 30%), radial-gradient(circle at 74% 76%, rgba(244, 173, 181, 0.18), transparent 35%), linear-gradient(180deg, #FCFAFF 0%, #FFF7FA 100%)",
+            boxShadow: "0 30px 80px rgba(47, 12, 142, 0.08)",
           }}
         >
           <Stack
-            spacing={{ xs: 3, md: 3.5 }}
+            spacing={{ xs: 3, md: 4 }}
             sx={{
               width: "100%",
-              maxWidth: 890,
+              maxWidth: 1060,
               minWidth: 0,
               alignItems: "center",
               textAlign: "center",
@@ -37,17 +35,24 @@ export function HeroSection() {
               spacing={0.9}
               sx={{
                 alignItems: "center",
-                px: 2,
-                py: 1,
+                px: { xs: 1.8, md: 2.4 },
+                py: { xs: 0.9, md: 1.15 },
                 borderRadius: 999,
-                backgroundColor: "rgba(255,255,255,0.74)",
-                border: "1px solid rgba(31, 22, 58, 0.08)",
-                boxShadow: "0 12px 30px rgba(58, 42, 90, 0.08)",
+                backgroundColor: "rgba(255, 255, 255, 0.64)",
+                border: "1px solid rgba(255, 255, 255, 0.92)",
+                boxShadow:
+                  "inset 0 0 0 1px rgba(47, 12, 142, 0.06), 0 12px 30px rgba(47, 12, 142, 0.06)",
               }}
             >
-              <PersonRoundedIcon sx={{ color: "primary.main", fontSize: 18 }} />
-              <Typography sx={{ fontWeight: 650, fontSize: { xs: 13, md: 15 } }}>
-                Hi, I&apos;m {profile.name}
+              <Typography
+                sx={{
+                  color: "text.primary",
+                  fontWeight: 650,
+                  fontSize: { xs: 18, sm: 22, md: 28 },
+                  lineHeight: 1.1,
+                }}
+              >
+                Hi, I&apos;m {profile.name} 👋
               </Typography>
             </Stack>
 
@@ -55,10 +60,10 @@ export function HeroSection() {
               component="h1"
               sx={{
                 width: "100%",
-                maxWidth: { xs: 300, sm: 760, md: 840 },
-                fontSize: { xs: 30, sm: 52, md: 66 },
-                lineHeight: { xs: 1.08, md: 1.02 },
-                fontWeight: 900,
+                maxWidth: { xs: 330, sm: 760, md: 1040 },
+                fontSize: { xs: 36, sm: 58, md: 78, lg: 88 },
+                lineHeight: { xs: 1.08, md: 1.12 },
+                fontWeight: 950,
                 overflowWrap: "break-word",
                 textWrap: "balance",
               }}
@@ -69,10 +74,10 @@ export function HeroSection() {
             <Typography
               sx={{
                 width: "100%",
-                maxWidth: { xs: 300, sm: 650 },
+                maxWidth: { xs: 320, sm: 760 },
                 color: "text.primary",
-                fontSize: { xs: 15, md: 20 },
-                lineHeight: 1.7,
+                fontSize: { xs: 17, sm: 22, md: 29 },
+                lineHeight: 1.45,
               }}
             >
               Backed by strategy. Driven by empathy. Built with intention.
@@ -84,21 +89,40 @@ export function HeroSection() {
               sx={{
                 width: "100%",
                 maxWidth: { xs: 310, sm: "none" },
-                pt: 1,
+                justifyContent: "center",
+                pt: { xs: 0.5, md: 2 },
               }}
             >
               <Button
                 href="#work"
                 variant="contained"
-                endIcon={<ArrowForwardRoundedIcon />}
-                sx={{ width: { xs: "100%", sm: "auto" }, px: 3, borderRadius: 999 }}
+                sx={{
+                  width: { xs: "100%", sm: "auto" },
+                  minWidth: { sm: 136 },
+                  minHeight: { xs: 48, md: 58 },
+                  px: { xs: 3, md: 4 },
+                  borderRadius: 999,
+                  fontSize: { xs: 15, md: 17 },
+                }}
               >
                 My work
               </Button>
               <Button
                 href="#about"
                 variant="outlined"
-                sx={{ width: { xs: "100%", sm: "auto" }, px: 3, borderRadius: 999 }}
+                sx={{
+                  width: { xs: "100%", sm: "auto" },
+                  minWidth: { sm: 150 },
+                  minHeight: { xs: 48, md: 58 },
+                  px: { xs: 3, md: 4 },
+                  borderRadius: 999,
+                  borderWidth: 2,
+                  color: "primary.main",
+                  fontSize: { xs: 15, md: 17 },
+                  "&:hover": {
+                    borderWidth: 2,
+                  },
+                }}
               >
                 About me
               </Button>
