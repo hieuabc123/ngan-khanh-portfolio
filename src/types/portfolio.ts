@@ -83,6 +83,7 @@ export type CaseStudy = {
   category: string;
   headline: string;
   summary: string;
+  tagline?: string;
   role: string;
   timeline: string;
   platform: string;
