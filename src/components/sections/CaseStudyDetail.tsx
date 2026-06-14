@@ -126,7 +126,6 @@ function CenterUpManagementCaseStudy({ caseStudy }: CaseStudyDetailProps) {
         <CenterUpManagementArchitectureSection items={caseStudy.architecture} />
       ) : null}
       <DesignSystemSection caseStudy={caseStudy} />
-      {caseStudy.wireframes ? <WireframeSection caseStudy={caseStudy} /> : null}
       <ScreensSection caseStudy={caseStudy} />
       {caseStudy.learned ? <LearningSection text={caseStudy.learned} /> : null}
       <BackToWorkLink />
@@ -5047,6 +5046,10 @@ function WireSearch() {
 }
 
 function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
+  if (caseStudy.slug === "centerup-management") {
+    return <CenterUpManagementKeyScreensSection caseStudy={caseStudy} />;
+  }
+
   if (caseStudy.slug === "centerup-landing") {
     return <CenterUpKeyScreensSection caseStudy={caseStudy} />;
   }
@@ -5212,6 +5215,426 @@ function ScreenImagePlaceholder({
       </Box>
 
       <WireLine width="54%" height={8} color={alpha(accent, 0.22)} />
+    </Box>
+  );
+}
+
+function CenterUpManagementKeyScreensSection({
+  caseStudy,
+}: CaseStudyDetailProps) {
+  return (
+    <Box
+      component="section"
+      sx={{ py: { xs: 6.8, md: 8.8 }, backgroundColor: centerUpPage }}
+    >
+      <Container maxWidth="xl" sx={{ maxWidth: "1320px" }}>
+        <Stack spacing={{ xs: 4.2, md: 5.2 }} sx={{ alignItems: "center" }}>
+          <CenterUpSectionTitle title="Key Screens" />
+
+          <Box
+            sx={{
+              width: "100%",
+              backgroundColor: "#FCF6FF",
+              px: { xs: 2.4, sm: 4, md: 5.4 },
+              py: { xs: 3.2, sm: 4.6, md: 6.2 },
+            }}
+          >
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+                columnGap: { md: 5.2 },
+                rowGap: { xs: 4.2, md: 5.4 },
+                alignItems: "start",
+              }}
+            >
+              {caseStudy.screens.map((screen) => (
+                <CenterUpManagementScreenCard
+                  key={screen.title}
+                  screen={screen}
+                />
+              ))}
+            </Box>
+          </Box>
+        </Stack>
+      </Container>
+    </Box>
+  );
+}
+
+function CenterUpManagementScreenCard({
+  screen,
+}: {
+  screen: CaseStudy["screens"][number];
+}) {
+  return (
+    <Stack spacing={{ xs: 2.2, md: 2.5 }}>
+      {screen.image ? (
+        <Box
+          component="img"
+          src={screen.image}
+          alt={`${caseStudyTitleForAlt(screen.title)} screen`}
+          sx={{
+            display: "block",
+            width: "100%",
+            height: "auto",
+          }}
+        />
+      ) : (
+        <CenterUpManagementBrowserFrame screen={screen} />
+      )}
+
+      <Stack
+        spacing={0.85}
+        sx={{ px: screen.image ? "4.5%" : 0 }}
+      >
+        <Typography
+          component="h3"
+          sx={{
+            color: centerUpText,
+            fontSize: { xs: 19, md: 21 },
+            lineHeight: 1.25,
+            fontWeight: 700,
+          }}
+        >
+          {screen.title}
+        </Typography>
+        <Typography
+          sx={{
+            color: centerUpMuted,
+            fontSize: { xs: 15, md: 16 },
+            lineHeight: 1.55,
+            maxWidth: 540,
+          }}
+        >
+          {screen.description}
+        </Typography>
+      </Stack>
+    </Stack>
+  );
+}
+
+function CenterUpManagementBrowserFrame({
+  screen,
+}: {
+  screen: CaseStudy["screens"][number];
+}) {
+  return (
+    <Box
+      sx={{
+        borderRadius: { xs: "16px", md: "20px" },
+        overflow: "hidden",
+        backgroundColor: "#F8FAFC",
+        border: "1px solid rgba(88, 112, 139, 0.14)",
+        boxShadow: {
+          xs: "0 16px 32px rgba(38, 48, 58, 0.12)",
+          md: "0 24px 48px rgba(38, 48, 58, 0.14)",
+        },
+      }}
+    >
+      <Stack
+        direction="row"
+        spacing={{ xs: 0.8, md: 1 }}
+        sx={{
+          minHeight: { xs: 34, md: 42 },
+          alignItems: "center",
+          px: { xs: 1.5, md: 2 },
+          backgroundColor: "#F8FAFC",
+          borderBottom: "1px solid rgba(88, 112, 139, 0.1)",
+        }}
+      >
+        {["#FF5F57", "#FFBD2E", "#28C840"].map((color) => (
+          <Box
+            key={color}
+            sx={{
+              width: { xs: 8, md: 11 },
+              height: { xs: 8, md: 11 },
+              borderRadius: "50%",
+              backgroundColor: color,
+              flexShrink: 0,
+            }}
+          />
+        ))}
+        <Box
+          sx={{
+            ml: { xs: 1, md: 1.8 },
+            height: { xs: 22, md: 25 },
+            flex: 1,
+            maxWidth: { xs: "none", md: 420 },
+            borderRadius: 999,
+            backgroundColor: "#FFFFFF",
+            color: "#6F849D",
+            fontSize: { xs: 10.5, md: 12 },
+            lineHeight: { xs: "22px", md: "25px" },
+            px: { xs: 1.3, md: 1.7 },
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+        >
+          centerup.app/dashboard
+        </Box>
+      </Stack>
+
+      <Box
+        sx={{
+          aspectRatio: { xs: "16 / 10.4", sm: "16 / 9.2", md: "16 / 8.7" },
+          backgroundColor: "#FFFFFF",
+          overflow: "hidden",
+        }}
+      >
+        <CenterUpManagementScreenPlaceholder title={screen.title} />
+      </Box>
+    </Box>
+  );
+}
+
+function CenterUpManagementScreenPlaceholder({ title }: { title: string }) {
+  const normalizedTitle = title.toLowerCase();
+  const isDetail = normalizedTitle.includes("detail");
+  const isDashboard = normalizedTitle.includes("dashboard");
+  const isPipeline = normalizedTitle.includes("pipeline");
+  const isCallLog = normalizedTitle.includes("call");
+
+  return (
+    <Box
+      sx={{
+        height: "100%",
+        display: "grid",
+        gridTemplateColumns: { xs: "64px 1fr", sm: "82px 1fr", md: "94px 1fr" },
+        backgroundColor: "#FFFFFF",
+      }}
+    >
+      <Stack
+        spacing={1}
+        sx={{
+          minWidth: 0,
+          backgroundColor: "#F7F8FC",
+          borderRight: "1px solid #E5EAF1",
+          p: { xs: 1, md: 1.25 },
+        }}
+      >
+        <CenterUpWireDot size={18} color="#EEE7FF" />
+        {Array.from({ length: 6 }).map((_, index) => (
+          <CenterUpWirePill
+            key={index}
+            width={index === 2 ? "88%" : "72%"}
+            height={index === 2 ? 12 : 8}
+            active={index === 2}
+          />
+        ))}
+      </Stack>
+
+      <Box sx={{ minWidth: 0, p: { xs: 1.2, sm: 1.5, md: 1.8 } }}>
+        <Stack spacing={{ xs: 1.1, md: 1.35 }} sx={{ height: "100%" }}>
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+            <CenterUpWireLine width="24%" height={8} color="#C7D0DB" />
+            <CenterUpWireLine width="18%" height={8} color="#E0E5EC" />
+            <CenterUpWirePill width={64} height={15} active sx={{ ml: "auto" }} />
+          </Stack>
+
+          {isDashboard ? (
+            <CenterUpDashboardPlaceholder />
+          ) : isPipeline ? (
+            <CenterUpPipelinePlaceholder />
+          ) : isDetail ? (
+            <CenterUpDetailPlaceholder />
+          ) : (
+            <CenterUpTablePlaceholder compact={isCallLog} />
+          )}
+        </Stack>
+      </Box>
+    </Box>
+  );
+}
+
+function CenterUpTablePlaceholder({ compact }: { compact: boolean }) {
+  return (
+    <>
+      <Stack direction="row" spacing={0.9} sx={{ alignItems: "center" }}>
+        <CenterUpWirePill width="20%" height={18} />
+        <CenterUpWirePill width="22%" height={18} />
+        <CenterUpWirePill width="36%" height={18} />
+      </Stack>
+
+      <Box
+        sx={{
+          border: "1px solid #E2E7EE",
+          borderRadius: "8px",
+          overflow: "hidden",
+          backgroundColor: "#FFFFFF",
+        }}
+      >
+        {Array.from({ length: compact ? 5 : 6 }).map((_, rowIndex) => (
+          <Box
+            key={rowIndex}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "0.45fr 1.2fr 1fr 0.9fr 0.55fr",
+              gap: { xs: 0.65, md: 1 },
+              alignItems: "center",
+              px: { xs: 0.8, md: 1.1 },
+              py: { xs: 0.65, md: 0.85 },
+              backgroundColor: rowIndex === 0 ? "#F8FAFC" : "#FFFFFF",
+              borderTop: rowIndex === 0 ? "none" : "1px solid #EEF2F6",
+            }}
+          >
+            {Array.from({ length: 5 }).map((_, colIndex) => (
+              <CenterUpWireLine
+                key={colIndex}
+                width={colIndex === 1 ? "88%" : "70%"}
+                height={rowIndex === 0 ? 5 : 6}
+                color={rowIndex === 0 ? "#D5DCE6" : "#E1E7EE"}
+              />
+            ))}
+          </Box>
+        ))}
+      </Box>
+    </>
+  );
+}
+
+function CenterUpDetailPlaceholder() {
+  return (
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", sm: "1fr 132px" },
+        gap: 1,
+        minHeight: 0,
+        flex: 1,
+      }}
+    >
+      <Box
+        sx={{
+          border: "1px solid #E2E7EE",
+          borderRadius: "8px",
+          backgroundColor: "#FFFFFF",
+          p: { xs: 1, md: 1.25 },
+        }}
+      >
+        <Stack spacing={1}>
+          <CenterUpWireLine width="36%" height={8} color="#C7D0DB" />
+          <CenterUpWireCard
+            height={{ xs: 54, md: 70 }}
+            sx={{ display: "grid", placeItems: "center", backgroundColor: "#F8FAFC" }}
+          >
+            <CenterUpWireDot size={24} color="#DDE5EF" pale />
+          </CenterUpWireCard>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: 0.8,
+            }}
+          >
+            {Array.from({ length: 6 }).map((_, index) => (
+              <CenterUpWirePill key={index} width="100%" height={18} />
+            ))}
+          </Box>
+        </Stack>
+      </Box>
+
+      <Stack
+        spacing={0.8}
+        sx={{
+          display: { xs: "none", sm: "flex" },
+          border: "1px solid #E2E7EE",
+          borderRadius: "8px",
+          backgroundColor: "#FFFFFF",
+          p: 1,
+        }}
+      >
+        <CenterUpWireLine width="56%" height={8} color="#C7D0DB" />
+        {Array.from({ length: 4 }).map((_, index) => (
+          <CenterUpWireCard key={index} height={34} sx={{ p: 0.75 }}>
+            <CenterUpWireLine width="72%" height={5} />
+            <CenterUpWireLine width="48%" height={5} sx={{ mt: 0.55 }} />
+          </CenterUpWireCard>
+        ))}
+      </Stack>
+    </Box>
+  );
+}
+
+function CenterUpDashboardPlaceholder() {
+  return (
+    <Box
+      sx={{
+        border: "1px solid #E2E7EE",
+        borderRadius: "8px",
+        backgroundColor: "#FFFFFF",
+        p: { xs: 1, md: 1.25 },
+        flex: 1,
+      }}
+    >
+      <Stack spacing={0.9}>
+        {[
+          { width: "26%", color: "#9CA8B6" },
+          { width: "58%", color: "#19B8C9" },
+          { width: "42%", color: "#22C55E" },
+          { width: "78%", color: "#12B6CB" },
+          { width: "50%", color: "#22C55E" },
+        ].map((bar, index) => (
+          <Stack
+            key={`${bar.width}-${index}`}
+            direction="row"
+            spacing={1}
+            sx={{ alignItems: "center" }}
+          >
+            <CenterUpWireLine width="19%" height={5} color="#D5DCE6" />
+            <Box
+              sx={{
+                width: bar.width,
+                height: { xs: 8, md: 10 },
+                borderRadius: 999,
+                backgroundColor: bar.color,
+              }}
+            />
+          </Stack>
+        ))}
+      </Stack>
+    </Box>
+  );
+}
+
+function CenterUpPipelinePlaceholder() {
+  return (
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "repeat(3, minmax(78px, 1fr))",
+          sm: "repeat(5, minmax(0, 1fr))",
+        },
+        gap: 0.9,
+        overflow: "hidden",
+      }}
+    >
+      {["#111827", "#FFAB00", "#12B6CB", "#22C55E", "#696CFF"].map(
+        (color, index) => (
+          <Stack
+            key={color}
+            spacing={0.75}
+            sx={{
+              minHeight: { xs: 112, md: 138 },
+              borderRadius: "8px",
+              border: "1px solid #E2E7EE",
+              backgroundColor: "#FFFFFF",
+              p: 0.8,
+              borderTop: `3px solid ${color}`,
+            }}
+          >
+            <CenterUpWirePill width="64%" height={12} active={index === 2} />
+            {Array.from({ length: index === 2 ? 3 : 2 }).map((_, cardIndex) => (
+              <CenterUpWireCard key={cardIndex} height={28} sx={{ p: 0.6 }}>
+                <CenterUpWireLine width="76%" height={5} />
+                <CenterUpWireLine width="52%" height={5} sx={{ mt: 0.45 }} />
+              </CenterUpWireCard>
+            ))}
+          </Stack>
+        ),
+      )}
     </Box>
   );
 }

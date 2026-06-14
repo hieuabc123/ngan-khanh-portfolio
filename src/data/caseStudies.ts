@@ -540,7 +540,8 @@ export const caseStudies: CaseStudy[] = [
         {
           name: "Brand Gradient",
           value: "Accent & Highlights",
-          previewValue: "linear-gradient(120deg, #FF7854 0%, #F53292 34%, #7B4DFF 66%, #4BC3F7 100%)",
+          previewValue:
+            "linear-gradient(120deg, #FF7854 0%, #F53292 34%, #7B4DFF 66%, #4BC3F7 100%)",
         },
         { name: "Primary", value: "#696CFF" },
         { name: "Primary Light", value: "#A4A7FF" },
@@ -587,31 +588,34 @@ export const caseStudies: CaseStudy[] = [
     },
     screens: [
       {
-        title: "Dashboard",
+        title: "Customer List",
         description:
-          "A quick operational overview for daily center management.",
-        image: "",
+          "View, search, filter, and manage leads or students in one centralized list.",
+        image: "/mockups/centerup-management-screen-customer-list.png",
       },
       {
-        title: "Student list",
+        title: "Customer Detail",
         description:
-          "Table-first layout with useful filters and status visibility.",
-        image: "",
+          "Show customer profile, contact information, status, notes, tasks, history, and related learning data.",
+        image: "/mockups/centerup-management-screen-customer-detail.png",
       },
       {
-        title: "CRM board",
-        description: "Lead stages, next actions, and ownership in one module.",
-        image: "",
+        title: "Call Log",
+        description:
+          "Monitor call records, outcomes, and follow-up activities in one place.",
+        image: "/mockups/centerup-management-screen-call-log.png",
       },
       {
-        title: "Class management",
-        description: "Class detail, members, schedule, and progress overview.",
-        image: "",
+        title: "CRM Dashboard",
+        description:
+          "Track key CRM metrics and admission performance through visual reports.",
+        image: "/mockups/centerup-management-screen-crm-dashboard.png",
       },
       {
-        title: "Finance",
-        description: "Payment status and records presented for quick checking.",
-        image: "",
+        title: "Lead Pipeline",
+        description:
+          "Track customers through different admission stages and make the next action clearer for staff.",
+        image: "/mockups/centerup-management-screen-lead-pipeline.png",
       },
     ],
     learned:
