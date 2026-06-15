@@ -38,7 +38,7 @@ export function Reveal({
   useEffect(() => {
     const element = ref.current;
     const shouldSkipAnimation = window.matchMedia(
-      "(max-width: 599.95px), (prefers-reduced-motion: reduce)",
+      "(prefers-reduced-motion: reduce)",
     ).matches;
 
     if (!element || shouldSkipAnimation || !("IntersectionObserver" in window)) {
@@ -77,12 +77,6 @@ export function Reveal({
           transition: `opacity ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
           willChange: isVisible ? "auto" : "opacity, transform",
           "@media (prefers-reduced-motion: reduce)": {
-            opacity: 1,
-            transform: "none",
-            transition: "none",
-            willChange: "auto",
-          },
-          "@media (max-width: 599.95px)": {
             opacity: 1,
             transform: "none",
             transition: "none",
