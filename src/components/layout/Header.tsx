@@ -4,7 +4,11 @@ import { Box, Button, Container, Link, Stack, Typography } from "@mui/material";
 const navItems = [
   { label: "Work", href: "/#work" },
   { label: "About", href: "/#about" },
-  { label: "Résumé", href: "/resume-ngan-khanh.pdf" },
+  {
+    label: "Résumé",
+    href: "https://drive.google.com/drive/folders/1LApUGCL3mj45qpwRHTZkpf6vHTr9DHnD",
+    target: "_blank",
+  },
 ];
 
 export function Header() {
@@ -20,7 +24,10 @@ export function Header() {
         overflowX: "clip",
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1180px", position: "relative" }}>
+      <Container
+        maxWidth="xl"
+        sx={{ maxWidth: "1440px !important", position: "relative" }}
+      >
         <Stack
           direction="row"
           sx={{
@@ -43,12 +50,12 @@ export function Header() {
           >
             <Typography
               sx={{
-                fontSize: { xs: 14, md: 15 },
-                fontWeight: 850,
+                fontSize: { xs: 14, md: 16 },
+                fontWeight: 700,
                 letterSpacing: 0,
               }}
             >
-              Ngân Khánh
+              NGÂN KHÁNH
             </Typography>
           </Link>
 
@@ -63,12 +70,13 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+                target={item.target}
                 sx={{
                   px: 0.3,
                   py: 0.75,
                   color: "text.primary",
-                  fontSize: 13,
-                  fontWeight: 750,
+                  fontSize: 16,
+                  fontWeight: 700,
                   textDecoration: "none",
                   "&:hover": { color: "primary.main" },
                   "&:focus-visible": {
@@ -87,31 +95,24 @@ export function Header() {
             aria-label="Contact"
             variant="contained"
             size="small"
-            endIcon={
-              <ArrowOutwardRoundedIcon
-                sx={{ display: { xs: "none", md: "inline-flex" } }}
-              />
-            }
+            endIcon={<ArrowOutwardRoundedIcon />}
             sx={{
               position: { xs: "fixed", sm: "static" },
               right: { xs: 16, sm: "auto" },
               top: { xs: 12, sm: "auto" },
               transform: "none",
               minHeight: 38,
-              minWidth: { xs: 38, sm: 64 },
-              width: { xs: 38, sm: "auto" },
+              minWidth: { xs: 104, sm: 64 },
+              width: "auto",
               flexShrink: 0,
-              px: { xs: 0, sm: 1.8, md: 2.4 },
+              px: { xs: 1.7, sm: 1.8, md: 2.4 },
               borderRadius: 999,
               "&:hover": {
                 transform: { xs: "none", sm: "translateY(-1px)" },
               },
             }}
           >
-            <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
-              Contact
-            </Box>
-            <ArrowOutwardRoundedIcon sx={{ display: { xs: "inline-flex", sm: "none" } }} />
+            Contact
           </Button>
         </Stack>
       </Container>

@@ -7,7 +7,8 @@ export const profile: Profile = {
   location: "Me Tri Ha, Tay Mo, Ha Noi",
   email: "ngankhanh1205203@gmail.com",
   phone: "0364 501 369",
-  resumeHref: "/resume-ngan-khanh.pdf",
+  resumeHref:
+    "https://drive.google.com/drive/folders/1LApUGCL3mj45qpwRHTZkpf6vHTr9DHnD",
   portraitImage: "/mockups/ngan-khanh-portrait.png",
   intro:
     "A UX/UI Designer aims to design products and systems that actually make life better.",
@@ -36,7 +37,7 @@ export const aboutContent: AboutContent = {
       meta: "Ant Learning",
     },
     {
-      period: "2025 - 2026",
+      period: "2026",
       title: "Business Support Executive",
       meta: "HISO ECO",
     },
@@ -76,5 +77,5 @@ export const aboutContent: AboutContent = {
     "Marketing",
     "Time Management",
   ],
-  tools: ["Figma", "FigmaMake", "FigJam", "Canva", "Notion"],
+  tools: ["Figma", "FigmaMake", "FigJam", "Canva", "Notion", "Codex"],
 };

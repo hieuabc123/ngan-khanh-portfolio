@@ -25,7 +25,10 @@ export function Footer() {
         boxShadow: "0 -10px 36px rgba(35, 22, 66, 0.06)",
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1180px", py: { xs: 5, md: 7 } }}>
+      <Container
+        maxWidth="xl"
+        sx={{ maxWidth: "1200px !important", py: { xs: 5, md: 7 } }}
+      >
         <Stack
           direction={{ xs: "column", md: "row" }}
           spacing={{ xs: 5, md: 8 }}

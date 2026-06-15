@@ -7,6 +7,7 @@ type MockupFrameProps = {
   alt: string;
   variant: MockupVariant;
   label?: string;
+  animated?: boolean;
 };
 
 const imageWidths: Record<MockupVariant, number | string> = {
@@ -17,7 +18,9 @@ const imageWidths: Record<MockupVariant, number | string> = {
   portrait: "100%",
 };
 
-export function MockupFrame({ src, alt, variant }: MockupFrameProps) {
+export function MockupFrame({ src, alt, variant, animated }: MockupFrameProps) {
+  const shouldFloat = animated && variant !== "portrait";
+
   return (
     <Box
       component="img"
@@ -32,6 +35,11 @@ export function MockupFrame({ src, alt, variant }: MockupFrameProps) {
         borderRadius: variant === "portrait" ? "28px" : "18px",
         objectFit: "contain",
         filter: "drop-shadow(0 22px 34px rgba(15, 23, 42, 0.16))",
+        animation: shouldFloat ? "softFloat 7s ease-in-out infinite" : "none",
+        transformOrigin: "center",
+        "@media (prefers-reduced-motion: reduce)": {
+          animation: "none",
+        },
       }}
     />
   );

@@ -162,17 +162,19 @@ function CenterUpManagementProblemSection({
 }: {
   section: CaseSection;
 }) {
-  const cards = section.cards ?? section.items.map((item) => ({
-    title: item,
-    description: item,
-  }));
+  const cards =
+    section.cards ??
+    section.items.map((item) => ({
+      title: item,
+      description: item,
+    }));
 
   return (
     <Box
       component="section"
       sx={{ backgroundColor: centerUpLavender, py: { xs: 6.8, md: 8.2 } }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1080px" }}>
+      <Container sx={{ maxWidth: "1080px" }}>
         <Stack spacing={{ xs: 4, md: 5 }}>
           <CenterUpSectionTitle title={section.title} />
           <Box
@@ -192,6 +194,7 @@ function CenterUpManagementProblemSection({
                 title={card.title}
                 description={card.description}
                 icon={<CenterUpManagementProblemIcon index={index} />}
+                inlineHeader
               />
             ))}
           </Box>
@@ -206,8 +209,11 @@ function CenterUpManagementGoalsSection({
   accent,
 }: CenterUpManagementSectionProps) {
   return (
-    <Box component="section" sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 8.2 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1060px" }}>
+    <Box
+      component="section"
+      sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 8.2 } }}
+    >
+      <Container sx={{ maxWidth: "1060px" }}>
         <Stack spacing={{ xs: 4, md: 5.2 }}>
           <CenterUpSectionTitle title={section.title} />
           <Box
@@ -216,7 +222,10 @@ function CenterUpManagementGoalsSection({
               backgroundColor: "#FBF7FF",
               p: { xs: 3, sm: 4.5, md: 5.6 },
               display: "grid",
-              gridTemplateColumns: { xs: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+              gridTemplateColumns: {
+                xs: "1fr",
+                md: "repeat(2, minmax(0, 1fr))",
+              },
               columnGap: { md: 5.4 },
               rowGap: { xs: 2.4, md: 2.8 },
             }}
@@ -269,23 +278,28 @@ function CenterUpManagementTargetUsersSection({
 }: {
   section: CaseSection;
 }) {
-  const cards = section.cards ?? section.items.map((item) => ({
-    title: item,
-    description: item,
-  }));
+  const cards =
+    section.cards ??
+    section.items.map((item) => ({
+      title: item,
+      description: item,
+    }));
 
   return (
     <Box
       component="section"
       sx={{ backgroundColor: centerUpLavender, py: { xs: 6.8, md: 8.2 } }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1060px" }}>
+      <Container sx={{ maxWidth: "1060px" }}>
         <Stack spacing={{ xs: 4, md: 5.4 }}>
           <CenterUpSectionTitle title={section.title} />
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: { xs: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+              gridTemplateColumns: {
+                xs: "1fr",
+                md: "repeat(2, minmax(0, 1fr))",
+              },
               gap: { xs: 2.2, md: 2.5 },
             }}
           >
@@ -296,6 +310,7 @@ function CenterUpManagementTargetUsersSection({
                 description={card.description}
                 icon={<CenterUpManagementTargetIcon index={index} />}
                 large
+                inlineHeader
               />
             ))}
           </Box>
@@ -310,6 +325,7 @@ type CenterUpManagementInfoCardProps = {
   description: string;
   icon: ReactNode;
   large?: boolean;
+  inlineHeader?: boolean;
 };
 
 function CenterUpManagementInfoCard({
@@ -317,6 +333,7 @@ function CenterUpManagementInfoCard({
   description,
   icon,
   large,
+  inlineHeader,
 }: CenterUpManagementInfoCardProps) {
   return (
     <Box
@@ -333,23 +350,48 @@ function CenterUpManagementInfoCard({
         minWidth: 0,
       }}
     >
-      {icon}
+      {inlineHeader ? (
+        <Stack
+          direction="row"
+          spacing={1.4}
+          sx={{ alignItems: "center", minWidth: 0 }}
+        >
+          {icon}
+          <Typography
+            sx={{
+              color: centerUpText,
+              fontSize: { xs: 18, md: 18.5 },
+              lineHeight: 1.25,
+              fontWeight: 750,
+              minWidth: 0,
+              overflowWrap: "break-word",
+              whiteSpace: "normal",
+            }}
+          >
+            {title}
+          </Typography>
+        </Stack>
+      ) : (
+        <>
+          {icon}
+          <Typography
+            sx={{
+              mt: large ? 2.2 : 2,
+              color: centerUpText,
+              fontSize: large ? { xs: 19, md: 20 } : { xs: 18, md: 18.5 },
+              lineHeight: 1.25,
+              fontWeight: 750,
+              overflowWrap: "break-word",
+              whiteSpace: "normal",
+            }}
+          >
+            {title}
+          </Typography>
+        </>
+      )}
       <Typography
         sx={{
-          mt: large ? 2.2 : 2,
-          color: centerUpText,
-          fontSize: large ? { xs: 19, md: 20 } : { xs: 18, md: 18.5 },
-          lineHeight: 1.25,
-          fontWeight: 750,
-          overflowWrap: "break-word",
-          whiteSpace: "normal",
-        }}
-      >
-        {title}
-      </Typography>
-      <Typography
-        sx={{
-          mt: 1.4,
+          mt: inlineHeader ? 1.6 : 1.4,
           color: centerUpMuted,
           fontSize: large ? { xs: 15.5, md: 16 } : { xs: 14.5, md: 15 },
           lineHeight: large ? 1.55 : 1.48,
@@ -373,7 +415,11 @@ function CenterUpManagementProblemIcon({ index }: { index: number }) {
     <BarChartRoundedIcon key="growth" />,
   ];
 
-  return <CenterUpManagementIconShell>{icons[index % icons.length]}</CenterUpManagementIconShell>;
+  return (
+    <CenterUpManagementIconShell>
+      {icons[index % icons.length]}
+    </CenterUpManagementIconShell>
+  );
 }
 
 function CenterUpManagementTargetIcon({ index }: { index: number }) {
@@ -385,7 +431,11 @@ function CenterUpManagementTargetIcon({ index }: { index: number }) {
     <SettingsOutlinedIcon key="admin" />,
   ];
 
-  return <CenterUpManagementIconShell>{icons[index % icons.length]}</CenterUpManagementIconShell>;
+  return (
+    <CenterUpManagementIconShell>
+      {icons[index % icons.length]}
+    </CenterUpManagementIconShell>
+  );
 }
 
 function CenterUpManagementIconShell({ children }: { children: ReactNode }) {
@@ -410,8 +460,11 @@ function CenterUpManagementIconShell({ children }: { children: ReactNode }) {
 
 function CenterUpManagementCaseFocusSection() {
   return (
-    <Box component="section" sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 8.2 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "960px" }}>
+    <Box
+      component="section"
+      sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 8.2 } }}
+    >
+      <Container sx={{ maxWidth: "960px" }}>
         <Box
           sx={{
             mx: "auto",
@@ -436,7 +489,9 @@ function CenterUpManagementCaseFocusSection() {
               color: "#FFFFFF",
             }}
           >
-            <ChatBubbleOutlineRoundedIcon sx={{ fontSize: { xs: 27, md: 30 } }} />
+            <ChatBubbleOutlineRoundedIcon
+              sx={{ fontSize: { xs: 27, md: 30 } }}
+            />
           </Box>
           <Typography
             component="h2"
@@ -485,7 +540,7 @@ function CenterUpManagementFlowSection({
       component="section"
       sx={{ backgroundColor: centerUpPage, py: { xs: 6.8, md: 8.2 } }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1180px" }}>
+      <Container sx={{ maxWidth: "1180px" }}>
         <Stack spacing={{ xs: 3.2, md: 4.2 }} sx={{ alignItems: "center" }}>
           <CenterUpSectionTitle title="CRM Module User Flow" />
           <Typography
@@ -528,7 +583,8 @@ function CenterUpManagementFlowSection({
             >
               {items.map((item, index) => {
                 const isLgRowEnd = index === items.length - 1;
-                const isSmRowEnd = (index + 1) % 4 === 0 || index === items.length - 1;
+                const isSmRowEnd =
+                  (index + 1) % 4 === 0 || index === items.length - 1;
 
                 return (
                   <Stack
@@ -596,8 +652,11 @@ function CenterUpManagementFlowSection({
 
 function CenterUpManagementArchitectureSection({ items }: { items: string[] }) {
   return (
-    <Box component="section" sx={{ backgroundColor: "#FFFFFF", py: { xs: 7, md: 9 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1360px" }}>
+    <Box
+      component="section"
+      sx={{ backgroundColor: "#FFFFFF", py: { xs: 7, md: 9 } }}
+    >
+      <Container sx={{ maxWidth: "1360px" }}>
         <Stack spacing={{ xs: 4.5, md: 6.2 }} sx={{ alignItems: "center" }}>
           <Typography
             component="h2"
@@ -618,22 +677,22 @@ function CenterUpManagementArchitectureSection({ items }: { items: string[] }) {
               maxWidth: 1180,
               display: "grid",
               gridTemplateColumns: {
-                xs: "1fr",
+                xs: "repeat(2, minmax(0, 1fr))",
                 sm: "repeat(2, minmax(0, 1fr))",
                 md: "repeat(4, minmax(0, 1fr))",
               },
-              gap: { xs: 1.8, md: 2.1 },
+              gap: { xs: 1.2, sm: 1.8, md: 2.1 },
             }}
           >
             {items.map((item) => (
               <Box
                 key={item}
                 sx={{
-                  minHeight: { xs: 62, md: 70 },
-                  borderRadius: "16px",
+                  minHeight: { xs: 58, sm: 62, md: 70 },
+                  borderRadius: { xs: "12px", md: "16px" },
                   display: "grid",
                   placeItems: "center",
-                  px: 2,
+                  px: { xs: 1.1, sm: 2 },
                   textAlign: "center",
                   backgroundColor: "#FAFBFC",
                   border: "1px solid #DDE3EA",
@@ -643,7 +702,7 @@ function CenterUpManagementArchitectureSection({ items }: { items: string[] }) {
                 <Typography
                   sx={{
                     color: centerUpText,
-                    fontSize: { xs: 16, md: 18 },
+                    fontSize: { xs: 13.5, sm: 16, md: 18 },
                     lineHeight: 1.25,
                     fontWeight: 500,
                     overflowWrap: "break-word",
@@ -700,7 +759,7 @@ function CenterUpManagementHero({ caseStudy }: CaseStudyDetailProps) {
         borderBottom: "1px solid rgba(15, 23, 42, 0.03)",
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1220px", py: { xs: 6, md: 7.8 } }}>
+      <Container sx={{ maxWidth: "1440px", py: { xs: 6, md: 7.8 } }}>
         <Box
           sx={{
             display: "grid",
@@ -760,7 +819,10 @@ function CenterUpManagementHero({ caseStudy }: CaseStudyDetailProps) {
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, minmax(0, 1fr))",
+                },
                 gap: { xs: 2.4, sm: 4, md: 4.6 },
                 width: "100%",
                 maxWidth: 500,
@@ -768,7 +830,11 @@ function CenterUpManagementHero({ caseStudy }: CaseStudyDetailProps) {
               }}
             >
               {facts.map((fact) => (
-                <MetaItem key={fact.label} label={fact.label} value={fact.value} />
+                <MetaItem
+                  key={fact.label}
+                  label={fact.label}
+                  value={fact.value}
+                />
               ))}
             </Box>
 
@@ -817,8 +883,11 @@ function CenterUpManagementHero({ caseStudy }: CaseStudyDetailProps) {
 
 function CenterUpManagementOverview({ caseStudy }: CaseStudyDetailProps) {
   return (
-    <Box component="section" sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 7.8 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "790px" }}>
+    <Box
+      component="section"
+      sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 7.8 } }}
+    >
+      <Container sx={{ maxWidth: "790px" }}>
         <Stack
           spacing={{ xs: 3.2, md: 4.4 }}
           sx={{ alignItems: "center", width: "100%", minWidth: 0 }}
@@ -862,7 +931,7 @@ function CenterUpLandingHero({ caseStudy }: CaseStudyDetailProps) {
         borderBottom: "1px solid rgba(15, 23, 42, 0.03)",
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1120px", py: { xs: 6, md: 8.5 } }}>
+      <Container sx={{ maxWidth: "1120px", py: { xs: 6, md: 8.5 } }}>
         <Box
           sx={{
             display: "grid",
@@ -922,7 +991,10 @@ function CenterUpLandingHero({ caseStudy }: CaseStudyDetailProps) {
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "repeat(2, minmax(0, 1fr))",
+                },
                 gap: { xs: 2.4, sm: 4, md: 5 },
                 width: "100%",
                 maxWidth: 470,
@@ -930,7 +1002,11 @@ function CenterUpLandingHero({ caseStudy }: CaseStudyDetailProps) {
               }}
             >
               {facts.map((fact) => (
-                <MetaItem key={fact.label} label={fact.label} value={fact.value} />
+                <MetaItem
+                  key={fact.label}
+                  label={fact.label}
+                  value={fact.value}
+                />
               ))}
             </Box>
 
@@ -980,8 +1056,11 @@ function CenterUpLandingHero({ caseStudy }: CaseStudyDetailProps) {
 
 function CenterUpLandingOverview({ caseStudy }: CaseStudyDetailProps) {
   return (
-    <Box component="section" sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 7.8 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "760px" }}>
+    <Box
+      component="section"
+      sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 7.8 } }}
+    >
+      <Container sx={{ maxWidth: "760px" }}>
         <Stack
           spacing={{ xs: 3.2, md: 4.2 }}
           sx={{ alignItems: "center", width: "100%", minWidth: 0 }}
@@ -1015,7 +1094,10 @@ type CenterUpLandingSectionProps = {
   accent: string;
 };
 
-function CenterUpLandingSection({ section, accent }: CenterUpLandingSectionProps) {
+function CenterUpLandingSection({
+  section,
+  accent,
+}: CenterUpLandingSectionProps) {
   if (section.title === "Goals") {
     return <CenterUpGoalsSection section={section} />;
   }
@@ -1036,7 +1118,7 @@ function CenterUpGoalsSection({ section }: { section: CaseSection }) {
         py: { xs: 6.8, md: 7.8 },
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "980px" }}>
+      <Container sx={{ maxWidth: "980px" }}>
         <Stack spacing={{ xs: 4, md: 5 }}>
           <CenterUpSectionTitle title={section.title} />
           <Box
@@ -1118,14 +1200,20 @@ function CenterUpGoalIcon({ index }: { index: number }) {
 
 function CenterUpChallengeSection({ section }: { section: CaseSection }) {
   return (
-    <Box component="section" sx={{ backgroundColor: centerUpPage, py: { xs: 6.8, md: 7.8 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "980px" }}>
+    <Box
+      component="section"
+      sx={{ backgroundColor: centerUpPage, py: { xs: 6.8, md: 7.8 } }}
+    >
+      <Container sx={{ maxWidth: "980px" }}>
         <Stack spacing={{ xs: 4, md: 5 }}>
           <CenterUpSectionTitle title={section.title} />
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: { xs: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+              gridTemplateColumns: {
+                xs: "1fr",
+                md: "repeat(2, minmax(0, 1fr))",
+              },
               gap: { xs: 2, md: 2.4 },
               minWidth: 0,
             }}
@@ -1201,7 +1289,7 @@ function CenterUpPageStructureSection({
         py: { xs: 6.8, md: 8.2 },
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1180px" }}>
+      <Container sx={{ maxWidth: "1180px" }}>
         <Stack spacing={{ xs: 3.2, md: 4.8 }} sx={{ alignItems: "center" }}>
           <CenterUpSectionTitle title={section.title} />
           {section.description ? (
@@ -1229,27 +1317,33 @@ function CenterUpPageStructureSection({
           >
             <Box
               sx={{
-                maxWidth: 900,
+                maxWidth: { xs: 280, sm: 900 },
                 mx: "auto",
                 display: "flex",
-                flexWrap: "wrap",
+                flexDirection: { xs: "column", sm: "row" },
+                flexWrap: { xs: "nowrap", sm: "wrap" },
                 justifyContent: "center",
                 alignItems: "center",
                 columnGap: { xs: 1.1, sm: 1.6, md: 1.8 },
-                rowGap: { xs: 1.3, sm: 1.8 },
+                rowGap: { xs: 0.9, sm: 1.8 },
               }}
             >
               {section.items.map((item, index) => (
                 <Stack
                   key={item}
-                  direction="row"
-                  spacing={{ xs: 0.8, sm: 1.2 }}
-                  sx={{ alignItems: "center", minWidth: 0 }}
+                  direction={{ xs: "column", sm: "row" }}
+                  spacing={{ xs: 0.7, sm: 1.2 }}
+                  sx={{
+                    alignItems: "center",
+                    width: { xs: "100%", sm: "auto" },
+                    minWidth: 0,
+                  }}
                 >
                   <Box
                     sx={{
-                      minHeight: 50,
-                      px: { xs: 2.1, sm: 2.8, md: 3.4 },
+                      width: { xs: "100%", sm: "auto" },
+                      minHeight: { xs: 46, sm: 50 },
+                      px: { xs: 1.8, sm: 2.8, md: 3.4 },
                       borderRadius: "16px",
                       display: "grid",
                       placeItems: "center",
@@ -1265,7 +1359,8 @@ function CenterUpPageStructureSection({
                         fontSize: { xs: 13.5, sm: 15 },
                         lineHeight: 1.25,
                         textAlign: "center",
-                        whiteSpace: "nowrap",
+                        whiteSpace: { xs: "normal", sm: "nowrap" },
+                        overflowWrap: "break-word",
                       }}
                     >
                       {item}
@@ -1276,8 +1371,9 @@ function CenterUpPageStructureSection({
                       aria-hidden="true"
                       sx={{
                         color: centerUpAccent,
-                        fontSize: { xs: 22, md: 25 },
+                        fontSize: { xs: 21, md: 25 },
                         flexShrink: 0,
+                        transform: { xs: "rotate(90deg)", sm: "none" },
                       }}
                     />
                   ) : null}
@@ -1311,14 +1407,12 @@ function CenterUpSectionTitle({ title }: { title: string }) {
 
 function BackToWorkLink() {
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ maxWidth: "1060px", pt: { xs: 4, md: 6 } }}
-    >
+    <Container sx={{ maxWidth: "1060px", pt: { xs: 4, md: 6 } }}>
       <Button
         href="/#work"
         startIcon={<ArrowBackRoundedIcon />}
         variant="outlined"
+        sx={{ borderRadius: 32 }}
       >
         Back to work
       </Button>
@@ -1335,10 +1429,7 @@ function CaseHero({ caseStudy }: CaseStudyDetailProps) {
         borderBottom: "1px solid rgba(15, 23, 42, 0.06)",
       }}
     >
-      <Container
-        maxWidth="xl"
-        sx={{ maxWidth: "1160px", py: { xs: 7, md: 9 } }}
-      >
+      <Container sx={{ maxWidth: "1440px", py: { xs: 7, md: 9 } }}>
         <Box
           sx={{
             display: "grid",
@@ -1455,8 +1546,11 @@ function Overview({ caseStudy }: CaseStudyDetailProps) {
 
 function SlaymeOverview({ caseStudy }: CaseStudyDetailProps) {
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#FFFFFF" }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1220px" }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#FFFFFF" }}
+    >
+      <Container sx={{ maxWidth: "1220px" }}>
         <Stack spacing={{ xs: 4.5, md: 7 }} sx={{ alignItems: "center" }}>
           <Stack spacing={3} sx={{ alignItems: "center", textAlign: "center" }}>
             <SlaymeSectionTitle title="Project Overview" />
@@ -1551,8 +1645,11 @@ function SlaymeSection({ section, accent }: SlaymeSectionProps) {
 
 function SlaymeProblemSection({ section, accent }: SlaymeSectionProps) {
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 8 }, backgroundColor: slaymeSoftSection }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1360px" }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 7, md: 8 }, backgroundColor: slaymeSoftSection }}
+    >
+      <Container sx={{ maxWidth: "1360px" }}>
         <Stack spacing={{ xs: 4, md: 6 }}>
           <SlaymeSectionTitle title={section.title} />
           <Box
@@ -1591,7 +1688,11 @@ function SlaymeProblemSection({ section, accent }: SlaymeSectionProps) {
                 }}
               >
                 {section.cards.map((card) => (
-                  <SlaymeProblemCard key={card.title} card={card} accent={accent} />
+                  <SlaymeProblemCard
+                    key={card.title}
+                    card={card}
+                    accent={accent}
+                  />
                 ))}
               </Box>
             ) : null}
@@ -1642,7 +1743,8 @@ function SlaymeProblemIcon({
   accent: string;
 }) {
   const iconSx = { fontSize: 20 };
-  const color = icon === "clock" || icon === "arrow" ? slaymeLavender : slaymeRose;
+  const color =
+    icon === "clock" || icon === "arrow" ? slaymeLavender : slaymeRose;
 
   return (
     <Box
@@ -1671,8 +1773,11 @@ function SlaymeProblemIcon({
 
 function SlaymeGoalSection({ section }: { section: CaseSection }) {
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 8 }, backgroundColor: "#FFFFFF" }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1360px" }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 7, md: 8 }, backgroundColor: "#FFFFFF" }}
+    >
+      <Container sx={{ maxWidth: "1360px" }}>
         <Stack spacing={{ xs: 4, md: 6 }}>
           <SlaymeSectionTitle title={section.title} />
           <Box
@@ -1730,8 +1835,11 @@ function SlaymeGoalSection({ section }: { section: CaseSection }) {
 
 function SlaymeTargetUsersSection({ section }: { section: CaseSection }) {
   return (
-    <Box component="section" sx={{ py: { xs: 7, md: 8 }, backgroundColor: slaymeSoftSection }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1160px" }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 7, md: 8 }, backgroundColor: slaymeSoftSection }}
+    >
+      <Container sx={{ maxWidth: "1160px" }}>
         <Stack spacing={{ xs: 4, md: 6 }}>
           <SlaymeSectionTitle title={section.title} />
           <Box
@@ -1749,7 +1857,9 @@ function SlaymeTargetUsersSection({ section }: { section: CaseSection }) {
                 backgroundColor: slaymePanel,
               }}
             >
-              <Typography sx={{ color: slaymeText, fontSize: 21, fontWeight: 750, mb: 2 }}>
+              <Typography
+                sx={{ color: slaymeText, fontSize: 21, fontWeight: 750, mb: 2 }}
+              >
                 Who are they?
               </Typography>
               <Stack component="ul" spacing={1.4} sx={{ m: 0, pl: 2.2 }}>
@@ -1771,7 +1881,9 @@ function SlaymeTargetUsersSection({ section }: { section: CaseSection }) {
               </Stack>
             </Box>
 
-            {section.persona ? <SlaymePersonaCard persona={section.persona} /> : null}
+            {section.persona ? (
+              <SlaymePersonaCard persona={section.persona} />
+            ) : null}
           </Box>
         </Stack>
       </Container>
@@ -1794,7 +1906,11 @@ function SlaymePersonaCard({
         boxShadow: "0 2px 0 rgba(43, 43, 43, 0.08)",
       }}
     >
-      <Stack direction="row" spacing={1.8} sx={{ alignItems: "center", mb: 3.5 }}>
+      <Stack
+        direction="row"
+        spacing={1.8}
+        sx={{ alignItems: "center", mb: 3.5 }}
+      >
         <Box
           sx={{
             width: 66,
@@ -1809,16 +1925,29 @@ function SlaymePersonaCard({
           <PersonOutlineRoundedIcon sx={{ fontSize: 36 }} />
         </Box>
         <Box>
-          <Typography sx={{ color: slaymeText, fontSize: 25, fontWeight: 750, lineHeight: 1.1 }}>
+          <Typography
+            sx={{
+              color: slaymeText,
+              fontSize: 25,
+              fontWeight: 750,
+              lineHeight: 1.1,
+            }}
+          >
             {persona.name}
           </Typography>
-          <Typography sx={{ color: slaymeMuted, fontSize: 17 }}>{persona.meta}</Typography>
+          <Typography sx={{ color: slaymeMuted, fontSize: 17 }}>
+            {persona.meta}
+          </Typography>
         </Box>
       </Stack>
 
       <SlaymePersonaList title="Needs" items={persona.needs} marker="arrow" />
       <Box sx={{ mt: 3 }}>
-        <SlaymePersonaList title="Pain Points" items={persona.painPoints} marker="dot" />
+        <SlaymePersonaList
+          title="Pain Points"
+          items={persona.painPoints}
+          marker="dot"
+        />
       </Box>
     </Box>
   );
@@ -1847,9 +1976,16 @@ function SlaymePersonaList({
       </Typography>
       <Stack spacing={1.15}>
         {items.map((item) => (
-          <Stack key={item} direction="row" spacing={1.2} sx={{ alignItems: "center" }}>
+          <Stack
+            key={item}
+            direction="row"
+            spacing={1.2}
+            sx={{ alignItems: "center" }}
+          >
             {marker === "arrow" ? (
-              <KeyboardArrowRightRoundedIcon sx={{ color: slaymeRose, fontSize: 18 }} />
+              <KeyboardArrowRightRoundedIcon
+                sx={{ color: slaymeRose, fontSize: 18 }}
+              />
             ) : (
               <Box
                 sx={{
@@ -1862,10 +1998,19 @@ function SlaymePersonaList({
                   flexShrink: 0,
                 }}
               >
-                <Box sx={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: slaymeRose }} />
+                <Box
+                  sx={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    backgroundColor: slaymeRose,
+                  }}
+                />
               </Box>
             )}
-            <Typography sx={{ color: slaymeText, fontSize: 14.5 }}>{item}</Typography>
+            <Typography sx={{ color: slaymeText, fontSize: 14.5 }}>
+              {item}
+            </Typography>
           </Stack>
         ))}
       </Stack>
@@ -1902,7 +2047,7 @@ function CaseGridSection({ section, background }: CaseGridSectionProps) {
       component="section"
       sx={{ backgroundColor: background, py: { xs: 7, md: 9 } }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1040px" }}>
+      <Container sx={{ maxWidth: "1040px" }}>
         <SectionHeader
           title={section.title}
           description={section.description}
@@ -2074,7 +2219,9 @@ function ArchitectureSection({ items }: { items: string[] }) {
 
 function DesignSystemSection({ caseStudy }: CaseStudyDetailProps) {
   if (caseStudy.slug === "centerup-management") {
-    return <CenterUpManagementVisualDesignSystemSection caseStudy={caseStudy} />;
+    return (
+      <CenterUpManagementVisualDesignSystemSection caseStudy={caseStudy} />
+    );
   }
 
   if (caseStudy.slug === "centerup-landing") {
@@ -2095,7 +2242,7 @@ function DesignSystemSection({ caseStudy }: CaseStudyDetailProps) {
         backgroundColor: isSlayme ? "#FFFFFF" : "#FBF7FF",
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1360px" }}>
+      <Container sx={{ maxWidth: "1360px" }}>
         <Stack spacing={{ xs: 5, md: 7 }}>
           <Stack
             spacing={{ xs: 4, md: 5 }}
@@ -2217,7 +2364,7 @@ function CenterUpManagementVisualDesignSystemSection({
       component="section"
       sx={{ backgroundColor: centerUpLavender, py: { xs: 6.8, md: 8.8 } }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1040px" }}>
+      <Container sx={{ maxWidth: "1040px" }}>
         <Stack spacing={{ xs: 5.5, md: 7.4 }}>
           <Typography
             component="h2"
@@ -2238,7 +2385,9 @@ function CenterUpManagementVisualDesignSystemSection({
             supportingSwatches={supportingSwatches}
           />
 
-          <CenterUpManagementTypography items={caseStudy.designSystem.typography} />
+          <CenterUpManagementTypography
+            items={caseStudy.designSystem.typography}
+          />
 
           <CenterUpManagementMainComponents />
 
@@ -2265,7 +2414,7 @@ function CenterUpManagementPalette({
         sx={{
           display: "grid",
           gridTemplateColumns: {
-            xs: "1fr",
+            xs: "repeat(2, minmax(0, 1fr))",
             sm: "repeat(2, minmax(0, 1fr))",
             md: "repeat(4, minmax(0, 1fr))",
           },
@@ -2372,7 +2521,7 @@ function CenterUpManagementTypography({ items }: { items: string[] }) {
 function CenterUpManagementMainComponents() {
   return (
     <Stack spacing={{ xs: 3, md: 3.6 }}>
-      <CenterUpManagementSubheading title="Main components" />
+      <CenterUpManagementSubheading title="Thành phần chính" />
       <Box
         sx={{
           borderRadius: { xs: "18px", md: "20px" },
@@ -2386,27 +2535,61 @@ function CenterUpManagementMainComponents() {
         <Stack spacing={3.4}>
           <Stack spacing={1.35}>
             <CenterUpManagementMiniLabel>Buttons</CenterUpManagementMiniLabel>
-            <Stack direction="row" spacing={1.2} sx={{ flexWrap: "wrap", rowGap: 1 }}>
-              <CenterUpDemoButton variantType="primary">Tao hoc vien</CenterUpDemoButton>
-              <CenterUpDemoButton variantType="outline">Moi tai khoan</CenterUpDemoButton>
-              <CenterUpDemoButton variantType="soft">Xuat du lieu</CenterUpDemoButton>
+            <Stack
+              direction="row"
+              spacing={1.2}
+              sx={{ flexWrap: "wrap", rowGap: 1 }}
+            >
+              <CenterUpDemoButton variantType="primary">
+                Tạo học viên
+              </CenterUpDemoButton>
+              <CenterUpDemoButton variantType="outline">
+                Mời tài khoản
+              </CenterUpDemoButton>
+              <CenterUpDemoButton variantType="soft">
+                Xuất dữ liệu
+              </CenterUpDemoButton>
             </Stack>
           </Stack>
 
           <Stack spacing={1.35}>
-            <CenterUpManagementMiniLabel>Status Chips</CenterUpManagementMiniLabel>
-            <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", rowGap: 1 }}>
-              <CenterUpDemoChip label="Dang hoc" color="#22C55E" background="#DCFCE7" />
-              <CenterUpDemoChip label="Cho thanh toan" color="#B76B00" background="#FEF3C7" />
-              <CenterUpDemoChip label="Qua han" color="#FF5630" background="#FFE3E0" />
-              <CenterUpDemoChip label="Tiem nang" color="#246BFE" background="#DBEAFE" />
+            <CenterUpManagementMiniLabel>
+              Status Chips
+            </CenterUpManagementMiniLabel>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ flexWrap: "wrap", rowGap: 1 }}
+            >
+              <CenterUpDemoChip
+                label="Đang học"
+                color="#22C55E"
+                background="#DCFCE7"
+              />
+              <CenterUpDemoChip
+                label="Chờ thanh toán"
+                color="#B76B00"
+                background="#FEF3C7"
+              />
+              <CenterUpDemoChip
+                label="Quá hạn"
+                color="#FF5630"
+                background="#FFE3E0"
+              />
+              <CenterUpDemoChip
+                label="Tiềm năng"
+                color="#246BFE"
+                background="#DBEAFE"
+              />
             </Stack>
           </Stack>
         </Stack>
 
         <Stack spacing={3.3}>
           <Stack spacing={1.35}>
-            <CenterUpManagementMiniLabel>Input Fields</CenterUpManagementMiniLabel>
+            <CenterUpManagementMiniLabel>
+              Input Fields
+            </CenterUpManagementMiniLabel>
             <Box
               sx={{
                 height: 42,
@@ -2418,14 +2601,16 @@ function CenterUpManagementMainComponents() {
                 px: 1.6,
                 color: "#A7B0BD",
                 fontSize: 13,
-              }}
-            >
-              Tim hoc vien, lop hoc, hoa don...
+            }}
+          >
+              Tìm học viên, lớp học, hóa đơn...
             </Box>
           </Stack>
 
           <Stack spacing={1.35}>
-            <CenterUpManagementMiniLabel>Card Style</CenterUpManagementMiniLabel>
+            <CenterUpManagementMiniLabel>
+              Card Style
+            </CenterUpManagementMiniLabel>
             <Box
               sx={{
                 maxWidth: 360,
@@ -2437,11 +2622,13 @@ function CenterUpManagementMainComponents() {
                 p: 2,
               }}
             >
-              <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 700 }}>
-                Sample Card Component
+              <Typography
+                sx={{ color: centerUpText, fontSize: 14, fontWeight: 700 }}
+              >
+                Thẻ thông tin mẫu
               </Typography>
               <Typography sx={{ mt: 0.8, color: "#8D98A6", fontSize: 12.5 }}>
-                16px radius, subtle shadow, white surface
+                Bo góc 16px, đổ bóng nhẹ, nền trắng
               </Typography>
             </Box>
           </Stack>
@@ -2454,7 +2641,7 @@ function CenterUpManagementMainComponents() {
 function CenterUpManagementProductComponents() {
   return (
     <Stack spacing={{ xs: 3, md: 3.6 }}>
-      <CenterUpManagementSubheading title="Product Components" />
+      <CenterUpManagementSubheading title="Thành phần sản phẩm" />
       <Box
         sx={{
           display: "grid",
@@ -2521,9 +2708,22 @@ function CenterUpDemoButton({
         placeItems: "center",
         px: 1.3,
         fontSize: 12.5,
-        color: variantType === "primary" ? "#FFFFFF" : variantType === "outline" ? "#696CFF" : "#7B8490",
-        backgroundColor: variantType === "primary" ? "#696CFF" : variantType === "outline" ? "#FFFFFF" : "#F3F5F8",
-        border: variantType === "outline" ? "1px solid #696CFF" : "1px solid transparent",
+        color:
+          variantType === "primary"
+            ? "#FFFFFF"
+            : variantType === "outline"
+              ? "#696CFF"
+              : "#7B8490",
+        backgroundColor:
+          variantType === "primary"
+            ? "#696CFF"
+            : variantType === "outline"
+              ? "#FFFFFF"
+              : "#F3F5F8",
+        border:
+          variantType === "outline"
+            ? "1px solid #696CFF"
+            : "1px solid transparent",
       }}
     >
       {children}
@@ -2586,21 +2786,41 @@ function CenterUpStudentCard() {
   return (
     <CenterUpProductCard>
       <Stack direction="row" spacing={1.4} sx={{ alignItems: "center" }}>
-        <Avatar sx={{ width: 42, height: 42, bgcolor: "#D83BCB", fontSize: 14 }}>MA</Avatar>
+        <Avatar
+          sx={{ width: 42, height: 42, bgcolor: "#D83BCB", fontSize: 14 }}
+        >
+          MA
+        </Avatar>
         <Box sx={{ minWidth: 0 }}>
-          <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 800 }}>
-            Nguyen Minh Anh
+          <Typography
+            sx={{ color: centerUpText, fontSize: 14, fontWeight: 800 }}
+          >
+            Nguyễn Minh Anh
           </Typography>
-          <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>HV-0248</Typography>
+          <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>
+            HV-0248
+          </Typography>
         </Box>
       </Stack>
       <Stack spacing={0.8} sx={{ mt: 2.2 }}>
-        <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>minhanh@email.com</Typography>
-        <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>IELTS Foundation A2</Typography>
+        <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>
+          minhanh@email.com
+        </Typography>
+        <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>
+          IELTS Foundation A2
+        </Typography>
       </Stack>
       <Stack direction="row" spacing={1} sx={{ mt: 1.6 }}>
-        <CenterUpDemoChip label="Dang hoc" color="#16A34A" background="#DCFCE7" />
-        <CenterUpDemoChip label="Cho xep lop" color="#246BFE" background="#DBEAFE" />
+        <CenterUpDemoChip
+          label="Đang học"
+          color="#16A34A"
+          background="#DCFCE7"
+        />
+        <CenterUpDemoChip
+          label="Chờ xếp lớp"
+          color="#246BFE"
+          background="#DBEAFE"
+        />
       </Stack>
     </CenterUpProductCard>
   );
@@ -2610,23 +2830,43 @@ function CenterUpLeadCard() {
   return (
     <CenterUpProductCard>
       <Stack direction="row" spacing={1.4} sx={{ alignItems: "center" }}>
-        <Avatar sx={{ width: 42, height: 42, bgcolor: "#E1E1FF", color: "#696CFF", fontSize: 14 }}>
+        <Avatar
+          sx={{
+            width: 42,
+            height: 42,
+            bgcolor: "#E1E1FF",
+            color: "#696CFF",
+            fontSize: 14,
+          }}
+        >
           TH
         </Avatar>
         <Box sx={{ minWidth: 0 }}>
-          <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 800 }}>
-            Phu huynh Tran Thu Ha
+          <Typography
+            sx={{ color: centerUpText, fontSize: 14, fontWeight: 800 }}
+          >
+            Phụ huynh Trần Thu Hà
           </Typography>
-          <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>0902 456 789</Typography>
+          <Typography sx={{ color: "#6B7A88", fontSize: 12 }}>
+            0902 456 789
+          </Typography>
         </Box>
       </Stack>
       <Stack spacing={0.9} sx={{ mt: 2.2 }}>
-        <CenterUpInfoRow label="Nguon" value="Zalo" />
-        <CenterUpInfoRow label="Quan tam" value="TOEIC 650" />
+        <CenterUpInfoRow label="Nguồn" value="Zalo" />
+        <CenterUpInfoRow label="Quan tâm" value="TOEIC 650" />
       </Stack>
       <Stack direction="row" spacing={1} sx={{ mt: 1.6 }}>
-        <CenterUpDemoChip label="Tiem nang" color="#B76B00" background="#FEF3C7" />
-        <CenterUpDemoChip label="Da lien ket hoc vien" color="#16A34A" background="#DCFCE7" />
+        <CenterUpDemoChip
+          label="Tiềm năng"
+          color="#B76B00"
+          background="#FEF3C7"
+        />
+        <CenterUpDemoChip
+          label="Đã liên kết học viên"
+          color="#16A34A"
+          background="#DCFCE7"
+        />
       </Stack>
     </CenterUpProductCard>
   );
@@ -2639,16 +2879,30 @@ function CenterUpClassCard() {
         IELTS Foundation A2
       </Typography>
       <Typography sx={{ mt: 0.7, color: "#6B7A88", fontSize: 12 }}>
-        Buoi 12: Speaking Practice
+        Buổi 12: Speaking Practice
       </Typography>
       <Stack spacing={1} sx={{ mt: 1.8 }}>
-        <CenterUpIconText icon={<CalendarTodayRoundedIcon />} text="Thu Ba, 18:00 - 19:30" />
+        <CenterUpIconText
+          icon={<CalendarTodayRoundedIcon />}
+          text="Thứ Ba, 18:00 - 19:30"
+        />
         <CenterUpIconText icon={<LocationOnOutlinedIcon />} text="P.203" />
-        <CenterUpIconText icon={<PersonOutlineRoundedIcon />} text="Ms. Linh - 18/20 hoc vien" />
+        <CenterUpIconText
+          icon={<PersonOutlineRoundedIcon />}
+          text="Ms. Linh - 18/20 học viên"
+        />
       </Stack>
       <Stack direction="row" spacing={1} sx={{ mt: 1.7 }}>
-        <CenterUpDemoChip label="Dang dien ra" color="#16A34A" background="#DCFCE7" />
-        <CenterUpDemoChip label="Da diem danh" color="#246BFE" background="#DBEAFE" />
+        <CenterUpDemoChip
+          label="Đang diễn ra"
+          color="#16A34A"
+          background="#DCFCE7"
+        />
+        <CenterUpDemoChip
+          label="Đã điểm danh"
+          color="#246BFE"
+          background="#DBEAFE"
+        />
       </Stack>
     </CenterUpProductCard>
   );
@@ -2658,12 +2912,24 @@ function CenterUpSystemCard() {
   return (
     <CenterUpProductCard minHeight={180}>
       <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 850 }}>
-        Tong quan he thong
+        Tổng quan hệ thống
       </Typography>
       <Stack spacing={1.6} sx={{ mt: 1.9 }}>
-        <CenterUpMetricLine color="#696CFF" value="1,248" label="Hoc vien hoat dong" />
-        <CenterUpMetricLine color="#22C55E" value="86" label="Lop hoc dang dien ra" />
-        <CenterUpMetricLine color="#FF5630" value="32" label="Hoc vien no hoc phi" />
+        <CenterUpMetricLine
+          color="#696CFF"
+          value="1,248"
+          label="Học viên hoạt động"
+        />
+        <CenterUpMetricLine
+          color="#22C55E"
+          value="86"
+          label="Lớp học đang diễn ra"
+        />
+        <CenterUpMetricLine
+          color="#FF5630"
+          value="32"
+          label="Học viên nợ học phí"
+        />
       </Stack>
     </CenterUpProductCard>
   );
@@ -2676,16 +2942,28 @@ function CenterUpInvoiceCard() {
         HD-2026-0482
       </Typography>
       <Typography sx={{ mt: 0.7, color: "#6B7A88", fontSize: 12 }}>
-        Nguyen Minh Anh
+        Nguyễn Minh Anh
       </Typography>
       <Stack spacing={1.15} sx={{ mt: 2 }}>
-        <CenterUpInfoRow label="Tong tien" value="8.500.000d" strong />
-        <CenterUpInfoRow label="Da thanh toan" value="6.000.000d" color="#22C55E" />
-        <CenterUpInfoRow label="Con no" value="2.500.000d" color="#FF5630" />
+        <CenterUpInfoRow label="Tổng tiền" value="8.500.000đ" strong />
+        <CenterUpInfoRow
+          label="Đã thanh toán"
+          value="6.000.000đ"
+          color="#22C55E"
+        />
+        <CenterUpInfoRow label="Còn nợ" value="2.500.000đ" color="#FF5630" />
       </Stack>
       <Stack direction="row" spacing={1} sx={{ mt: 1.6 }}>
-        <CenterUpDemoChip label="Thanh toan thieu" color="#FF5630" background="#FFE3E0" />
-        <CenterUpDemoChip label="Giao dich cho" color="#B76B00" background="#FEF3C7" />
+        <CenterUpDemoChip
+          label="Thanh toán thiếu"
+          color="#FF5630"
+          background="#FFE3E0"
+        />
+        <CenterUpDemoChip
+          label="Giao dịch chờ"
+          color="#B76B00"
+          background="#FEF3C7"
+        />
       </Stack>
     </CenterUpProductCard>
   );
@@ -2709,24 +2987,48 @@ function CenterUpTaskCard() {
           <ArticleOutlinedIcon sx={{ fontSize: 18 }} />
         </Box>
         <Box>
-          <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 850 }}>
-            Goi tu van lich hoc thu
+          <Typography
+            sx={{ color: centerUpText, fontSize: 14, fontWeight: 850 }}
+          >
+            Gọi tư vấn lịch học thử
           </Typography>
           <Typography sx={{ mt: 0.6, color: "#6B7A88", fontSize: 12 }}>
-            Nhom: Tuyen sinh
+            Nhóm: Tuyển sinh
           </Typography>
         </Box>
       </Stack>
       <Stack spacing={1} sx={{ mt: 1.9 }}>
-        <CenterUpIconText icon={<CalendarTodayRoundedIcon />} text="Han: 04/06/2026" />
-        <CenterUpIconText icon={<BoltRoundedIcon />} text="Uu tien cao" color="#FF5630" />
+        <CenterUpIconText
+          icon={<CalendarTodayRoundedIcon />}
+          text="Hạn: 04/06/2026"
+        />
+        <CenterUpIconText
+          icon={<BoltRoundedIcon />}
+          text="Ưu tiên cao"
+          color="#FF5630"
+        />
       </Stack>
-      <Stack direction="row" sx={{ mt: 1.7, justifyContent: "space-between", alignItems: "center" }}>
+      <Stack
+        direction="row"
+        sx={{ mt: 1.7, justifyContent: "space-between", alignItems: "center" }}
+      >
         <Stack direction="row" spacing={-0.5}>
-          <Avatar sx={{ width: 24, height: 24, bgcolor: "#FF5630", fontSize: 10 }}>NA</Avatar>
-          <Avatar sx={{ width: 24, height: 24, bgcolor: "#696CFF", fontSize: 10 }}>LM</Avatar>
+          <Avatar
+            sx={{ width: 24, height: 24, bgcolor: "#FF5630", fontSize: 10 }}
+          >
+            NA
+          </Avatar>
+          <Avatar
+            sx={{ width: 24, height: 24, bgcolor: "#696CFF", fontSize: 10 }}
+          >
+            LM
+          </Avatar>
         </Stack>
-        <CenterUpDemoChip label="Dang thuc hien" color="#246BFE" background="#DBEAFE" />
+        <CenterUpDemoChip
+          label="Đang thực hiện"
+          color="#246BFE"
+          background="#DBEAFE"
+        />
       </Stack>
     </CenterUpProductCard>
   );
@@ -2736,21 +3038,64 @@ function CenterUpTodoCard() {
   return (
     <CenterUpProductCard minHeight={190}>
       <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 850 }}>
-        Cong viec chua hoan thanh
+        Công việc chưa hoàn thành
       </Typography>
-      <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, mt: 1.4 }}>
-        <Box sx={{ borderRadius: "8px", py: 1, textAlign: "center", backgroundColor: "#696CFF", color: "#FFFFFF", fontSize: 12 }}>
-          Den han (8)
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 1,
+          mt: 1.4,
+        }}
+      >
+        <Box
+          sx={{
+            borderRadius: "8px",
+            py: 1,
+            textAlign: "center",
+            backgroundColor: "#696CFF",
+            color: "#FFFFFF",
+            fontSize: 12,
+        }}
+      >
+          Đến hạn (8)
         </Box>
-        <Box sx={{ borderRadius: "8px", py: 1, textAlign: "center", backgroundColor: "#F5F7FA", color: "#6B7A88", fontSize: 12 }}>
-          Qua han (4)
+        <Box
+          sx={{
+            borderRadius: "8px",
+            py: 1,
+            textAlign: "center",
+            backgroundColor: "#F5F7FA",
+            color: "#6B7A88",
+            fontSize: 12,
+        }}
+      >
+          Quá hạn (4)
         </Box>
       </Box>
       <Stack spacing={1.5} sx={{ mt: 1.6 }}>
-        {["Goi tu van lich hoc thu", "Chuan bi tai lieu buoi 15", "Xu ly don xin nghi"].map((item) => (
-          <Stack key={item} direction="row" spacing={1.1} sx={{ alignItems: "center" }}>
-            <Box sx={{ width: 14, height: 14, borderRadius: "3px", border: "1px solid #DDE3EA" }} />
-            <Typography sx={{ color: centerUpText, fontSize: 12.5 }}>{item}</Typography>
+        {[
+          "Gọi tư vấn lịch học thử",
+          "Chuẩn bị tài liệu buổi 15",
+          "Xử lý đơn xin nghỉ",
+        ].map((item) => (
+          <Stack
+            key={item}
+            direction="row"
+            spacing={1.1}
+            sx={{ alignItems: "center" }}
+          >
+            <Box
+              sx={{
+                width: 14,
+                height: 14,
+                borderRadius: "3px",
+                border: "1px solid #DDE3EA",
+              }}
+            />
+            <Typography sx={{ color: centerUpText, fontSize: 12.5 }}>
+              {item}
+            </Typography>
           </Stack>
         ))}
       </Stack>
@@ -2762,12 +3107,21 @@ function CenterUpScheduleCard() {
   return (
     <CenterUpProductCard minHeight={190}>
       <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 850 }}>
-        Lich day tuan nay
+        Lịch dạy tuần này
       </Typography>
-      <Box sx={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 0.6, mt: 1.5 }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(7, 1fr)",
+          gap: 0.6,
+          mt: 1.5,
+        }}
+      >
         {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((day, index) => (
           <Stack key={day} spacing={0.5} sx={{ alignItems: "center" }}>
-            <Typography sx={{ color: "#9AA4B2", fontSize: 9 }}>{day}</Typography>
+            <Typography sx={{ color: "#9AA4B2", fontSize: 9 }}>
+              {day}
+            </Typography>
             <Box
               sx={{
                 width: "100%",
@@ -2784,8 +3138,18 @@ function CenterUpScheduleCard() {
           </Stack>
         ))}
       </Box>
-      <Box sx={{ mt: 1.7, borderRadius: "10px", backgroundColor: "#E1E1FF", color: "#696CFF", p: 1.4, fontSize: 12 }}>
-        18:00 - 19:30 - P.203<br />
+      <Box
+        sx={{
+          mt: 1.7,
+          borderRadius: "10px",
+          backgroundColor: "#E1E1FF",
+          color: "#696CFF",
+          p: 1.4,
+          fontSize: 12,
+        }}
+      >
+        18:00 - 19:30 - P.203
+        <br />
         IELTS A2 - Speaking
       </Box>
     </CenterUpProductCard>
@@ -2796,10 +3160,10 @@ function CenterUpLeaveCard() {
   return (
     <CenterUpProductCard minHeight={190}>
       <Typography sx={{ color: centerUpText, fontSize: 14, fontWeight: 850 }}>
-        Don xin nghi cho duyet
+        Đơn xin nghỉ chờ duyệt
       </Typography>
       <Stack spacing={1.2} sx={{ mt: 1.5 }}>
-        {["Nguyen Minh Anh", "Tran Van Binh"].map((name, index) => (
+        {["Nguyễn Minh Anh", "Trần Văn Bình"].map((name, index) => (
           <Box
             key={name}
             sx={{
@@ -2808,18 +3172,37 @@ function CenterUpLeaveCard() {
               p: 1.2,
             }}
           >
-            <Typography sx={{ color: centerUpText, fontSize: 12.5, fontWeight: 700 }}>
+            <Typography
+              sx={{ color: centerUpText, fontSize: 12.5, fontWeight: 700 }}
+            >
               {name}
             </Typography>
             <Typography sx={{ mt: 0.5, color: "#6B7A88", fontSize: 11.5 }}>
               {index === 0 ? "IELTS A2" : "TOEIC 650"}
             </Typography>
             <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
-              <Box sx={{ borderRadius: "5px", px: 1.3, py: 0.55, backgroundColor: "#22C55E", color: "#FFFFFF", fontSize: 11 }}>
-                Duyet
+              <Box
+                sx={{
+                  borderRadius: "5px",
+                  px: 1.3,
+                  py: 0.55,
+                  backgroundColor: "#22C55E",
+                  color: "#FFFFFF",
+                  fontSize: 11,
+                }}
+              >
+                Duyệt
               </Box>
-              <Box sx={{ borderRadius: "5px", px: 1.3, py: 0.55, color: "#6B7A88", fontSize: 11 }}>
-                Tu choi
+              <Box
+                sx={{
+                  borderRadius: "5px",
+                  px: 1.3,
+                  py: 0.55,
+                  color: "#6B7A88",
+                  fontSize: 11,
+                }}
+              >
+                Từ chối
               </Box>
             </Stack>
           </Box>
@@ -2860,11 +3243,28 @@ function CenterUpIconText({
   color?: string;
 }) {
   return (
-    <Stack direction="row" spacing={0.9} sx={{ alignItems: "center", color, minWidth: 0 }}>
-      <Box sx={{ display: "grid", placeItems: "center", "& svg": { fontSize: 15 } }}>
+    <Stack
+      direction="row"
+      spacing={0.9}
+      sx={{ alignItems: "center", color, minWidth: 0 }}
+    >
+      <Box
+        sx={{
+          display: "grid",
+          placeItems: "center",
+          "& svg": { fontSize: 15 },
+        }}
+      >
         {icon}
       </Box>
-      <Typography sx={{ color, fontSize: 12, lineHeight: 1.25, overflowWrap: "break-word" }}>
+      <Typography
+        sx={{
+          color,
+          fontSize: 12,
+          lineHeight: 1.25,
+          overflowWrap: "break-word",
+        }}
+      >
         {text}
       </Typography>
     </Stack>
@@ -2896,7 +3296,14 @@ function CenterUpMetricLine({
         <PersonOutlineRoundedIcon sx={{ fontSize: 17 }} />
       </Box>
       <Box>
-        <Typography sx={{ color: centerUpText, fontSize: 20, fontWeight: 850, lineHeight: 1 }}>
+        <Typography
+          sx={{
+            color: centerUpText,
+            fontSize: 20,
+            fontWeight: 850,
+            lineHeight: 1,
+          }}
+        >
           {value}
         </Typography>
         <Typography sx={{ mt: 0.4, color: "#8D98A6", fontSize: 11.5 }}>
@@ -2919,7 +3326,7 @@ function CenterUpVisualDesignSystemSection({
       component="section"
       sx={{ backgroundColor: "#FFFFFF", py: { xs: 6.8, md: 8.8 } }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1280px" }}>
+      <Container sx={{ maxWidth: "1280px" }}>
         <Stack spacing={{ xs: 5.5, md: 7.5 }}>
           <Typography
             component="h2"
@@ -2952,11 +3359,11 @@ function CenterUpVisualDesignSystemSection({
               sx={{
                 display: "grid",
                 gridTemplateColumns: {
-                  xs: "1fr",
+                  xs: "repeat(2, minmax(0, 1fr))",
                   sm: "repeat(2, minmax(0, 1fr))",
                   md: "repeat(4, minmax(0, 1fr))",
                 },
-                gap: { xs: 2.4, md: 2.6 },
+                gap: { xs: 1.8, md: 2.6 },
               }}
             >
               {primarySwatches.map((swatch) => (
@@ -3133,9 +3540,12 @@ function CenterUpWireframeSection({ caseStudy }: CaseStudyDetailProps) {
         py: { xs: 6.8, md: 8.8 },
       }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1040px" }}>
+      <Container sx={{ maxWidth: "1040px" }}>
         <Stack spacing={{ xs: 3.4, md: 4.8 }} sx={{ alignItems: "center" }}>
-          <Stack spacing={1.8} sx={{ alignItems: "center", textAlign: "center" }}>
+          <Stack
+            spacing={1.8}
+            sx={{ alignItems: "center", textAlign: "center" }}
+          >
             <CenterUpSectionTitle title={caseStudy.wireframes.title} />
             <Typography
               sx={{
@@ -3154,47 +3564,66 @@ function CenterUpWireframeSection({ caseStudy }: CaseStudyDetailProps) {
             aria-label={`${caseStudy.title} low fidelity wireframes`}
             sx={{
               width: "100%",
-              display: "grid",
-              gridTemplateColumns: {
-                xs: "repeat(2, minmax(0, 1fr))",
-                md: "1fr 1fr",
-              },
-              gap: { xs: 1.2, sm: 1.6, md: 2 },
-              position: "relative",
+              height: 246,
+              display: "flex",
+              justifyContent: "center",
+              overflow: "hidden",
+              "@media (min-width: 390px)": { height: 270 },
+              "@media (min-width: 480px)": { height: 341 },
+              "@media (min-width: 600px)": { height: 421 },
+              "@media (min-width: 720px)": { height: 508 },
+              "@media (min-width: 900px)": { height: 635 },
+              "@media (min-width: 1024px)": { height: 738 },
+              "@media (min-width: 1120px)": { height: 794 },
             }}
           >
-            <Typography
-              aria-hidden="true"
+            <Box
               sx={{
-                position: "absolute",
-                left: { xs: 2, md: -10 },
-                top: { xs: -16, md: -22 },
-                color: centerUpAccent,
-                fontSize: 8,
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                transform: { md: "rotate(-90deg)" },
-                transformOrigin: "left center",
+                width: 1040,
+                flex: "0 0 1040px",
+                display: "grid",
+                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                gap: 2,
+                transform: "scale(0.31)",
+                transformOrigin: "top center",
+                "@media (min-width: 390px)": {
+                  transform: "scale(0.34)",
+                },
+                "@media (min-width: 480px)": {
+                  transform: "scale(0.43)",
+                },
+                "@media (min-width: 600px)": {
+                  transform: "scale(0.53)",
+                },
+                "@media (min-width: 720px)": {
+                  transform: "scale(0.64)",
+                },
+                "@media (min-width: 900px)": {
+                  transform: "scale(0.8)",
+                },
+                "@media (min-width: 1024px)": {
+                  transform: "scale(0.93)",
+                },
+                "@media (min-width: 1120px)": {
+                  transform: "none",
+                },
               }}
             >
-              Header
-            </Typography>
+              <Stack spacing={1.8} sx={{ minWidth: 0 }}>
+                <CenterUpWireHeader />
+                <CenterUpWireHeroCard />
+                <CenterUpWireIconStrip />
+                <CenterUpWireSplitCard />
+                <CenterUpWireFeatureCard />
+              </Stack>
 
-            <Stack spacing={{ xs: 1.2, sm: 1.6, md: 1.8 }} sx={{ minWidth: 0 }}>
-              <CenterUpWireHeader />
-              <CenterUpWireHeroCard />
-              <CenterUpWireIconStrip />
-              <CenterUpWireSplitCard />
-              <CenterUpWireFeatureCard />
-            </Stack>
-
-            <Stack spacing={{ xs: 1.2, sm: 1.6, md: 1.8 }} sx={{ minWidth: 0 }}>
-              <CenterUpWirePricingCard />
-              <CenterUpWireFaqCard />
-              <CenterUpWireTestimonialsCard />
-              <CenterUpWireFooterCard />
-            </Stack>
+              <Stack spacing={1.8} sx={{ minWidth: 0 }}>
+                <CenterUpWirePricingCard />
+                <CenterUpWireFaqCard />
+                <CenterUpWireTestimonialsCard />
+                <CenterUpWireFooterCard />
+              </Stack>
+            </Box>
           </Box>
         </Stack>
       </Container>
@@ -3204,7 +3633,7 @@ function CenterUpWireframeSection({ caseStudy }: CaseStudyDetailProps) {
 
 function CenterUpWireHeader() {
   return (
-    <CenterUpWireCard height={28} sx={{ px: { xs: 0.7, sm: 1.1 }, py: 0.7 }}>
+    <CenterUpWireCard height={28} sx={{ px: 1.1, py: 0.7 }}>
       <Stack direction="row" sx={{ alignItems: "center", height: "100%" }}>
         <CenterUpWireDot size={10} />
         <CenterUpWireLine width={28} sx={{ ml: 0.7 }} />
@@ -3214,7 +3643,7 @@ function CenterUpWireHeader() {
           sx={{
             mx: "auto",
             alignItems: "center",
-            display: { xs: "none", sm: "flex" },
+            display: "flex",
           }}
         >
           {[42, 48, 44, 42].map((width, index) => (
@@ -3226,11 +3655,7 @@ function CenterUpWireHeader() {
           ))}
         </Stack>
         <CenterUpWirePill width={24} />
-        <CenterUpWirePill
-          width={34}
-          active
-          sx={{ ml: 0.5, display: { xs: "none", sm: "block" } }}
-        />
+        <CenterUpWirePill width={34} active sx={{ ml: 0.5 }} />
       </Stack>
     </CenterUpWireCard>
   );
@@ -3238,7 +3663,10 @@ function CenterUpWireHeader() {
 
 function CenterUpWireHeroCard() {
   return (
-    <CenterUpWireCard height={{ xs: 218, sm: 250, md: 280 }} sx={{ p: { xs: 1.4, sm: 2.4, md: 3 } }}>
+    <CenterUpWireCard
+      height={280}
+      sx={{ p: 3 }}
+    >
       <Stack sx={{ alignItems: "center", height: "100%" }}>
         <CenterUpWirePill width={62} active />
         <CenterUpWireLine width="68%" height={18} sx={{ mt: 2.1 }} />
@@ -3253,7 +3681,7 @@ function CenterUpWireHeroCard() {
           sx={{
             width: "84%",
             mt: "auto",
-            height: { xs: 70, sm: 88, md: 108 },
+            height: 108,
             borderRadius: "8px",
             backgroundColor: "#F4F5F7",
             border: "1px solid #DDE2E8",
@@ -3266,7 +3694,10 @@ function CenterUpWireHeroCard() {
 
 function CenterUpWireIconStrip() {
   return (
-    <CenterUpWireCard height={{ xs: 118, sm: 96 }} sx={{ p: { xs: 1.3, sm: 2, md: 2.4 } }}>
+    <CenterUpWireCard
+      height={96}
+      sx={{ p: 2.4 }}
+    >
       <Stack sx={{ alignItems: "center" }}>
         <CenterUpWireLine width={118} height={14} />
         <CenterUpWireLine width="72%" height={6} sx={{ mt: 1.1 }} />
@@ -3274,11 +3705,8 @@ function CenterUpWireIconStrip() {
           sx={{
             width: "100%",
             display: "grid",
-            gridTemplateColumns: {
-              xs: "repeat(4, minmax(0, 1fr))",
-              sm: "repeat(8, minmax(0, 1fr))",
-            },
-            gap: { xs: 0.6, sm: 1.1 },
+            gridTemplateColumns: "repeat(8, minmax(0, 1fr))",
+            gap: 1.1,
             mt: 2,
           }}
         >
@@ -3287,7 +3715,7 @@ function CenterUpWireIconStrip() {
               key={index}
               sx={{
                 width: "100%",
-                height: { xs: 24, sm: 44 },
+                height: 44,
                 borderRadius: "7px",
                 display: "grid",
                 placeItems: "center",
@@ -3313,11 +3741,11 @@ function CenterUpWireIconStrip() {
 
 function CenterUpWireSplitCard() {
   return (
-    <CenterUpWireCard height={{ xs: 300, sm: 180, md: 166 }} sx={{ p: 1.6 }}>
+    <CenterUpWireCard height={166} sx={{ p: 1.6 }}>
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", sm: "0.84fr 1.16fr" },
+          gridTemplateColumns: "0.84fr 1.16fr",
           gap: 2,
           height: "100%",
         }}
@@ -3377,11 +3805,11 @@ function CenterUpWireSplitCard() {
 
 function CenterUpWireFeatureCard() {
   return (
-    <CenterUpWireCard height={{ xs: 292, sm: 172, md: 166 }} sx={{ p: 1.6 }}>
+    <CenterUpWireCard height={166} sx={{ p: 1.6 }}>
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", sm: "1fr 0.98fr" },
+          gridTemplateColumns: "1fr 0.98fr",
           gap: 2,
           height: "100%",
         }}
@@ -3390,10 +3818,7 @@ function CenterUpWireFeatureCard() {
           <CenterUpWirePill width={70} active />
           <CenterUpWireLine width="78%" height={11} sx={{ mt: 1.6 }} />
           <CenterUpWireLine width="92%" sx={{ mt: 1 }} />
-          <Stack
-            direction="row"
-            sx={{ flexWrap: "wrap", gap: 0.8, mt: 1.8 }}
-          >
+          <Stack direction="row" sx={{ flexWrap: "wrap", gap: 0.8, mt: 1.8 }}>
             {Array.from({ length: 4 }).map((_, index) => (
               <CenterUpWirePill key={index} width={86} height={22} />
             ))}
@@ -3413,7 +3838,10 @@ function CenterUpWireFeatureCard() {
 
 function CenterUpWirePricingCard() {
   return (
-    <CenterUpWireCard height={{ xs: 220, md: 240 }} sx={{ p: { xs: 1.4, md: 1.7 } }}>
+    <CenterUpWireCard
+      height={240}
+      sx={{ p: 1.7 }}
+    >
       <Stack sx={{ alignItems: "center" }}>
         <CenterUpWireLine width={86} height={10} />
         <CenterUpWireLine width={118} height={5} sx={{ mt: 0.8 }} />
@@ -3435,11 +3863,19 @@ function CenterUpWirePricingCard() {
               borderRadius: "8px",
               backgroundColor: item === 1 ? "#F4F0FF" : "#FFFFFF",
               border: `1px solid ${item === 1 ? "#C9B5FF" : "#DDE2E8"}`,
-              boxShadow: item === 1 ? "0 6px 14px rgba(85, 70, 125, 0.14)" : "none",
+              boxShadow:
+                item === 1 ? "0 6px 14px rgba(85, 70, 125, 0.14)" : "none",
             }}
           >
-            <CenterUpWirePill width={item === 1 ? 42 : 36} active={item === 1} />
-            <CenterUpWireLine width={item === 1 ? 42 : 36} height={12} sx={{ mt: 1.4 }} />
+            <CenterUpWirePill
+              width={item === 1 ? 42 : 36}
+              active={item === 1}
+            />
+            <CenterUpWireLine
+              width={item === 1 ? 42 : 36}
+              height={12}
+              sx={{ mt: 1.4 }}
+            />
             <CenterUpWireLine width={item === 1 ? 30 : 44} sx={{ mt: 0.8 }} />
             <CenterUpWireLine width="92%" sx={{ mt: 1.4 }} />
             <Stack spacing={0.7} sx={{ mt: 1.1 }}>
@@ -3472,11 +3908,14 @@ function CenterUpWirePricingCard() {
 
 function CenterUpWireFaqCard() {
   return (
-    <CenterUpWireCard height={{ xs: 238, sm: 182, md: 188 }} sx={{ p: { xs: 1.2, sm: 1.6 } }}>
+    <CenterUpWireCard
+      height={188}
+      sx={{ p: 1.6 }}
+    >
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", sm: "0.92fr 1.08fr" },
+          gridTemplateColumns: "0.92fr 1.08fr",
           gap: 2,
         }}
       >
@@ -3513,15 +3952,20 @@ function CenterUpWireFaqCard() {
 function CenterUpWireTestimonialsCard() {
   return (
     <CenterUpWireCard
-      height={{ xs: 168, md: 138 }}
+      height={138}
       sx={{
-        p: { xs: 2, md: 2.2 },
+        p: 2.2,
         background: "linear-gradient(135deg, #EEE6FF, #DDD0FF)",
       }}
     >
       <Stack sx={{ alignItems: "center" }}>
         <CenterUpWireLine width={82} height={10} color="#C9C1D6" />
-        <CenterUpWireLine width={112} height={5} color="#F4EEFF" sx={{ mt: 0.8 }} />
+        <CenterUpWireLine
+          width={112}
+          height={5}
+          color="#F4EEFF"
+          sx={{ mt: 0.8 }}
+        />
       </Stack>
       <Box
         sx={{
@@ -3550,7 +3994,12 @@ function CenterUpWireTestimonialsCard() {
             </Stack>
             <CenterUpWireLine width="78%" sx={{ mt: 1.1 }} />
             <CenterUpWireLine width="62%" sx={{ mt: 0.6 }} />
-            <CenterUpWireLine width="44%" height={4} color="#D6DDE6" sx={{ mt: 0.9 }} />
+            <CenterUpWireLine
+              width="44%"
+              height={4}
+              color="#D6DDE6"
+              sx={{ mt: 0.9 }}
+            />
           </Box>
         ))}
       </Box>
@@ -3560,27 +4009,27 @@ function CenterUpWireTestimonialsCard() {
 
 function CenterUpWireFooterCard() {
   return (
-    <CenterUpWireCard height={{ xs: 186, sm: 112, md: 106 }} sx={{ p: { xs: 1.2, sm: 1.6 } }}>
+    <CenterUpWireCard
+      height={106}
+      sx={{ p: 1.6 }}
+    >
       <Stack direction="row" spacing={0.8} sx={{ alignItems: "center" }}>
         <CenterUpWireDot size={15} />
         <CenterUpWireLine width={48} />
         <Stack
           direction="row"
-          spacing={{ xs: 2.2, md: 3.6 }}
-          sx={{ ml: "auto", display: { xs: "none", sm: "flex" } }}
+          spacing={3.6}
+          sx={{ ml: "auto", display: "flex" }}
         >
           {[42, 48, 44].map((width, index) => (
-            <CenterUpWireLine
-              key={`footer-nav-line-${index}`}
-              width={width}
-            />
+            <CenterUpWireLine key={`footer-nav-line-${index}`} width={width} />
           ))}
         </Stack>
       </Stack>
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", sm: "1.3fr repeat(3, 0.75fr)" },
+          gridTemplateColumns: "1.3fr repeat(3, 0.75fr)",
           gap: 1.8,
           mt: 1.2,
         }}
@@ -3602,7 +4051,11 @@ function CenterUpWireFooterCard() {
           </Stack>
         ))}
       </Box>
-      <Stack direction="row" spacing={1.2} sx={{ justifyContent: "flex-end", mt: 1 }}>
+      <Stack
+        direction="row"
+        spacing={1.2}
+        sx={{ justifyContent: "flex-end", mt: 1 }}
+      >
         <CenterUpWireLine width={34} />
         <CenterUpWireLine width={34} />
         <CenterUpWireLine width={34} />
@@ -3635,8 +4088,8 @@ function CenterUpWireCard({ height, sx, children }: CenterUpWireCardProps) {
 }
 
 type CenterUpWireLineProps = {
-  width: number | string;
-  height?: number;
+  width: number | string | object;
+  height?: number | object;
   color?: string;
   sx?: object;
 };
@@ -3661,8 +4114,8 @@ function CenterUpWireLine({
 }
 
 type CenterUpWirePillProps = {
-  width: number | string;
-  height?: number;
+  width: number | string | object;
+  height?: number | object;
   active?: boolean;
   sx?: object;
 };
@@ -3693,11 +4146,7 @@ type CenterUpWireDotProps = {
   pale?: boolean;
 };
 
-function CenterUpWireDot({
-  size,
-  color,
-  pale = false,
-}: CenterUpWireDotProps) {
+function CenterUpWireDot({ size, color, pale = false }: CenterUpWireDotProps) {
   return (
     <Box
       sx={{
@@ -3730,7 +4179,10 @@ function SlaymeTypographySection() {
     <PersonOutlineRoundedIcon key="person" />,
     <LocationOnOutlinedIcon key="location" />,
     <AccessTimeRoundedIcon key="time" />,
-    <FavoriteBorderRoundedIcon key="heart-filled" sx={{ fill: "currentColor" }} />,
+    <FavoriteBorderRoundedIcon
+      key="heart-filled"
+      sx={{ fill: "currentColor" }}
+    />,
     <CheckRoundedIcon key="check" />,
     <KeyboardArrowRightRoundedIcon key="arrow" />,
   ];
@@ -3826,7 +4278,9 @@ function SlaymeTypographySection() {
                 >
                   {item.name}
                 </Typography>
-                <Typography sx={{ color: slaymeMuted, fontSize: { xs: 13, md: 16 } }}>
+                <Typography
+                  sx={{ color: slaymeMuted, fontSize: { xs: 13, md: 16 } }}
+                >
                   {item.meta}
                 </Typography>
               </Box>
@@ -3929,7 +4383,7 @@ function ComponentShowcase({ items, accent }: ComponentShowcaseProps) {
           fontWeight: 850,
         }}
       >
-        Main Components
+        Thành phần chính
       </Typography>
       <Box
         sx={{
@@ -4363,7 +4817,7 @@ function MobileWireframeSection({ caseStudy }: CaseStudyDetailProps) {
       component="section"
       sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#FFFFFF" }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1180px" }}>
+      <Container sx={{ maxWidth: "1180px" }}>
         <Stack spacing={2} sx={{ alignItems: "center", textAlign: "center" }}>
           <Typography
             component="h2"
@@ -5061,15 +5515,13 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
       component="section"
       sx={{ py: { xs: 7, md: 9 }, backgroundColor: "#F8F7FA" }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1080px" }}>
+      <Container sx={{ maxWidth: "1080px" }}>
         <SectionHeader title="Key Screens" />
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: {
-              xs: isPhoneMockup
-                ? "repeat(2, minmax(0, 1fr))"
-                : "1fr",
+              xs: isPhoneMockup ? "repeat(2, minmax(0, 1fr))" : "1fr",
               sm: isPhoneMockup
                 ? "repeat(3, minmax(0, 1fr))"
                 : "repeat(2, minmax(0, 1fr))",
@@ -5086,7 +5538,10 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
               key={screen.title}
               sx={{
                 p: { xs: isPhoneMockup ? 1.1 : 2, sm: 1.8, md: 2.4 },
-                borderRadius: { xs: isPhoneMockup ? "16px" : "18px", md: "18px" },
+                borderRadius: {
+                  xs: isPhoneMockup ? "16px" : "18px",
+                  md: "18px",
+                },
                 backgroundColor: "#FFFFFF",
                 border: "1px solid rgba(15, 23, 42, 0.07)",
                 boxShadow: {
@@ -5099,7 +5554,10 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
                 sx={{
                   aspectRatio: isPhoneMockup ? "301 / 610" : "16 / 11",
                   height: "auto",
-                  borderRadius: { xs: isPhoneMockup ? "12px" : "14px", md: "14px" },
+                  borderRadius: {
+                    xs: isPhoneMockup ? "12px" : "14px",
+                    md: "14px",
+                  },
                   display: "grid",
                   placeItems: "center",
                   backgroundColor: "#F8F7FA",
@@ -5135,7 +5593,10 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
                   fontSize: { xs: isPhoneMockup ? 12 : 16, sm: 14, md: 16 },
                   lineHeight: 1.25,
                   fontWeight: 850,
-                  textAlign: { xs: isPhoneMockup ? "center" : "left", sm: "left" },
+                  textAlign: {
+                    xs: isPhoneMockup ? "center" : "left",
+                    sm: "left",
+                  },
                 }}
               >
                 {screen.title}
@@ -5144,7 +5605,10 @@ function ScreensSection({ caseStudy }: CaseStudyDetailProps) {
                 variant="body2"
                 color="text.secondary"
                 sx={{
-                  display: { xs: isPhoneMockup ? "none" : "block", sm: "block" },
+                  display: {
+                    xs: isPhoneMockup ? "none" : "block",
+                    sm: "block",
+                  },
                   fontSize: { sm: 13, md: 14 },
                 }}
               >
@@ -5227,7 +5691,7 @@ function CenterUpManagementKeyScreensSection({
       component="section"
       sx={{ py: { xs: 6.8, md: 8.8 }, backgroundColor: centerUpPage }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "1320px" }}>
+      <Container sx={{ maxWidth: "1320px" }}>
         <Stack spacing={{ xs: 4.2, md: 5.2 }} sx={{ alignItems: "center" }}>
           <CenterUpSectionTitle title="Key Screens" />
 
@@ -5242,7 +5706,10 @@ function CenterUpManagementKeyScreensSection({
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: { xs: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  md: "repeat(2, minmax(0, 1fr))",
+                },
                 columnGap: { md: 5.2 },
                 rowGap: { xs: 4.2, md: 5.4 },
                 alignItems: "start",
@@ -5284,10 +5751,7 @@ function CenterUpManagementScreenCard({
         <CenterUpManagementBrowserFrame screen={screen} />
       )}
 
-      <Stack
-        spacing={0.85}
-        sx={{ px: screen.image ? "4.5%" : 0 }}
-      >
+      <Stack spacing={0.85} sx={{ px: screen.image ? "4.5%" : 0 }}>
         <Typography
           component="h3"
           sx={{
@@ -5430,7 +5894,12 @@ function CenterUpManagementScreenPlaceholder({ title }: { title: string }) {
           <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <CenterUpWireLine width="24%" height={8} color="#C7D0DB" />
             <CenterUpWireLine width="18%" height={8} color="#E0E5EC" />
-            <CenterUpWirePill width={64} height={15} active sx={{ ml: "auto" }} />
+            <CenterUpWirePill
+              width={64}
+              height={15}
+              active
+              sx={{ ml: "auto" }}
+            />
           </Stack>
 
           {isDashboard ? (
@@ -5517,7 +5986,11 @@ function CenterUpDetailPlaceholder() {
           <CenterUpWireLine width="36%" height={8} color="#C7D0DB" />
           <CenterUpWireCard
             height={{ xs: 54, md: 70 }}
-            sx={{ display: "grid", placeItems: "center", backgroundColor: "#F8FAFC" }}
+            sx={{
+              display: "grid",
+              placeItems: "center",
+              backgroundColor: "#F8FAFC",
+            }}
           >
             <CenterUpWireDot size={24} color="#DDE5EF" pale />
           </CenterUpWireCard>
@@ -5647,14 +6120,15 @@ function CenterUpKeyScreensSection({ caseStudy }: CaseStudyDetailProps) {
       component="section"
       sx={{ py: { xs: 6.8, md: 8.8 }, backgroundColor: centerUpPage }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "980px" }}>
+      <Container sx={{ maxWidth: "1280px" }}>
         <CenterUpSectionTitle title="Key Screens" />
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-            gap: { xs: 4, md: 5 },
-            mt: { xs: 4, md: 5 },
+            columnGap: { xs: 0, md: 0 },
+            rowGap: { xs: 1.6, md: 2 },
+            mt: { xs: 1.5, md: 2 },
             alignItems: "start",
           }}
         >
@@ -5662,15 +6136,21 @@ function CenterUpKeyScreensSection({ caseStudy }: CaseStudyDetailProps) {
             <CenterUpScreenBrowserFrame screen={primary} variant="tall" />
           ) : null}
 
-          <Stack spacing={{ xs: 4, md: 5 }}>
+          <Stack spacing={{ xs: 1.6, md: 2 }}>
             {secondary ? (
               <CenterUpScreenBrowserFrame screen={secondary} variant="tall" />
             ) : null}
             {compactOne ? (
-              <CenterUpScreenBrowserFrame screen={compactOne} variant="compact" />
+              <CenterUpScreenBrowserFrame
+                screen={compactOne}
+                variant="compact"
+              />
             ) : null}
             {compactTwo ? (
-              <CenterUpScreenBrowserFrame screen={compactTwo} variant="compact" />
+              <CenterUpScreenBrowserFrame
+                screen={compactTwo}
+                variant="compact"
+              />
             ) : null}
           </Stack>
         </Box>
@@ -5688,6 +6168,21 @@ function CenterUpScreenBrowserFrame({
   screen,
   variant,
 }: CenterUpScreenBrowserFrameProps) {
+  if (screen.image) {
+    return (
+      <Box
+        component="img"
+        src={screen.image}
+        alt={`${caseStudyTitleForAlt(screen.title)} screen`}
+        sx={{
+          display: "block",
+          width: "100%",
+          height: "auto",
+        }}
+      />
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -5712,7 +6207,12 @@ function CenterUpScreenBrowserFrame({
         {["#FF5F57", "#FFBD2E", "#28C840"].map((color) => (
           <Box
             key={color}
-            sx={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: color }}
+            sx={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              backgroundColor: color,
+            }}
           />
         ))}
         <Box
@@ -5742,21 +6242,7 @@ function CenterUpScreenBrowserFrame({
           overflow: "hidden",
         }}
       >
-        {screen.image ? (
-          <Box
-            component="img"
-            src={screen.image}
-            alt={`${caseStudyTitleForAlt(screen.title)} screen`}
-            sx={{
-              display: "block",
-              width: "100%",
-              height: "auto",
-              objectFit: "contain",
-            }}
-          />
-        ) : (
-          <CenterUpScreenPlaceholder variant={variant} />
-        )}
+        <CenterUpScreenPlaceholder variant={variant} />
       </Box>
     </Box>
   );
@@ -5766,7 +6252,11 @@ function caseStudyTitleForAlt(title: string) {
   return `CenterUp ${title}`;
 }
 
-function CenterUpScreenPlaceholder({ variant }: { variant: "tall" | "compact" }) {
+function CenterUpScreenPlaceholder({
+  variant,
+}: {
+  variant: "tall" | "compact";
+}) {
   if (variant === "compact") {
     return (
       <Box sx={{ p: { xs: 2.2, md: 2.6 } }}>
@@ -5909,15 +6399,18 @@ function LearningSection({ text }: { text: CaseStudy["learned"] }) {
   const paragraphs = Array.isArray(text) ? text : text ? [text] : [];
 
   return (
-    <Box component="section" sx={{ py: { xs: 6.8, md: 8.8 }, backgroundColor: "#FFFFFF" }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1180px" }}>
+    <Box
+      component="section"
+      sx={{ py: { xs: 6.8, md: 8.8 }, backgroundColor: "#FFFFFF" }}
+    >
+      <Container sx={{ maxWidth: "1440px" }}>
         <Stack spacing={{ xs: 4.2, md: 6.5 }} sx={{ alignItems: "center" }}>
           <Typography
             component="h2"
             sx={{
               fontFamily: "var(--font-serif)",
               color: "#2B2B2B",
-              fontSize: { xs: 42, sm: 54, md: 66 },
+              fontSize: { xs: 42, sm: 54, md: 64 },
               lineHeight: 1,
               fontWeight: 500,
               textAlign: "center",
@@ -5936,7 +6429,10 @@ function LearningSection({ text }: { text: CaseStudy["learned"] }) {
               textAlign: "center",
             }}
           >
-            <Stack spacing={{ xs: 2.8, md: 3.6 }} sx={{ maxWidth: 900, mx: "auto" }}>
+            <Stack
+              spacing={{ xs: 2.8, md: 3.6 }}
+              sx={{ maxWidth: 900, mx: "auto" }}
+            >
               {paragraphs.map((paragraph) => (
                 <Typography
                   key={paragraph}
@@ -5976,7 +6472,7 @@ function ContentSection({
       component="section"
       sx={{ py: { xs: 7, md: 9 }, backgroundColor: background }}
     >
-      <Container maxWidth="xl" sx={{ maxWidth: "980px" }}>
+      <Container sx={{ maxWidth: "980px" }}>
         <SectionHeader title={title} description={description} />
         <Box sx={{ mt: 4 }}>{children}</Box>
       </Container>

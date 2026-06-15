@@ -18,6 +18,25 @@ export function ProjectFeatureCard({ project }: ProjectFeatureCardProps) {
         boxShadow: "0 18px 44px rgba(56, 45, 95, 0.13)",
         border: "1px solid rgba(80, 65, 120, 0.08)",
         overflow: "hidden",
+        transform: "translate3d(0, 0, 0)",
+        transition:
+          "transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease",
+        "@media (hover: hover)": {
+          "&:hover": {
+            transform: "translate3d(0, -4px, 0)",
+            boxShadow: "0 24px 56px rgba(56, 45, 95, 0.18)",
+            borderColor: "rgba(80, 65, 120, 0.14)",
+          },
+          "&:hover .project-mockup": {
+            transform: "translate3d(0, -6px, 0) scale(1.012)",
+          },
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          transition: "none",
+          "&:hover": {
+            transform: "none",
+          },
+        },
       }}
     >
       <Box
@@ -31,7 +50,7 @@ export function ProjectFeatureCard({ project }: ProjectFeatureCardProps) {
           py: { xs: 6, md: 7.5 },
         }}
       >
-        <Stack spacing={3} sx={{ alignItems: "flex-start" }}>
+        <Stack spacing={5} sx={{ alignItems: "flex-start" }}>
           <Typography
             component="p"
             sx={{
@@ -48,9 +67,9 @@ export function ProjectFeatureCard({ project }: ProjectFeatureCardProps) {
             component="h3"
             sx={{
               maxWidth: 470,
-              fontSize: { xs: 30, sm: 38, md: 42 },
-              lineHeight: 1.08,
-              fontWeight: 850,
+              fontSize: { xs: 30, sm: 38, md: 38 },
+              lineHeight: 1.2,
+              fontWeight: 500,
             }}
           >
             {project.homepage.title}
@@ -63,18 +82,30 @@ export function ProjectFeatureCard({ project }: ProjectFeatureCardProps) {
               px: 2.6,
               backgroundColor: "primary.main",
               color: "primary.contrastText",
+              borderRadius: 32,
             }}
           >
             View Case Study
           </Button>
         </Stack>
 
-        <Box sx={{ display: "grid", placeItems: "center" }}>
+        <Box
+          className="project-mockup"
+          sx={{
+            display: "grid",
+            placeItems: "center",
+            transition: "transform 300ms ease",
+            "@media (prefers-reduced-motion: reduce)": {
+              transition: "none",
+            },
+          }}
+        >
           <MockupFrame
             src={project.homepage.image}
             alt={`${project.title} mockup`}
             variant={project.homepage.mockupVariant}
             label={project.title}
+            animated
           />
         </Box>
       </Box>

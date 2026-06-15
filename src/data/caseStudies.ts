@@ -258,6 +258,7 @@ export const caseStudies: CaseStudy[] = [
       { label: "Type", value: "Landing Page" },
       { label: "Focus", value: "Marketing & Conversion" },
       { label: "Role", value: "UX/UI Designer" },
+      { label: "Timeline", value: "3 weeks" },
     ],
     sections: [
       {

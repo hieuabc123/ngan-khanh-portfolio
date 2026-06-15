@@ -5,16 +5,23 @@ import { Box, Chip, Container, Stack, Typography } from "@mui/material";
 import type { ReactNode } from "react";
 
 import { MockupFrame } from "@/components/ui/MockupFrame";
+import { Reveal } from "@/components/ui/Reveal";
 import { aboutContent, profile } from "@/data/profile";
 
-const contactIcons = [EmailRoundedIcon, PhoneRoundedIcon, LocationOnRoundedIcon];
+const contactIcons = [
+  EmailRoundedIcon,
+  PhoneRoundedIcon,
+  LocationOnRoundedIcon,
+];
 
 export function AboutSection() {
   return (
     <Box component="section" id="about" sx={{ py: { xs: 8, md: 12 } }}>
-      <Container maxWidth="xl" sx={{ maxWidth: "1280px" }}>
+      <Container sx={{ maxWidth: "1440px" }}>
         <Box sx={{ display: { xs: "block", md: "none" } }}>
-          <MobileCvAbout />
+          <Reveal>
+            <MobileCvAbout />
+          </Reveal>
         </Box>
 
         <Box
@@ -25,108 +32,142 @@ export function AboutSection() {
             alignItems: "start",
           }}
         >
-          <Stack
-            spacing={{ xs: 3.5, md: 4 }}
-            sx={{
-              pr: { md: 5, lg: 6 },
-              borderRight: { md: "1px solid" },
-              borderColor: { md: "divider" },
-            }}
-          >
-            <MockupFrame
-              src={profile.portraitImage}
-              alt={`${profile.name} portrait`}
-              variant="portrait"
-            />
-
-            <InfoBlock title="Contact">
-              {aboutContent.contact.map((item, index) => {
-                const Icon = contactIcons[index] ?? EmailRoundedIcon;
-
-                return (
-                  <Stack
-                    key={item}
-                    direction="row"
-                    spacing={1.2}
-                    sx={{ alignItems: "center", color: "text.secondary" }}
+          <Reveal direction="left" delay={80} sx={{ minWidth: 0 }}>
+            <Stack
+              spacing={{ xs: 3.5, md: 4 }}
+              sx={{
+                pr: { md: 5, lg: 6 },
+                borderRight: { md: "1px solid" },
+                borderColor: { md: "divider" },
+              }}
+            >
+              <Stack
+                spacing={2.2}
+                sx={{ alignItems: "center", textAlign: "center" }}
+              >
+                <MockupFrame
+                  src={profile.portraitImage}
+                  alt={`${profile.name} portrait`}
+                  variant="portrait"
+                />
+                <Stack spacing={0.7} sx={{ alignItems: "center" }}>
+                  <Typography
+                    sx={{
+                      fontSize: { md: 38, lg: 42 },
+                      lineHeight: 1,
+                      fontWeight: 700,
+                    }}
                   >
-                    <Icon sx={{ fontSize: 18, color: "primary.main" }} />
-                    <Typography variant="body2">{item}</Typography>
-                  </Stack>
-                );
-              })}
-            </InfoBlock>
+                    {profile.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: 12,
+                      fontWeight: 850,
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      color: "text.secondary",
+                    }}
+                  >
+                    {profile.role}
+                  </Typography>
+                </Stack>
+              </Stack>
 
-            <InfoBlock title="Personal project">
-              <Box
-                sx={{
-                  p: { xs: 2.5, md: 3 },
-                  borderLeft: "2px solid",
-                  borderColor: "text.primary",
-                  backgroundColor: "rgba(244, 215, 224, 0.58)",
-                }}
-              >
-                <Typography sx={{ fontWeight: 850, mb: 0.6 }}>
-                  {aboutContent.featuredProject.title}
-                </Typography>
-                <Typography
+              <InfoBlock title="Contact">
+                {aboutContent.contact.map((item, index) => {
+                  const Icon = contactIcons[index] ?? EmailRoundedIcon;
+
+                  return (
+                    <Stack
+                      key={item}
+                      direction="row"
+                      spacing={1.2}
+                      sx={{ alignItems: "center", color: "text.secondary" }}
+                    >
+                      <Icon sx={{ fontSize: 18, color: "primary.main" }} />
+                      <Typography variant="body2">{item}</Typography>
+                    </Stack>
+                  );
+                })}
+              </InfoBlock>
+
+              <InfoBlock title="Personal project">
+                <Box
                   sx={{
-                    color: "text.secondary",
-                    fontSize: 12,
-                    fontWeight: 750,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    mb: 1.5,
+                    p: { xs: 2.5, md: 3 },
+                    borderLeft: "2px solid",
+                    borderColor: "text.primary",
+                    backgroundColor: "rgba(244, 215, 224, 0.58)",
                   }}
                 >
-                  Beauty e-commerce platform
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  {aboutContent.featuredProject.description}
-                </Typography>
-                <Typography
-                  sx={{
-                    color: "text.secondary",
-                    fontSize: 12,
-                    fontWeight: 800,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    mb: 2,
-                  }}
-                >
-                  UX/UI Designer - Project Lead
-                </Typography>
-              </Box>
-            </InfoBlock>
-          </Stack>
-
-          <Stack spacing={{ xs: 4.5, md: 5 }}>
-            <Stack spacing={{ xs: 2, md: 2.5 }}>
-              <Typography
-                component="h2"
-                sx={{
-                  fontSize: { xs: 58, sm: 76, md: 92, lg: 104 },
-                  lineHeight: 0.92,
-                  fontWeight: 950,
-                  maxWidth: 360,
-                }}
-              >
-                about
-                <Box component="span" sx={{ display: "block" }}>
-                  me.
+                  <Typography sx={{ fontWeight: 850, mb: 0.6 }}>
+                    {aboutContent.featuredProject.title}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "text.secondary",
+                      fontSize: 12,
+                      fontWeight: 750,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      mb: 1.5,
+                    }}
+                  >
+                    Beauty e-commerce platform
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 2 }}
+                  >
+                    {aboutContent.featuredProject.description}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "text.secondary",
+                      fontSize: 12,
+                      fontWeight: 800,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      mb: 2,
+                    }}
+                  >
+                    UX/UI Designer - Project Lead
+                  </Typography>
                 </Box>
-              </Typography>
-              <Typography
-                color="text.secondary"
-                sx={{
-                  maxWidth: 780,
-                  fontSize: { xs: 16, md: 17 },
-                  lineHeight: 1.86,
-                }}
-              >
-                {profile.about}
-              </Typography>
+              </InfoBlock>
             </Stack>
+          </Reveal>
+
+          <Reveal direction="right" delay={180} sx={{ minWidth: 0 }}>
+            <Stack spacing={{ xs: 4.5, md: 5 }}>
+              <Stack spacing={{ xs: 2, md: 2.5 }}>
+                <Typography
+                  component="h2"
+                  sx={{
+                    fontSize: { xs: 58, sm: 76, md: 56, lg: 64 },
+                    lineHeight: 0.92,
+                    fontWeight: 700,
+                    maxWidth: 360,
+                  }}
+                >
+                  about
+                  <Box component="span" sx={{ display: "block" }}>
+                    me.
+                  </Box>
+                </Typography>
+                <Typography
+                  color="text.secondary"
+                  sx={{
+                    maxWidth: 780,
+                    fontSize: { xs: 16, md: 17 },
+                    lineHeight: 1.86,
+                  }}
+                >
+                  {profile.about}
+                </Typography>
+              </Stack>
 
             <Box
               sx={{
@@ -136,7 +177,10 @@ export function AboutSection() {
                 rowGap: 4,
               }}
             >
-              <TimelineBlock title="Experience" items={aboutContent.experience} />
+              <TimelineBlock
+                title="Experience"
+                items={aboutContent.experience}
+              />
               <TimelineBlock title="Education" items={aboutContent.education} />
             </Box>
 
@@ -162,6 +206,7 @@ export function AboutSection() {
                         borderColor: "rgba(13, 11, 18, 0.18)",
                         color: "text.primary",
                         fontSize: 14,
+                        borderRadius: 5,
                       }}
                     />
                   ))}
@@ -194,7 +239,8 @@ export function AboutSection() {
                 </Stack>
               </InfoBlock>
             </Box>
-          </Stack>
+            </Stack>
+          </Reveal>
         </Box>
       </Container>
     </Box>
@@ -232,7 +278,7 @@ function MobileCvAbout() {
               sx={{
                 fontSize: 40,
                 lineHeight: 1,
-                fontWeight: 950,
+                fontWeight: 700,
               }}
             >
               {profile.name}
@@ -272,7 +318,9 @@ function MobileCvAbout() {
                   spacing={1.15}
                   sx={{ alignItems: "flex-start", color: "text.secondary" }}
                 >
-                  <Icon sx={{ fontSize: 17, color: "primary.main", mt: 0.25 }} />
+                  <Icon
+                    sx={{ fontSize: 17, color: "primary.main", mt: 0.25 }}
+                  />
                   <Typography variant="body2" sx={{ overflowWrap: "anywhere" }}>
                     {item}
                   </Typography>
@@ -299,6 +347,7 @@ function MobileCvAbout() {
                   borderColor: "rgba(13, 11, 18, 0.18)",
                   color: "text.primary",
                   fontSize: 13,
+                  borderRadius: 5,
                 }}
               />
             ))}
