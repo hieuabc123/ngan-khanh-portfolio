@@ -40,6 +40,9 @@ export function MockupFrame({ src, alt, variant, animated }: MockupFrameProps) {
         "@media (prefers-reduced-motion: reduce)": {
           animation: "none",
         },
+        "@media (max-width: 599.95px)": {
+          animation: "none",
+        },
       }}
     />
   );

@@ -37,11 +37,11 @@ export function Reveal({
 
   useEffect(() => {
     const element = ref.current;
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
+    const shouldSkipAnimation = window.matchMedia(
+      "(max-width: 599.95px), (prefers-reduced-motion: reduce)",
     ).matches;
 
-    if (!element || prefersReducedMotion || !("IntersectionObserver" in window)) {
+    if (!element || shouldSkipAnimation || !("IntersectionObserver" in window)) {
       setIsVisible(true);
       return undefined;
     }
@@ -70,6 +70,7 @@ export function Reveal({
     <Box
       ref={ref}
       sx={[
+        ...sxArray,
         {
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? "none" : hiddenTransforms[direction],
@@ -79,9 +80,15 @@ export function Reveal({
             opacity: 1,
             transform: "none",
             transition: "none",
+            willChange: "auto",
+          },
+          "@media (max-width: 599.95px)": {
+            opacity: 1,
+            transform: "none",
+            transition: "none",
+            willChange: "auto",
           },
         },
-        ...sxArray,
       ]}
     >
       {children}
